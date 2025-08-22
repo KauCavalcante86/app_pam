@@ -12,6 +12,7 @@ export default function splash() {
     <View style={styles.container}>
 
       <Pressable style={styles.btn} onPress={() => navigation.navigate('login') }></Pressable>
+      <Pressable style={styles.btn} onPress={() => navigation.navigate('login') }></Pressable>
 
     </View>
 
