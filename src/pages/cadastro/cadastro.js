@@ -6,6 +6,7 @@ import * as imagePicker from 'expo-image-picker';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
 import styles from './style';
+import { ImageBackground } from 'react-native-web';
 
 export default function cadastro() {
 
@@ -118,7 +119,11 @@ function cep(cepDigitado) {
   const navigation = useNavigation();
 
   return (
-    <View style={styles.container}>
+    <ImageBackground source= {require('../../../assets/background.png')}
+    style ={styles.background}
+    resizemode="cover">
+
+          <View style={styles.container}>
 
         <View style={styles.camera}>
             <Pressable style={styles.btnCam} onPress={tirarFoto}>
@@ -135,7 +140,7 @@ function cep(cepDigitado) {
               <View style={{ alignItems: 'center', marginBottom: 20 }}>
                   <Image source={{ uri: imagem }} style={styles.imagem} />
                 <TouchableOpacity onPress={excluirFoto}>
-                  <Text>Excluir Foto</Text>
+                  <Text style={styles.textoExcluir}>Excluir Foto</Text>
                 </TouchableOpacity>
               </View> 
 
@@ -145,16 +150,17 @@ function cep(cepDigitado) {
           <TextInput style={styles.buttonCadastro} placeholder='CEP' maxLength={8} onChangeText={automatizacaoCep} ></TextInput>
 
               <View style={styles.infos}>
-                  <Text style={{textAlign: 'center', fontSize: 20}}> ENDEREÇO: </Text>
 
                   <TextInput style={styles.infosCep} placeholder='Cidade' value={cidade} maxLength={8} onChangeText={automatizacaoCep} ></TextInput>
                   <TextInput style={styles.infosCep} placeholder='Bairro' value={bairro} maxLength={8} onChangeText={automatizacaoCep} ></TextInput>
                   <TextInput style={styles.infosCep} placeholder='Rua' value={rua} maxLength={8} onChangeText={automatizacaoCep} ></TextInput>    
               </View>
               
-          <Pressable style={styles.btn} onPress={() => criarUsuario() }>CADASTRAR-SE</Pressable>
+          <Pressable style={styles.btn} onPress={() => criarUsuario() }><Text style={styles.textoButton}>Cadastrar-se</Text></Pressable>
 
         </View>
     </View>
+
+    </ImageBackground>
   )};
 
