@@ -23,7 +23,8 @@ export default StyleSheet.create({
     width: 300,
     height: 40,
     marginBottom:10,
-    fontSize: 20,
+    fontSize: 15,
+    paddingLeft: 10,
   },
 
   btn:{
@@ -33,7 +34,7 @@ export default StyleSheet.create({
       height:40,
       borderRadius:30,
       backgroundColor:'#339dffff',
-      marginTop: 50
+      marginTop: 20
   },
 
   imagem: {
@@ -60,8 +61,23 @@ export default StyleSheet.create({
     borderWidth: 1,
     borderRadius: 5,
     width: 150,
-    marginBottom: 5
-  }
+    marginBottom: 5,
+  },
 
+  textoBtnCam: {
+    fontSize: 12,
+  },
+
+  infos: {
+    width: 300,
+    height: 100,
+    borderWidth: 1,
+    borderRadius: 10,
+    borderColor: 'black'
+  },
+
+  infosCep: {
+    marginLeft: 10
+  }
 
 });

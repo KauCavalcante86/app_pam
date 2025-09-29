@@ -121,28 +121,37 @@ function cep(cepDigitado) {
     <View style={styles.container}>
 
         <View style={styles.camera}>
-            <Pressable style={styles.btnCam} onPress={escolherDaGaleria}>
-               
-              <View style={{ alignItems: 'center', marginBottom: 20 }}>
-                  <Image source={{ uri: imagem }} style={styles.imagem} />
-              </View>
+            <Pressable style={styles.btnCam} onPress={tirarFoto}>
+               <Text style={styles.textoBtnCam}>Tirar foto: </Text>
             </Pressable>
-                <TouchableOpacity onPress={excluirFoto}>
-                  <Text>Excluir Foto</Text>
-                </TouchableOpacity>
+
+            <Pressable style={styles.btnCam} onPress={escolherDaGaleria}>
+               <Text style={styles.textoBtnCam}>Escolher Foto da galeria: </Text>
+            </Pressable>
 
         </View>
 
         <View style={styles.form}>
+              <View style={{ alignItems: 'center', marginBottom: 20 }}>
+                  <Image source={{ uri: imagem }} style={styles.imagem} />
+                <TouchableOpacity onPress={excluirFoto}>
+                  <Text>Excluir Foto</Text>
+                </TouchableOpacity>
+              </View> 
 
           <TextInput style={styles.buttonCadastro} placeholder='Nome' onChangeText={(txt) => SetNome(txt)}></TextInput>
           <TextInput style={styles.buttonCadastro} placeholder='Email' onChangeText={(txt) => SetEmail(txt)} ></TextInput>
           <TextInput style={styles.buttonCadastro} placeholder='Senha' onChangeText={(txt) => SetSenha(txt)} ></TextInput>
           <TextInput style={styles.buttonCadastro} placeholder='CEP' maxLength={8} onChangeText={automatizacaoCep} ></TextInput>
-          <TextInput style={styles.buttonCadastro} placeholder='Cidade' value={cidade} maxLength={8} onChangeText={automatizacaoCep} ></TextInput>
-          <TextInput style={styles.buttonCadastro} placeholder='Bairro' value={bairro} maxLength={8} onChangeText={automatizacaoCep} ></TextInput>
-          <TextInput style={styles.buttonCadastro} placeholder='Rua' value={rua} maxLength={8} onChangeText={automatizacaoCep} ></TextInput>
 
+              <View style={styles.infos}>
+                  <Text style={{textAlign: 'center', fontSize: 20}}> ENDEREÇO: </Text>
+
+                  <TextInput style={styles.infosCep} placeholder='Cidade' value={cidade} maxLength={8} onChangeText={automatizacaoCep} ></TextInput>
+                  <TextInput style={styles.infosCep} placeholder='Bairro' value={bairro} maxLength={8} onChangeText={automatizacaoCep} ></TextInput>
+                  <TextInput style={styles.infosCep} placeholder='Rua' value={rua} maxLength={8} onChangeText={automatizacaoCep} ></TextInput>    
+              </View>
+              
           <Pressable style={styles.btn} onPress={() => criarUsuario() }>CADASTRAR-SE</Pressable>
 
         </View>
