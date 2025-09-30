@@ -3,22 +3,26 @@ import { StyleSheet, Text, View } from 'react-native';
 import styles from './style';
 import { Pressable } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import { ImageBackground } from 'react-native-web';
 
 export default function splash() {
 
   const navigation = useNavigation();
 
   return (
-    <View style={styles.container}>
+    <ImageBackground source={require('../../../assets/backSplash.png')} style={styles.background}>
 
-      <Pressable style={styles.btn} onPress={() => navigation.navigate('login') }>
-        <Text style={styles.btnText}>Ir para o login</Text>
-      </Pressable>
-      
-      <Pressable style={styles.btn} onPress={() => navigation.navigate('teste') }>
-        <Text style={styles.btnText}>Ir para o teste</Text>
-      </Pressable>
-    </View>
 
+      <View style={styles.container}>
+          <Text style={styles.boasvindas}>SEJA BEM VINDO!</Text>
+          <Text style={styles.textSaude}>Ao app para sua saúde!</Text>
+
+          <Pressable style={styles.btn} onPress={() => navigation.navigate('login') }>
+            <Text style={styles.btnText}>Vamos começar?</Text>
+          </Pressable>
+      </View>
+
+
+    </ImageBackground>
   )};
 

@@ -4,6 +4,7 @@ import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
 import styles from './style';
+import { ImageBackground } from 'react-native-web';
 
 export default function Login() {
   const [email, setEmail] = useState('');
@@ -45,31 +46,40 @@ export default function Login() {
   }
 
   return (
+    <ImageBackground source={require('../../../assets/backLogin.png')} style={styles.background}> 
+
       <View style={styles.container}>
-      <TextInput
-        style={styles.buttonCadastro}
-        placeholder="Email"
-        keyboardType="email-address"
-        autoCapitalize="none"
-        onChangeText={(txt) => setEmail(txt)}
-      />
 
-      <TextInput
-        style={styles.buttonCadastro}
-        placeholder="Senha"
-        secureTextEntry
-        onChangeText={(txt) => setSenha(txt)}
-      />
+        <Text style={styles.textFaça}>FAÇA SEU LOGIN </Text>
 
-      <Pressable style={styles.btn} onPress={logarUsuario}>
-        <Text style={{ color: "#fff" }}>Entrar</Text>
-      </Pressable>
+        <Pressable onPress={() => navigation.navigate("cadastro")}>
+          <Text style={styles.btnFazerCadastro}>Não tem conta? Cadastre-se</Text>
+        </Pressable>
 
-      <Pressable onPress={() => navigation.navigate("cadastro")} on>
-        <Text style={{ marginTop: 10, color: "blue" }}>
-          Não tem conta? Cadastre-se
-        </Text>
-      </Pressable>
+        <View style={styles.form}>
+          <TextInput
+            style={styles.buttonCadastro}
+            placeholder="Email"
+            keyboardType="email-address"
+            autoCapitalize="none"
+            onChangeText={(txt) => setEmail(txt)}
+          />
+
+          <TextInput
+            style={styles.buttonCadastro}
+            placeholder="Senha"
+            secureTextEntry
+            onChangeText={(txt) => setSenha(txt)}
+          />
+
+          <Pressable style={styles.btn} onPress={logarUsuario}>
+            <Text style={{ color: "#000", textAlign: "center", fontSize: 20 }}>Entrar</Text>
+          </Pressable>
+        </View>
+
+
+
     </View>
+    </ImageBackground>
   );
 }
