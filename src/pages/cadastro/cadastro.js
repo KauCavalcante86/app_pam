@@ -17,19 +17,26 @@ export default function cadastro() {
           setImagem(null);
       }
   
-      const solicitarPermissoes = async () => {
-          const camera = await imagePicker.requestCameraPermissionsAsync();
-          const galeria = await imagePicker.requestMediaLibraryPermissionsAsync();
-  
-          if (camera.status !== 'granted' || galeria.status !== 'granted') {
-              Alert.alert('Permissão negada', 'É necessário permitir acesso à câmera e galeria.');
-              return false;
-          }
-          return true;
+      const solicitarPermissaoCamera = async () => {
+        const { status } = await imagePicker.requestCameraPermissionsAsync();
+        if (status !== 'granted') {
+          Alert.alert('Permissão negada', 'É necessário permitir acesso à câmera.');
+          return false;
+        }
+        return true;
+      };
+
+      const solicitarPermissaoGaleria = async () => {
+        const { status } = await imagePicker.requestMediaLibraryPermissionsAsync();
+        if (status !== 'granted') {
+          Alert.alert('Permissão negada', 'É necessário permitir acesso à galeria.');
+          return false;
+        }
+        return true;
       };
   
       const tirarFoto = async () => {
-          const permissoes = await solicitarPermissoes();
+          const permissoes = await solicitarPermissaoCamera();
           if (!permissoes) return;
   
           const resultado = await imagePicker.launchCameraAsync({
@@ -44,7 +51,7 @@ export default function cadastro() {
       };
   
       const escolherDaGaleria = async () => {
-          const permissoes = await solicitarPermissoes();
+          const permissoes = await solicitarPermissaoGaleria();
           if(!permissoes) return;
   
           const resultado = await imagePicker.launchImageLibraryAsync({

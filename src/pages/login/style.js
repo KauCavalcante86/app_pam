@@ -15,12 +15,15 @@ export default StyleSheet.create({
   },
 
     btn:{
+        alignItems: 'center',
+        justifyContent: 'center',
         width:200,
-        height:30,
-        borderRadius:30,
+        height:40,
+        borderRadius:10,
         backgroundColor:'#ffffffff',
         color:'#000',
         margin:'20%',
+        marginTop: 200,
         shadowColor: "#000",  
         shadowOffset: {width: 0, height: 2},  
         shadowOpacity: 0.25,  
@@ -31,19 +34,18 @@ export default StyleSheet.create({
       width: '90%',
       alignItems: 'center',
       justifyContent: 'center',
-      marginBottom: 180, // afasta do botão
     },
 
     buttonCadastro: {
-      width: 250,
+      width: 300,
       backgroundColor: 'white',
-      fontSize: 20,
+      fontSize: 25,
       alignItems: 'center',
-      borderWidth: 1,
+
       borderColor: '#000',
-      borderRadius: 30,
+      borderRadius: 10,
       padding: 10,
-      marginBottom: 20,
+      marginBottom: 10,
     },
 
     textFaça: {
@@ -58,8 +60,8 @@ export default StyleSheet.create({
       color: '#000',
       textAlign: 'center',
       marginTop: 8,
-      marginBottom: 150, // afasta do form
-      textDecorationLine: 'underline', // se quiser manter sublinhado
+      marginBottom: 200,
+      textDecorationLine: 'underline', 
     },
 
 });

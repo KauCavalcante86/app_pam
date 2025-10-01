@@ -10,6 +10,8 @@ import Home from "./src/pages/home/home";
 import Teste from "./src/pages/testeCamera/teste";
 import { Image, Pressable } from "react-native";
 import splash from "./src/pages/splash/splash";
+import calorias from "./src/pages/calorias/calorias";
+
 const Stack = createStackNavigator();
 
 function AuthStack() {
@@ -20,6 +22,8 @@ function AuthStack() {
       <Stack.Screen name="login" component={Login} />
       <Stack.Screen name="cadastro" component={Cadastro} />
       <Stack.Screen name="teste" component={Teste} />
+      <Stack.Screen name="calorias" component={calorias}/>
+      <Stack.Screen name="home" component={Home}/>
     </Stack.Navigator>
   );
 };
