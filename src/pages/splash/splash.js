@@ -3,7 +3,7 @@ import { StyleSheet, Text, View } from 'react-native';
 import styles from './style';
 import { Pressable } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { ImageBackground } from 'react-native-web';
+import { ImageBackground } from 'react-native';
 
 export default function splash() {
 
@@ -20,8 +20,8 @@ export default function splash() {
           <Pressable style={styles.btn} onPress={() => navigation.navigate('login') }>
             <Text style={styles.btnText}>Vamos começar?</Text>
           </Pressable>
-          <Pressable style={styles.btn} onPress={() => navigation.navigate('calorias') }>
-            <Text style={styles.btnText}>calorias?</Text>
+          <Pressable style={styles.btn} onPress={() => navigation.navigate('teste') }>
+            <Text style={styles.btnText}>geolocalização</Text>
           </Pressable>
       </View>
 

@@ -4,7 +4,7 @@ import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
 import styles from './style';
-import { ImageBackground } from 'react-native-web';
+import { ImageBackground } from 'react-native';
 
 export default function Login() {
   const [email, setEmail] = useState('');

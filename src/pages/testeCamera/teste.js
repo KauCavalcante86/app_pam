@@ -1,75 +1,106 @@
 import { StatusBar } from "expo-status-bar";
 import axios from 'axios';
 import { View, Text, TextInput, Pressable, Alert, RefreshControl, Image } from 'react-native';
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import * as ImagePicker from 'expo-image-picker';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import styles from './style'
 import { useNavigation } from "@react-navigation/native";
 
+import * as Location from 'expo-location';
+import MapView, { Marker } from "react-native-maps";
+
 export default function Teste() {
-    const navigation = useNavigation();
-    
-    const [imagem, setImagem] = useState(null);
+  const navigation = useNavigation();
 
-    const solicitarPermissoes = async () => {
-        const camera = await ImagePicker.requestCameraPermissionsAsync();
-        const galeria = await ImagePicker.requestMediaLibraryPermissionsAsync();
+  const [location, setLocation] = useState(null);
+  const [address, setAddress] = useState(null);
+  const [searchedLocation, setSearchedLocation] = useState(null);
+  const [errorMsg, setErrorMsg] = useState(null);
 
-        if (camera.status !== 'granted' || galeria.status !== 'granted') {
-            Alert.alert('Permissão negada', 'É necessário permitir acesso à câmera e galeria.');
-            return false;
+  const [points, setPoints] = useState ([
+    {   
+        id: 1,
+        latitude: -23.552668102846518,
+        longitude: -46.39910218579321,
+        title: "Padaria",
+        description: 'Padaria ao lado da ETEC onde o clodo sempre fala',
+    },
+  ])
+
+  useEffect(() => {
+    (async () => {
+      const { status } = await Location.requestForegroundPermissionsAsync();
+      if (status !== 'granted') {
+        setErrorMsg('Permissão para acessar a localização foi negada');
+        return;
+      }
+
+      const currentLocation = await Location.getCurrentPositionAsync({});
+      setLocation(currentLocation);
+    })();
+  }, []);
+
+  const handleSearchLocation = async () => {
+
+    if (address.trim() === '') {
+        alert('Por favor, insira um endereço');
+        return;
+    }
+
+    try {
+        const result = await Location.geocodeAsync(address);
+        if(result.length > 0) {
+            const { latitude, longitude } = result[0];
+            setSearchedLocation ({ latitude, longitude });
+
+        } else {
+            alert('Endereço não encontrado.')
         }
-        return true;
-    };
+    }   catch (error) {
+        console.error(error);
+        alert('Erro ao buscar o endereço')
+    }
+  }
 
-    const tirarFoto = async () => {
-        const permissoes = await solicitarPermissoes();
-        if (!permissoes) return;
+  return (
+    <View style={styles.container}>
 
-        const resultado = await ImagePicker.launchCameraAsync({
-            mediaTypes: ImagePicker.MediaTypeOptions.Images,
-            allowsEditing: true,
-            quality: 1,
-        });
+            <View style={styles.buscar}>
+                <Text style={styles.tituloPg}>Mapa Geolocalização</Text>
+            </View>
 
-        if (!resultado.canceled) {
-            setImagem(resultado.assets[0].uri);
-        }
-    };
+            <View style={styles.mapaLocalizacao}>
+                {location ? (
+                    <MapView style={styles.map} 
+                        initialRegion={{
+                            latitude: location.coords.latitude,
+                            longitude: location.coords.longitude,
+                            latitudeDelta: 0.01,
+                            longitudeDelta: 0.01,
+                    }}>
+                        <Marker
+                            coordinate={{
+                                latitude: location.coords.latitude,
+                                longitude: location.coords.longitude,
+                            }}
+                        title="Você está aqui!"
+                        />
 
-    const escolherDaGaleria = async () => {
-        const permissoes = await solicitarPermissoes();
-        if(!permissoes) return;
+                        {points.map((point) => (
+                            <Marker
+                                key={point.id}
+                                coordinate={{ latitude: point.latitude, longitude: point.longitude }}
+                                title={point.title}
+                                description={point.description}
 
-        const resultado = await ImagePicker.launchImageLibraryAsync({
-            mediaTypes: ImagePicker.MediaTypeOptions.Images,
-            allowsEditing: true,
-            quality: 1,
-
-        })
-
-        if(!resultado.canceled) {
-            setImagem(resultado.assets[0].uri);
-        }
-    };
-
-    return (
-        <View style={styles.container}>
-          <Pressable style={styles.btn} onPress={tirarFoto}>
-            <Text style={styles.btnText}>Tirar Foto</Text>
-          </Pressable>
-        
-          <Pressable style={styles.btn} onPress={escolherDaGaleria}>
-            <Text style={styles.btnText}>Escolher da Galeria</Text>
-          </Pressable>
-        
-          {imagem && (
-            <Image source={{ uri: imagem }}
-            style={styles.imagem}
-            resizeMode = "cover"
-            />
-          )}
-        </View>          
-    );
+                            />
+                        ))}
+                    </MapView>
+                ) : (
+                    <Text>{errorMsg ? errorMsg : "Carregando localização..." }</Text>
+                )}
+        </View>
+    </View>
+  );
 }

@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { Text, View, Pressable, TextInput, StyleSheet, ScrollView, ActivityIndicator } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import styles from './style'
-import { ImageBackground } from "react-native-web";
+import { ImageBackground } from "react-native";
 
 
 // API Nutritionix
@@ -88,7 +88,7 @@ export default function Calorias() {
                    {resultado && resultado.foods && resultado.foods.map((food, index) => (
                       <View key={index} style={styles.infoAlimento}>
                         <Text style={styles.titulo}>{food.food_name}</Text>
-                        <Text style={styles.infosTxt}>Quantidade:<b></b> {food.serving_qty} {food.serving_unit}</Text>
+                        <Text style={styles.infosTxt}>Quantidade: {food.serving_qty} {food.serving_unit}</Text>
                         <Text style={styles.infosTxt}>Calorias: {food.nf_calories}</Text>
                         <Text style={styles.infosTxt}>Proteínas: {food.nf_protein} g</Text>
                         <Text style={styles.infosTxt}>Gorduras: {food.nf_total_fat} g</Text>

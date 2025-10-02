@@ -1,19 +1,29 @@
 import { StyleSheet } from "react-native";
 
 export default StyleSheet.create({
+
+    
+
     container: {
         flex: 1,
-        backgroundColor: '#ffffff',
-        alignItems: 'center',
-        justifyContent: 'flex-end',
-        flexDirection: 'column'
     },
 
-    imagem: {
-        width: 200,
-        height: 200,
-        borderRadius: 8,
-        borderWidth: 1,
-        borderColor: '#ccc',
+    buscar: {
+        marginTop: 50,
+    },
+    
+    tituloPg: {
+        fontSize: 30,
+        textAlign: 'center'
+    },
+
+    mapaLocalizacao: {  
+        height: '30%',
+        marginTop: 200
+        
+    },
+
+    map: {
+        flex: 1,
     }
 });
