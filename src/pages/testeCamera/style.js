@@ -25,5 +25,30 @@ export default StyleSheet.create({
 
     map: {
         flex: 1,
+    },
+
+    modalBackground: {
+        flex: 1,
+        justifyContent: 'flex-end',
+        backgroundColor: 'rgba(0, 0, 0, 0.4)'
+
+    },
+
+    conteudoModal: {
+        height: '50%',
+        backgroundColor: 'white',
+        borderTopLeftRadius: 20,
+        borderTopRightRadius: 20,
+        padding: 20,
+        alignItems: 'center',
+        justifyContent: 'space-between'
+    },
+
+    modalImagem: {
+        width: '100%',
+        height: 150,
+        borderRadius: 10,
+        marginTop: 10
     }
+
 });
