@@ -1,71 +1,11 @@
 import { StatusBar } from 'expo-status-bar';
 import axios from 'axios';
-import { StyleSheet, Text, View,Pressable, TextInput, Image, TouchableOpacity } from 'react-native';
-import { useState } from 'react';
-import * as imagePicker from 'expo-image-picker';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useNavigation } from '@react-navigation/native';
+import { StyleSheet, Text, View,Pressable, TextInput } from 'react-native';
 import styles from './style';
-import { ImageBackground } from 'react-native';
+import { useState } from 'react';
+import { useNavigation } from '@react-navigation/native';
 
 export default function cadastro() {
-
-  //GALERIA E CAMERA--------------------------------------------------------------      
-      const [imagem, setImagem] = useState(null);
-
-      const excluirFoto = () => {
-          setImagem(null);
-      }
-  
-      const solicitarPermissaoCamera = async () => {
-        const { status } = await imagePicker.requestCameraPermissionsAsync();
-        if (status !== 'granted') {
-          Alert.alert('Permissão negada', 'É necessário permitir acesso à câmera.');
-          return false;
-        }
-        return true;
-      };
-
-      const solicitarPermissaoGaleria = async () => {
-        const { status } = await imagePicker.requestMediaLibraryPermissionsAsync();
-        if (status !== 'granted') {
-          Alert.alert('Permissão negada', 'É necessário permitir acesso à galeria.');
-          return false;
-        }
-        return true;
-      };
-  
-      const tirarFoto = async () => {
-          const permissoes = await solicitarPermissaoCamera();
-          if (!permissoes) return;
-  
-          const resultado = await imagePicker.launchCameraAsync({
-              mediaTypes: imagePicker.MediaTypeOptions.Images,
-              allowsEditing: true,
-              quality: 1,
-          });
-  
-          if (!resultado.canceled) {
-              setImagem(resultado.assets[0].uri);
-          }
-      };
-  
-      const escolherDaGaleria = async () => {
-          const permissoes = await solicitarPermissaoGaleria();
-          if(!permissoes) return;
-  
-          const resultado = await imagePicker.launchImageLibraryAsync({
-              mediaTypes: imagePicker.MediaTypeOptions.Images,
-              allowsEditing: true,
-              quality: 1,
-  
-          })
-  
-          if(!resultado.canceled) {
-              setImagem(resultado.assets[0].uri);
-          }
-      };
-//---------------------------------------------------------------------------------------------------------
 
   const [endereco, SetEndereco] = useState('');
   const [rua, SetRua] = useState('');
@@ -112,7 +52,7 @@ function cep(cepDigitado) {
       headers: {"Accept": "application/json"}
     }
 
-    axios.post('http://127.0.0.1:8000/api/CriarUser', dados, config)
+    axios.post('http://10.67.5.20:8000/api/CriarUser', dados, config)
     .then(response => {
       console.log('Usuário criado com sucesso!');
       alert('Usuário criado com sucesso!');
@@ -126,48 +66,18 @@ function cep(cepDigitado) {
   const navigation = useNavigation();
 
   return (
-    <ImageBackground source= {require('../../../assets/background.png')}
-    style ={styles.background}
-    resizemode="cover">
+    <View style={styles.container}>
 
-          <View style={styles.container}>
+      <TextInput style={styles.buttonCadastro} placeholder='Nome' onChangeText={(txt) => SetNome(txt)}></TextInput>
+      <TextInput style={styles.buttonCadastro} placeholder='Email' onChangeText={(txt) => SetEmail(txt)} ></TextInput>
+      <TextInput style={styles.buttonCadastro} placeholder='Senha' onChangeText={(txt) => SetSenha(txt)} ></TextInput>
+      <TextInput style={styles.buttonCadastro} placeholder='CEP' maxLength={8} onChangeText={automatizacaoCep} ></TextInput>
+      <TextInput style={styles.buttonCadastro} placeholder='Cidade' value={cidade} onChangeText={automatizacaoCep} ></TextInput>
+      <TextInput style={styles.buttonCadastro} placeholder='Bairro' value={bairro} onChangeText={automatizacaoCep} ></TextInput>
+      <TextInput style={styles.buttonCadastro} placeholder='Rua' value={rua} onChangeText={automatizacaoCep} ></TextInput>
+  
+      <Pressable style={styles.btn} onPress={() => criarUsuario() }></Pressable>
 
-        <View style={styles.camera}>
-            <Pressable style={styles.btnCam} onPress={tirarFoto}>
-               <Text style={styles.textoBtnCam}>Tirar foto: </Text>
-            </Pressable>
-
-            <Pressable style={styles.btnCam} onPress={escolherDaGaleria}>
-               <Text style={styles.textoBtnCam}>Escolher Foto da galeria: </Text>
-            </Pressable>
-
-        </View>
-
-        <View style={styles.form}>
-              <View style={{ alignItems: 'center', marginBottom: 20 }}>
-                  <Image source={{ uri: imagem }} style={styles.imagem} />
-                <TouchableOpacity onPress={excluirFoto}>
-                  <Text style={styles.textoExcluir}>Excluir Foto</Text>
-                </TouchableOpacity>
-              </View> 
-
-          <TextInput style={styles.buttonCadastro} placeholder='Nome' onChangeText={(txt) => SetNome(txt)}></TextInput>
-          <TextInput style={styles.buttonCadastro} placeholder='Email' onChangeText={(txt) => SetEmail(txt)} ></TextInput>
-          <TextInput style={styles.buttonCadastro} placeholder='Senha' onChangeText={(txt) => SetSenha(txt)} ></TextInput>
-          <TextInput style={styles.buttonCadastro} placeholder='CEP' maxLength={8} onChangeText={automatizacaoCep} ></TextInput>
-
-              <View style={styles.infos}>
-
-                  <TextInput style={styles.infosCep} placeholder='Cidade' value={cidade} maxLength={8} onChangeText={automatizacaoCep} ></TextInput>
-                  <TextInput style={styles.infosCep} placeholder='Bairro' value={bairro} maxLength={8} onChangeText={automatizacaoCep} ></TextInput>
-                  <TextInput style={styles.infosCep} placeholder='Rua' value={rua} maxLength={8} onChangeText={automatizacaoCep} ></TextInput>    
-              </View>
-              
-          <Pressable style={styles.btn} onPress={() => criarUsuario() }><Text style={styles.textoButton}>Cadastrar-se</Text></Pressable>
-
-        </View>
     </View>
-
-    </ImageBackground>
   )};
 

@@ -5,7 +5,7 @@ import { useNavigation } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function Home() {
-    const navigation = useNavigation();
+  const navigation = useNavigation();
   const [usuario, setUsuario] = useState(null);
 
   useEffect(() => {
@@ -18,25 +18,34 @@ export default function Home() {
     carregarUsuario();
   }, []);
 
-  
-  async function logout() {
+
+  const logout = async() => {
+  try {
+    // Remove os dados do usuário
     await AsyncStorage.removeItem("usuario");
-      navigation.reset({
-      index: 0,
-      routes: [{ name: "login" }],
-    });
+    setUsuarioLogin(null);
+    
+     } catch (error) {
+    console.error("Erro ao fazer logout:", error);
   }
+ 
+}
+
+
+
+  const nomeUsuario = usuario?.nome
+  const primeiroNome = nomeUsuario ? nomeUsuario.split(' ')[0] : "Fulano";
+
   
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-         <View style={styles.perfil}>
+        <View style={styles.btnHeader}>
+          <Pressable style={styles.perfil} onPress={() => navigation.navigate("Perfil")}></Pressable>
+          <Pressable onPress={logout} style={styles.logout}></Pressable>
+        </View>
 
-         </View>
-         <Pressable onPress={logout} style={styles.logout}>
-
-         </Pressable>
-        <Text style={styles.nomeUser}>Olá, Fulano</Text>
+        <Text style={styles.nomeUser}>Olá, {primeiroNome} </Text>
       </View>
 
       <View style={styles.app}>

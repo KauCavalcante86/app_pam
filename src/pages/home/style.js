@@ -4,7 +4,7 @@ export default StyleSheet.create({
 
     container: {
     flex: 1,
-    backgroundColor: '#292929ff',
+    backgroundColor: '#ffffffff',
     alignItems: 'center',
     flexDirection:'column',
   },
@@ -18,25 +18,33 @@ export default StyleSheet.create({
     borderBottomLeftRadius:30,
   },
 
+  btnHeader:{
+    width:'20%',
+    height:'20%',
+    alignItems:'center',
+    justifyContent:'center',
+    flexDirection:'row',
+    marginLeft:'75%',
+    gap:10,
+  },
+
   perfil:{
-    width:'9%',
-    height:'22%',
+    width:'40%',
+    height:'100%',
     backgroundColor:'#D9D9D9',
     borderRadius:'100%',
-    marginLeft:'80%',
   },
 
   logout:{
-        width:'9%',
-    height:'22%',
+    width:'40%',
+    height:'100%',
     backgroundColor:'#ff0000ff',
     borderRadius:'100%',
-    marginLeft:'60%',
   },
 
   nomeUser:{
     color:'#ffff',
-    fontSize:50,
+    fontSize:40,
     margin:'5%',
   },
 

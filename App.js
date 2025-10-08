@@ -3,14 +3,14 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { createStackNavigator } from '@react-navigation/stack';
-import Splash from "./src/pages/splash/splash";
+import { Image, Pressable } from "react-native";
 import Login from "./src/pages/login/login";
+import Splash from "./src/pages/splash/splash";
+import Teste from "./src/pages/testeCamera/teste";
 import Cadastro from "./src/pages/cadastro/cadastro";
 import Home from "./src/pages/home/home";
-import Teste from "./src/pages/testeCamera/teste";
-import { Image, Pressable } from "react-native";
-import splash from "./src/pages/splash/splash";
-import calorias from "./src/pages/calorias/calorias";
+import Calorias from "./src/pages/calorias/calorias";
+import Perfil from "./src/pages/perfil/perfil";
 
 const Stack = createStackNavigator();
 
@@ -22,8 +22,9 @@ function AuthStack() {
       <Stack.Screen name="login" component={Login} />
       <Stack.Screen name="cadastro" component={Cadastro} />
       <Stack.Screen name="teste" component={Teste} />
-      <Stack.Screen name="calorias" component={calorias}/>
+      <Stack.Screen name="calorias" component={Calorias}/>
       <Stack.Screen name="home" component={Home}/>
+      <Stack.Screen name="Perfil" component={Perfil}/>
     </Stack.Navigator>
   );
 };
@@ -32,7 +33,7 @@ function AppStack() {
   return(
     <Stack.Navigator screenOptions={{ headerShown: false}}>
       <Stack.Screen name = "home" component={Home} />
-      
+      <Stack.Screen name = "Perfil" component={Perfil} />
     </Stack.Navigator>
   );
 }
@@ -50,10 +51,12 @@ export default function App() {
     veriLogin();
   }, []);
 
+  if (loading) return null;
 
   return (
     <NavigationContainer>
-      {usuarioLogin ? <AppStack /> : <AuthStack />}
+      {usuarioLogin ? <AppStack setUsuarioLogin={setUsuarioLogin} />
+       : <AuthStack />}
     </NavigationContainer>
   );
 }

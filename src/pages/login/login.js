@@ -27,14 +27,14 @@ export default function Login() {
     }
 
     try {
-      const response = await axios.post("http://127.0.0.1:8000/api/login",dados,config);
+      const response = await axios.post("http://10.67.5.20:8000/api/login",dados,config);
 
       if (response.data.success) {
         const usuario = response.data.usuario; // <- Laravel deve retornar o usuário
 
         await AsyncStorage.setItem("usuario", JSON.stringify(usuario));
-        navigation.navigate(AppStack)
         Alert.alert("Sucesso", "Login realizado!");
+        navigation.navigate("home")
       } else {
         Alert.alert("Erro", "Credenciais inválidas!");
       }
