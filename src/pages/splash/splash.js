@@ -20,7 +20,7 @@ export default function splash() {
           <Pressable style={styles.btn} onPress={() => navigation.navigate('login') }>
             <Text style={styles.btnText}>Vamos começar?</Text>
           </Pressable>
-          <Pressable style={styles.btn} onPress={() => navigation.navigate('teste') }>
+          <Pressable style={styles.btn} onPress={() => navigation.navigate('geo') }>
             <Text style={styles.btnText}>geolocalização</Text>
           </Pressable>
       </View>
