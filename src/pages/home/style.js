@@ -1,10 +1,11 @@
 import { StyleSheet } from 'react-native';
 
+
 export default StyleSheet.create({
 
     container: {
     flex: 1,
-    backgroundColor: '#ffffffff',
+    backgroundColor: '#F4F4F4',
     alignItems: 'center',
     flexDirection:'column',
   },
@@ -13,7 +14,7 @@ export default StyleSheet.create({
     width:'100%',
     height:'18%',
     justifyContent:'flex-end',
-    backgroundColor:'#6F94F3',
+    backgroundColor:'#7ba8f7ff',
     borderBottomRightRadius:30,
     borderBottomLeftRadius:30,
   },
@@ -46,6 +47,7 @@ export default StyleSheet.create({
     color:'#ffff',
     fontSize:40,
     margin:'5%',
+    fontFamily: "Poppins_500Medium"
   },
 
   app:{
@@ -59,7 +61,7 @@ export default StyleSheet.create({
   box1:{
     width:'90%',
     height:'18%',
-    backgroundColor:'#D9D9D9',
+    backgroundColor:'#FFFFFF',
     borderRadius:30,
   },
 
@@ -75,13 +77,12 @@ export default StyleSheet.create({
     width:'45%',
     height:'100%',
     borderRadius:30,
-    backgroundColor:'#D9D9D9',
+    backgroundColor:'#FFFFFF',
   },
 
   campoRetan:{
      width:'45%',
     height:'100%',
-    
     gap:30,
   },
 
@@ -89,8 +90,7 @@ export default StyleSheet.create({
     width:'100%',
     height:'45%',
     borderRadius:30,
-    backgroundColor:'#D9D9D9',
-
+    backgroundColor:'#FFFFFF',
   },
 
   box3:{
@@ -110,8 +110,16 @@ export default StyleSheet.create({
     width:'30%',
     height:'100%',
     borderRadius:30,
-    backgroundColor:'#D9D9D9',
+    backgroundColor:'#FFFFFF',
 },
+
+  nomeCampo:{
+    color:'#7ba8f7ff',
+    fontSize:20,
+    margin:'6%',
+    fontFamily: "Poppins_500Medium"
+  },
+
 
 
 });

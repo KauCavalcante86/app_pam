@@ -3,10 +3,22 @@ import { View, Text, Pressable } from "react-native";
 import styles from "./style";
 import { useNavigation } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import {
+  useFonts,
+  Poppins_400Regular,
+  Poppins_500Medium,
+  Poppins_700Bold,
+} from "@expo-google-fonts/poppins";
 
 export default function Home() {
   const navigation = useNavigation();
   const [usuario, setUsuario] = useState(null);
+
+    const [fontsLoaded] = useFonts({
+    Poppins_400Regular,
+    Poppins_500Medium,
+    Poppins_700Bold,
+  });
 
   useEffect(() => {
     async function carregarUsuario() {
@@ -19,17 +31,14 @@ export default function Home() {
   }, []);
 
 
-  const logout = async() => {
-  try {
-    // Remove os dados do usuário
+  async function logout() {
     await AsyncStorage.removeItem("usuario");
-    setUsuarioLogin(null);
-    
-     } catch (error) {
-    console.error("Erro ao fazer logout:", error);
+      navigation.reset({
+      index: 0,
+      routes: [{ name: "AuthStack" }],
+    });
   }
- 
-}
+
 
 
 
@@ -45,21 +54,23 @@ export default function Home() {
           <Pressable onPress={logout} style={styles.logout}></Pressable>
         </View>
 
-        <Text style={styles.nomeUser}>Olá, {primeiroNome} </Text>
+        <Text  style={[styles.nomeUser, { fontFamily: "Poppins_400Regular" }]}>
+          Olá, {primeiroNome} 
+          </Text>
       </View>
 
       <View style={styles.app}>
 
         <View style={styles.box1}>
-
+            <Text style={[styles.nomeCampo, { fontFamily: "Poppins_400Regular" }]}>Hospitais e UBS</Text>
         </View>
 
         <View style={styles.box2}>
-            <View style={styles.btnRetan}></View>
+            <View style={styles.btnRetan}><Text style={[styles.nomeCampo, { fontFamily: "Poppins_400Regular" }]}>Água</Text></View>
 
             <View style={styles.campoRetan}>
-                 <View style={styles.opBody}></View>
-                 <View style={styles.opBody}></View>
+                 <View style={styles.opBody}><Text style={[styles.nomeCampo, { fontFamily: "Poppins_400Regular" }]}>Sangue</Text></View>
+                 <View style={styles.opBody}><Text style={[styles.nomeCampo, { fontFamily: "Poppins_400Regular" }]}>Alimentação</Text></View>
             </View>
         </View>
 

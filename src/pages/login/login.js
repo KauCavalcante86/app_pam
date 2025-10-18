@@ -27,14 +27,18 @@ export default function Login() {
     }
 
     try {
-      const response = await axios.post("http://10.67.5.20:8000/api/login",dados,config);
+      const response = await axios.post("http://192.168.15.5:8000/api/login",dados,config);
 
       if (response.data.success) {
         const usuario = response.data.usuario; // <- Laravel deve retornar o usuário
 
         await AsyncStorage.setItem("usuario", JSON.stringify(usuario));
+        navigation.getParent()?.reset({
+          index: 0,
+          routes: [{ name: 'AppStack' }],
+        });
+
         Alert.alert("Sucesso", "Login realizado!");
-        navigation.navigate("home")
       } else {
         Alert.alert("Erro", "Credenciais inválidas!");
       }
@@ -52,7 +56,7 @@ export default function Login() {
 
         <Text style={styles.textFaça}>FAÇA SEU LOGIN </Text>
 
-        <Pressable onPress={() => navigation.navigate("cadastro")}>
+        <Pressable onPress={() => navigation.navigate("Cadastro")}>
           <Text style={styles.btnFazerCadastro}>Não tem conta? Cadastre-se</Text>
         </Pressable>
 
