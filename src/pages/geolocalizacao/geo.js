@@ -225,7 +225,7 @@ export default function Geo() {
                     )}
             </View>
             <View style={styles.voltar}>
-                <Pressable style={styles.btnVoltar} onPress={() => navigation.navigate('splash')}>
+                <Pressable style={styles.btnVoltar} onPress={() => navigation.navigate('Home')}>
                     <Text style={{fontWeight:'bold'}}>VOLTAR</Text>
                 </Pressable>
             </View>

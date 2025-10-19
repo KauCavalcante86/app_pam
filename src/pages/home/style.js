@@ -63,6 +63,17 @@ export default StyleSheet.create({
     height:'18%',
     backgroundColor:'#FFFFFF',
     borderRadius:30,
+    justifyContent:'space-between',
+  },
+
+  locali:{
+    height:'70%',
+    marginLeft:270,
+  },
+
+  agua:{
+    height:'75%',
+    width:'40%',
   },
 
   box2:{
@@ -86,11 +97,32 @@ export default StyleSheet.create({
     gap:30,
   },
 
-  opBody:{
+  opBody1:{
     width:'100%',
     height:'45%',
     borderRadius:30,
     backgroundColor:'#FFFFFF',
+    flexDirection:'row',
+    gap:35,
+  },
+
+  opBody2:{
+    width:'100%',
+    height:'45%',
+    borderRadius:30,
+    backgroundColor:'#FFFFFF',
+  },
+
+    sangue:{
+    height:'60%',
+    width:'30%',
+
+  },
+
+  alimentacao:{
+    height:'70%',
+    width:'80%',
+    marginLeft:50,
   },
 
   box3:{
@@ -115,8 +147,9 @@ export default StyleSheet.create({
 
   nomeCampo:{
     color:'#7ba8f7ff',
-    fontSize:20,
-    margin:'6%',
+    fontSize:24,
+    marginLeft:16,
+    marginTop:16,
     fontFamily: "Poppins_500Medium"
   },
 

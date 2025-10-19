@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { View, Text, Pressable } from "react-native";
+import { View, Text, Pressable, Image } from "react-native";
 import styles from "./style";
 import { useNavigation } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -61,16 +61,26 @@ export default function Home() {
 
       <View style={styles.app}>
 
-        <View style={styles.box1}>
+        <Pressable style={styles.box1} onPress={() => navigation.navigate('geo') }>
             <Text style={[styles.nomeCampo, { fontFamily: "Poppins_400Regular" }]}>Hospitais e UBS</Text>
-        </View>
+            <Image style={styles.locali} source={require('../../../assets/locali.png')} />
+        </Pressable>
 
         <View style={styles.box2}>
-            <View style={styles.btnRetan}><Text style={[styles.nomeCampo, { fontFamily: "Poppins_400Regular" }]}>Água</Text></View>
+            <View style={styles.btnRetan}>
+              <Text style={[styles.nomeCampo, { fontFamily: "Poppins_400Regular" }]}>Água</Text>
+              <Image style={styles.agua} source={require('../../../assets/agua.png')} />
+            </View>
 
             <View style={styles.campoRetan}>
-                 <View style={styles.opBody}><Text style={[styles.nomeCampo, { fontFamily: "Poppins_400Regular" }]}>Sangue</Text></View>
-                 <View style={styles.opBody}><Text style={[styles.nomeCampo, { fontFamily: "Poppins_400Regular" }]}>Alimentação</Text></View>
+                 <View style={styles.opBody1}>
+                    <Text style={[styles.nomeCampo, { fontFamily: "Poppins_400Regular" }]}>Sangue</Text>
+                    <Image style={styles.sangue} source={require('../../../assets/sangue.png')} />
+                 </View>
+                 <Pressable style={styles.opBody2} onPress={() => navigation.navigate('calorias') }>
+                  <Text style={[styles.nomeCampo, { fontFamily: "Poppins_400Regular" }]}>Alimentação</Text>
+                  <Image style={styles.alimentacao} source={require('../../../assets/alimentacao.png')} />
+                </Pressable>
             </View>
         </View>
 

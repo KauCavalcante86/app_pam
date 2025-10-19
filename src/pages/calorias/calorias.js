@@ -98,7 +98,7 @@ export default function Calorias() {
 
             </View>
 
-            <Pressable style={styles.btnNavigation} onPress={() => navigation.navigate('splash')}>
+            <Pressable style={styles.btnNavigation} onPress={() => navigation.navigate('Home')}>
                     <Text>VOLTAR</Text>
             </Pressable>
 
