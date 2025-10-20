@@ -27,7 +27,7 @@ export default function Login() {
     }
 
     try {
-      const response = await axios.post("http://192.168.15.5:8000/api/login",dados,config);
+      const response = await axios.post("http://10.67.5.20:8000/api/login",dados,config);
 
       if (response.data.success) {
         const usuario = response.data.usuario; // <- Laravel deve retornar o usuário

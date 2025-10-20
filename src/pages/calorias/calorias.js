@@ -9,7 +9,7 @@ import { ImageBackground } from "react-native";
 
 // API Nutritionix
 const APP_ID = 'c5b1b052';
-const API_KEY = 'a79f9b4199034cd7d69a6cbb0f440ee3';
+const API_KEY = '789c90fa2c192f5096f0d621de2ce640';
 
 const buscarNutrientes = async (query) => {
     try {
@@ -24,6 +24,7 @@ const buscarNutrientes = async (query) => {
                 },
             }
         );
+        console.log('Resposta da API:', response.data)
         return response.data;
     } catch (error) {
         console.error('Erro ao buscar nutrientes:', error);
