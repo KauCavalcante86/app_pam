@@ -13,6 +13,22 @@ import * as Location from 'expo-location';
 import MapView, { Marker } from "react-native-maps";
 
 
+function calcularDistancia(lat1, lon1, lat2, lon2) {
+    const R = 6371;
+    const dLat = (lat2 - lat1) * (Math.PI / 180);
+    const dlong = (lon2 - lon1) * (Math.PI / 180);
+
+    const a =
+        Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+        Math.cos(lat1 * (Math.PI / 180)) * Math.cos(lat2 * (Math.PI / 180)) *
+        Math.sin(dLon / 2) * Math.sin(dLon / 2);
+
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    return R * c;
+}
+
+
+
 export default function Geo() {
     const navigation = useNavigation();
 
@@ -22,6 +38,29 @@ export default function Geo() {
     
 
     const [location, setLocation] = useState(null);
+
+    const [visiblePoints, setVisiblePoints] = useState([]);
+
+    const [searchRadiusKm, setSearchRadiusKm] = useState(2);
+
+    const filtrarPontosPorProximidade = (currentLocation, radiusKm) => {
+        if (!currentLocation) return [];
+
+        const userLat = currentLocation.coords.latitude;
+        const userLon = currentLocation.coords.longitude;
+
+        const filteredPoints = points.map (point => {
+            const distance = calcularDistancia(
+                userLat, userLon, point.latitude, point.longitude
+            );
+
+            return {...point, distance: distance};
+        })
+        .filter(point => point.distance <= radiusKm);
+
+        return filteredPoints;
+    };
+
     const [address, setAddress] = useState(null);
     const [searchedLocation, setSearchedLocation] = useState(null);
     const [errorMsg, setErrorMsg] = useState(null);
@@ -129,8 +168,12 @@ export default function Geo() {
 
       const currentLocation = await Location.getCurrentPositionAsync({});
       setLocation(currentLocation);
+
+      const filtered = filtrarPontosPorProximidade(currentLocation, searchRadiusKm);
+      setVisiblePoints(filtered);
     })();
-  }, []);
+
+  }, [points, searchRadiusKm]);
 
   const handleSearchLocation = async () => {
 
@@ -208,6 +251,22 @@ export default function Geo() {
                                 }}
                             title="Você está aqui!"
                             />
+
+                        {visiblePoints.map((point) => (
+                                <Marker
+                                    key={point.id}
+                                    coordinate={{
+                                        latitude: point.latitude,
+                                        longitude: point.longitude
+                                    }}
+                                    title={point.title}
+                                    description={`${point.description} (${point.distance.toFixed(2)} km)`} 
+                                    onPress={() => {
+                                        setModalVisible(true);
+                                        setSelectedPoint(point);
+                                    }}
+                                />
+                            ))}
                             {points.map((point) => (
                                     <Marker
                                     key={point.id}

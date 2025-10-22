@@ -1,4 +1,6 @@
-import { StyleSheet } from 'react-native';
+import { Dimensions, StyleSheet } from 'react-native';
+
+const { width } = Dimensions.get('window');
 
 export default StyleSheet.create({
     background: {
@@ -19,16 +21,16 @@ export default StyleSheet.create({
     top:'42%',
     textAlign:'left',
     fontWeight:'bold',
-    fontSize: 60,
+    fontSize: width * 0.15,
     marginBottom:'20%',
     lineHeight: 50,
   },
 
   textSaude:{
     position:'absolute',
-    top:'55%',
+    top:'53%',
     textAlign:'left',
-    fontSize: 25,
+    fontSize: width * 0.06,
     marginRight:'20%',
   },
 
@@ -46,7 +48,7 @@ export default StyleSheet.create({
 
     btnText:{
         color:'black',
-        fontSize:20,
+        fontSize: width * 0.05,
         textAlign:'center',
         marginTop:'6%',
 

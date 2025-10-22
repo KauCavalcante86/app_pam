@@ -1,11 +1,26 @@
 import { StatusBar } from 'expo-status-bar';
 import axios from 'axios';
-import { StyleSheet, Text, View,Pressable, TextInput } from 'react-native';
+import { StyleSheet, Text, View,Pressable, TextInput, Image} from 'react-native';
 import styles from './style';
 import { useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
 
+
+import {
+  useFonts,
+  Poppins_400Regular,
+  Poppins_500Medium,
+  Poppins_700Bold,
+} from "@expo-google-fonts/poppins";
+
 export default function cadastro() {
+
+      const [fontsLoaded] = useFonts({
+      Poppins_400Regular,
+      Poppins_500Medium,
+      Poppins_700Bold,
+
+    });
 
   const [endereco, SetEndereco] = useState('');
   const [rua, SetRua] = useState('');
@@ -52,11 +67,8 @@ function cep(cepDigitado) {
       headers: {"Accept": "application/json"}
     }
 
-<<<<<<< HEAD
-     axios.post('http://192.168.0.50/api/CriarUser', dados, config)
-=======
-     axios.post('http://10.67.5.20:8000/api/CriarUser', dados, config)
->>>>>>> 7f5a51fde98fd7ae03f937152c493e7128409624
+     axios.post('http://10.67.5.42:8000/api/CriarUser', dados, config)
+
     .then(response => {
       console.log('Usuário criado com sucesso!');
       alert('Usuário criado com sucesso!');
@@ -72,6 +84,12 @@ function cep(cepDigitado) {
   return (
     <View style={styles.container}>
 
+      <View style={styles.textRegister}>
+        <Text style={styles.textoCadastro}>CADASTRO</Text>    
+        <Text style={styles.descricaoCadastro}>Por favor, insira seus dados</Text>
+      </View>
+
+      <Image source={require('../../../assets/user.png')} style={styles.userPng}/>
       <TextInput style={styles.buttonCadastro} placeholder='Nome' onChangeText={(txt) => SetNome(txt)}></TextInput>
       <TextInput style={styles.buttonCadastro} placeholder='Email' onChangeText={(txt) => SetEmail(txt)} ></TextInput>
       <TextInput style={styles.buttonCadastro} placeholder='Senha' onChangeText={(txt) => SetSenha(txt)} ></TextInput>

@@ -24,8 +24,8 @@ export default StyleSheet.create({
     },
 
     barra:{
-       width:365,
-        height:60,
+       width:"80%",
+        height:"100%",
         backgroundColor:'#b6c9edff',
         borderRadius:999,
         alignItems:'center',
@@ -41,8 +41,8 @@ export default StyleSheet.create({
     },
 
     btnVoltar:{
-        width: 60,
-        height: 60,
+        width: "18%",
+        height: "100%",
         backgroundColor:'#b6c9edff',
         alignItems:'center',
         justifyContent:'center',

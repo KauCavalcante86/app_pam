@@ -15,10 +15,11 @@ export default function Home() {
   const [usuario, setUsuario] = useState(null);
 
     const [fontsLoaded] = useFonts({
-    Poppins_400Regular,
-    Poppins_500Medium,
-    Poppins_700Bold,
-  });
+      Poppins_400Regular,
+      Poppins_500Medium,
+      Poppins_700Bold,
+
+    });
 
   useEffect(() => {
     async function carregarUsuario() {

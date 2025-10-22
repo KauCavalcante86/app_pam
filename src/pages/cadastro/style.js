@@ -1,5 +1,7 @@
 
-import { StyleSheet } from 'react-native';
+import { Dimensions, StyleSheet } from 'react-native';
+
+const { width } = Dimensions.get('window')
 
 export default StyleSheet.create({
 
@@ -8,16 +10,24 @@ export default StyleSheet.create({
     backgroundColor: '#ffffffff',
     alignItems: 'center',
     justifyContent:'flex-end',
-    flexDirection:'column',
+    flexDirection:'colum',
   },
   
-  
+  buttonNome: {
+    
+  },
+
   buttonCadastro:{
     borderColor: 'black',
-    borderBottomWidth: 2,
+    borderWidth: 1,
+    borderRadius: 8,
     width: '90%',
+    height: '6%',
     marginBottom:20,
-    fontSize: 25,
+    fontSize: width * 0.04,
+    fontFamily: "Poppins_400Regular",
+    paddingLeft: 20,
+    textAlignVertical: 'center',
   },
 
   textoEndereco: {
@@ -30,5 +40,25 @@ export default StyleSheet.create({
       borderRadius:30,
       backgroundColor:'#cfcc25ff',
       margin:'20%',
+      fontFamily: 'Poppins: '
   },
+
+  textoCadastro :{
+    textAlign: 'center',
+    fontSize: width * 0.10,
+    fontFamily: "Poppins_700Bold"
+  },
+
+  descricaoCadastro: {
+    fontSize: width * 0.04,
+    fontFamily: "Poppins_500Medium",
+    marginTop: '-12'
+  },
+
+  userPng: {
+    width: '30',
+    height: '3%'
+  }
+
+
 });

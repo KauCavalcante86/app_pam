@@ -18,16 +18,14 @@ export default function Perfil() {
 
   const navigation = useNavigation();
 
-  
   const abrirModalNome = () => setModalVisibleNome(true);
   const fecharModalNome = () => setModalVisibleNome(false);
-  
+
   const abrirModalEmail = () => setModalVisibleEmail(true);
   const fecharModalEmail = () => setModalVisibleEmail(false);
-  
+
   const abrirModalSenha = () => setModalVisibleSenha(true);
   const fecharModalSenha = () => setModalVisibleSenha(false);
-
 
   useEffect(() => {
     async function carregarUsuario() {
@@ -40,9 +38,9 @@ export default function Perfil() {
 
   async function atualizarUsuario(dadosAtualizados) {
     if (!usuario) return Alert.alert("Erro", "Usuário não encontrado!");
-  
+
     const dados = {};
-  
+
     if (dadosAtualizados.nome && dadosAtualizados.nome.trim()) {
       dados.nome = dadosAtualizados.nome.trim();
     }
@@ -52,21 +50,27 @@ export default function Perfil() {
     if (dadosAtualizados.senha && dadosAtualizados.senha.trim()) {
       dados.senha = dadosAtualizados.senha.trim();
     }
-  
+
     if (Object.keys(dados).length === 0) {
       return Alert.alert("Aviso", "Nenhum dado foi alterado.");
     }
-  
+
     try {
-      const response = await axios.put(
-        `http://10.67.5.20:8000/api/usuarios/${usuario.id}`,
-        dados,
-        { headers: { Accept: "application/json" } }
-      );
-  
+    const response = await axios.put(
+      `http://10.67.5.42/api/usuarios/${usuario.id}`,
+      dados,
+      {
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    
+
       await AsyncStorage.setItem("usuario", JSON.stringify(response.data.usuario));
       setUsuario(response.data.usuario);
-  
+
       Alert.alert("Sucesso", "Dados atualizados com sucesso!");
       setNovoNome("");
       setNovoEmail("");
@@ -76,21 +80,8 @@ export default function Perfil() {
       Alert.alert("Erro", "Não foi possível atualizar o usuário.");
     }
   }
-  
-
-  
 
   const nomeUsuario = usuario?.nome || "Fulano";
-
-  // Correção do useState
-  const [updates, setUpdates] = useState([
-    {
-      alteracao: "nome",
-      title: "Alterar seu nome.",
-    },
-  ]);
-
-  const [mudancas, setMudancas] = useState(null);
 
   return (
     <View style={styles.container}>
@@ -119,7 +110,9 @@ export default function Perfil() {
 
           <View style={styles.senha}>
             <Text style={styles.labelInfo}>Senha: </Text>
-            <Pressable onPress={abrirModalSenha}><Text>Alterar Senha</Text></Pressable>
+            <Pressable onPress={abrirModalSenha}>
+              <Text>Alterar Senha</Text>
+            </Pressable>
           </View>
         </View>
 
@@ -148,11 +141,6 @@ export default function Perfil() {
         <Modal animationType="slide" transparent={true} visible={modalVisibleNome}>
           <View style={styles.modalBackground}>
             <View style={styles.conteudoModal}>
-              <Text>Conteúdo do Modal nome</Text>
-              <Pressable style={styles.btnClose} onPress={fecharModalNome}>
-                <Text>Fechar</Text>
-              </Pressable>
-
               <Text>Alterar Nome</Text>
               <TextInput
                 placeholder="Novo Nome"
@@ -161,11 +149,18 @@ export default function Perfil() {
                 autoCapitalize="none"
               />
 
-              <Pressable style={styles.btnSalvarNome} onPress={async () => {
-                await atualizarUsuario({ nome: novoNome});
-                fecharModalNome();
-              }}>
-                  <Text>Salvar</Text>
+              <Pressable
+                style={styles.btnSalvarNome}
+                onPress={async () => {
+                  await atualizarUsuario({ nome: novoNome });
+                  fecharModalNome();
+                }}
+              >
+                <Text>Salvar</Text>
+              </Pressable>
+
+              <Pressable style={styles.btnClose} onPress={fecharModalNome}>
+                <Text>Fechar</Text>
               </Pressable>
             </View>
           </View>
