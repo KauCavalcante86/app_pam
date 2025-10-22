@@ -13,9 +13,49 @@ export default StyleSheet.create({
     },
 
     buscar: {
-        marginTop: 50,
+        width:'100%',
+        height:'10%',
+        marginTop:'8%',
+        padding:12,
+        gap:12,
+        flexDirection:'row',
+        position:'absolute',
+        zIndex:1,
     },
-    
+
+    barra:{
+       width:365,
+        height:60,
+        backgroundColor:'#b6c9edff',
+        borderRadius:999,
+        alignItems:'center',
+        zIndex:2,
+    },
+
+    pesquisa:{
+        width:'90%',
+        height:'95%',
+        fontSize:20,
+        color:'#ffffffff',
+        fontFamily: "Poppins_400Regular"
+    },
+
+    btnVoltar:{
+        width: 60,
+        height: 60,
+        backgroundColor:'#b6c9edff',
+        alignItems:'center',
+        justifyContent:'center',
+        borderRadius:999,
+        zIndex:2,
+    },
+
+    imgVoltar:{
+        width: 15,
+        height: 26,
+        marginRight:5,
+    },  
+
     tituloPg: {
         fontSize: 40,
         textAlign: 'center'
@@ -27,10 +67,8 @@ export default StyleSheet.create({
     },
 
     mapaLocalizacao: {  
-        height: '50%',
-        marginTop: '20%',
-        borderColor: 'white',
-        borderWidth: 4,        
+        flex:1,
+        zIndex:0,     
     },
 
     map: {
@@ -63,18 +101,16 @@ export default StyleSheet.create({
 
     voltar: {
         alignItems: 'center',
-        justifyContent: 'center',
-        marginBottom: 200
+        justifyContent: 'center'
     },
     
-    btnVoltar: {
-        alignItems: 'center',
-        justifyContent: 'center',
-        width: '75%',
-        height: '25%',
-        borderWidth: 1,
-        borderRadius: 15,
-        backgroundColor: 'white'
-    }
+    carregando:{
+        position:'absolute',
+        top:'50%',
+        left:'30%',
+        fontSize:20,
+        fontFamily: "Poppins_400Regular"
+    },
+    
 
 });

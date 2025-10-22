@@ -20,9 +20,7 @@ export default function PageOne() {
           <Pressable style={styles.btn} onPress={() => navigation.navigate('Login') }>
             <Text style={styles.btnText}>Vamos começar?</Text>
           </Pressable>
-          <Pressable style={styles.btn} onPress={() => navigation.navigate('geo') }>
-            <Text style={styles.btnText}>geolocalização</Text>
-          </Pressable>
+
       </View>
 
 

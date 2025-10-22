@@ -86,7 +86,10 @@ export default function Home() {
 
         <View style={styles.box3}>
             <View style={styles.op1}>
-                <View style={styles.op}></View>
+                <View style={styles.op}>
+                  <Text style={styles.nomeQuadrado}>IMC</Text>
+                  <Image style={styles.imc} source={require('../../../assets/imc.png')} />
+                </View>
                 <View style={styles.op}></View>
                 <View style={styles.op}></View>
             </View>

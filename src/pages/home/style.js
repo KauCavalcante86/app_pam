@@ -14,7 +14,7 @@ export default StyleSheet.create({
     width:'100%',
     height:'18%',
     justifyContent:'flex-end',
-    backgroundColor:'#7ba8f7ff',
+    backgroundColor:'#90b5f6ff',
     borderBottomRightRadius:30,
     borderBottomLeftRadius:30,
   },
@@ -32,7 +32,7 @@ export default StyleSheet.create({
   perfil:{
     width:'40%',
     height:'100%',
-    backgroundColor:'#D9D9D9',
+    backgroundColor:'#ffff',
     borderRadius:'100%',
   },
 
@@ -67,14 +67,12 @@ export default StyleSheet.create({
   },
 
   locali:{
-    height:'70%',
-    marginLeft:270,
+    height: 84,
+    width:84,
+    marginLeft:'65%',
+    marginBottom:'4%',
   },
 
-  agua:{
-    height:'75%',
-    width:'40%',
-  },
 
   box2:{
     width:'90%',
@@ -89,10 +87,18 @@ export default StyleSheet.create({
     height:'100%',
     borderRadius:30,
     backgroundColor:'#FFFFFF',
+    justifyContent:'space-between',
+  },
+
+  agua:{
+    height: 95,
+    width: 85,
+    marginLeft:'45%',
+    marginBottom:'12%',
   },
 
   campoRetan:{
-     width:'45%',
+    width:'45%',
     height:'100%',
     gap:30,
   },
@@ -102,8 +108,14 @@ export default StyleSheet.create({
     height:'45%',
     borderRadius:30,
     backgroundColor:'#FFFFFF',
-    flexDirection:'row',
-    gap:35,
+    justifyContent:'space-between',
+  },
+  
+  sangue:{
+    height: 58,
+    width: 39.8,
+    marginLeft:'64%',
+    marginBottom:'8%',
   },
 
   opBody2:{
@@ -111,18 +123,15 @@ export default StyleSheet.create({
     height:'45%',
     borderRadius:30,
     backgroundColor:'#FFFFFF',
+    justifyContent:'space-between',
   },
 
-    sangue:{
-    height:'60%',
-    width:'30%',
-
-  },
 
   alimentacao:{
-    height:'70%',
-    width:'80%',
-    marginLeft:50,
+    height: 68,
+    width: 58,
+    marginLeft:'60%',
+    marginBottom:'8%',
   },
 
   box3:{
@@ -143,6 +152,12 @@ export default StyleSheet.create({
     height:'100%',
     borderRadius:30,
     backgroundColor:'#FFFFFF',
+    alignItems:'center',
+    justifyContent:'center',
+},
+
+imc:{
+  marginTop:'8%',
 },
 
   nomeCampo:{
@@ -150,7 +165,13 @@ export default StyleSheet.create({
     fontSize:24,
     marginLeft:16,
     marginTop:16,
-    fontFamily: "Poppins_500Medium"
+    fontFamily: "Poppins_400Regular"
+  },
+
+  nomeQuadrado:{
+    color:'#7ba8f7ff',
+    fontSize:24,
+    fontFamily: "Poppins_400Regular"
   },
 
 

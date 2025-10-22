@@ -155,7 +155,6 @@ export default function Geo() {
   }
 
   return (
-    <ImageBackground source={require('../../../assets/backLogin.png')} style={styles.background}>
         <View style={styles.container}>
             <Modal
                 animationType="slide"
@@ -184,11 +183,16 @@ export default function Geo() {
                 </View>
         
             </Modal>
-                <View style={styles.buscar}>
-                    <Text style={styles.tituloPg}>MAPA</Text>
-                    <Text style={styles.descriptionPg}>localização de Postos de saúde, UBS, hospitais e farmácias proxímos à você.</Text>
-                </View>
                 <View style={styles.mapaLocalizacao}>
+
+                <View style={styles.buscar}>
+                   <Pressable style={styles.btnVoltar} onPress={() => navigation.navigate('Home')}>
+                        <Image style={styles.imgVoltar} source={require('../../../assets/btnVoltar.png')} />
+                   </Pressable>
+                   <View style={styles.barra}>
+                        <TextInput style={styles.pesquisa}></TextInput>
+                   </View>
+                </View>
                     {location ? (
                         <MapView style={styles.map}
                             initialRegion={{
@@ -221,15 +225,10 @@ export default function Geo() {
                             ))}
                         </MapView>
                     ) : (
-                        <Text>{errorMsg ? errorMsg : "Carregando localização..." }</Text>
+                        <Text style={styles.carregando}>{errorMsg ? errorMsg : "Carregando localização..." }</Text>
                     )}
             </View>
-            <View style={styles.voltar}>
-                <Pressable style={styles.btnVoltar} onPress={() => navigation.navigate('Home')}>
-                    <Text style={{fontWeight:'bold'}}>VOLTAR</Text>
-                </Pressable>
-            </View>
+           
         </View>
-    </ImageBackground>
   );
 }
