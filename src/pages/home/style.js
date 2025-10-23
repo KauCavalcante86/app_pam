@@ -25,7 +25,7 @@ export default StyleSheet.create({
     alignItems:'center',
     justifyContent:'center',
     flexDirection:'row',
-    marginLeft:'75%',
+    marginLeft:'80%',
     gap:10,
   },
 

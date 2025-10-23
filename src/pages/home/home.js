@@ -36,7 +36,7 @@ export default function Home() {
       navigation.reset({
       index: 0,
       routes: [{ name: "AuthStack" }],
-    });
+    }); 
   }
 
 
@@ -51,7 +51,6 @@ export default function Home() {
       <View style={styles.header}>
         <View style={styles.btnHeader}>
           <Pressable style={styles.perfil} onPress={() => navigation.navigate("Perfil")}></Pressable>
-          <Pressable onPress={logout} style={styles.logout}></Pressable>
         </View>
 
         <Text  style={[styles.nomeUser, { fontFamily: "Poppins_400Regular" }]}>
