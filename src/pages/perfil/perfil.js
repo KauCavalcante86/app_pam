@@ -100,7 +100,7 @@ export default function Perfil() {
         </View>
 
         <ScrollView style={styles.app} scrollEnabled>
-          <View style={[styles.areaFoto, {height: height * 0.2}]}>
+          <View style={styles.areaFoto}>
             <View style={styles.foto} />
           </View>
 
@@ -114,16 +114,17 @@ export default function Perfil() {
               <View style={styles.campo} key={i}>
                 <Text style={styles.labelInfo}>{item.label}</Text>
                 <View style={styles.atualizaCampo}>
+                    <Pressable
+                    style={styles.btnAtualizar}
+                      onPress={() => abrirModal(item.key, usuario?.[item.key])}
+                    >
                   <Text style={styles.txt}>
                     {item.key === "senha"
                       ? item.texto
                       : usuario?.[item.key] || `(Sem ${item.label})`}
                   </Text>
-                  <Pressable
-                    onPress={() => abrirModal(item.key, usuario?.[item.key])}
-                  >
                     <Image
-                      style={[styles.imgAtualizar, {height: height * 0.01, width: width * 0.01}]}
+                      style={styles.imgAtualizar}
                       source={require("../../../assets/atualizar.png")}
                     />
                   </Pressable>
@@ -143,14 +144,15 @@ export default function Perfil() {
               <View style={styles.campoFicha} key={i}>
                 <Text style={styles.labelInfo}>{item.label}</Text>
                 <View style={styles.atualizaCampo}>
+                    <Pressable
+                      style={styles.btnAtualizar}
+                      onPress={() => abrirModal(item.key, usuario?.[item.key])}
+                    >
                   <Text style={styles.txt}>
                     {usuario?.[item.key]
                       ? `${usuario[item.key]}${item.sufixo || ""}`
                       : `(Sem ${item.label})`}
                   </Text>
-                  <Pressable
-                    onPress={() => abrirModal(item.key, usuario?.[item.key])}
-                  >
                     <Image
                       style={styles.imgAtualizar}
                       source={require("../../../assets/atualizar.png")}

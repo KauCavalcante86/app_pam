@@ -30,7 +30,7 @@ export const responsiveStyles = (width, height) => StyleSheet.create({
   },
   areaFoto: {
     alignItems: "center",
-    marginBottom: 20,
+    marginBottom: 2,
   },
   foto: {
     width: 100,
@@ -51,11 +51,10 @@ export const responsiveStyles = (width, height) => StyleSheet.create({
     borderWidth:1,
     borderColor:'#94949456',
     borderRadius:22,
-    padding: 12,
-    paddingTop:22,
+    padding: 16,
     alignItems:'center',
     justifyContent:'center',
-    gap: 8,
+    gap: 18,
   },
 
   areaFicha: {
@@ -63,18 +62,23 @@ export const responsiveStyles = (width, height) => StyleSheet.create({
     borderWidth:1,
     borderColor:'#94949456',
     borderRadius:22,
-    padding:12,
-    paddingTop:'10%',
+    padding:18,
     alignItems:'center',
     justifyContent:'center',
-    gap:8,
+    gap:18,
     backgroundColor:'#fff',
+  },
+
+  btnAtualizar:{
+    width:'100%',
+    flexDirection:'row',
+    justifyContent:'space-between',
   },
 
   campo: {
     width:'95%',
-
   },
+
   campoFicha: {
     width:'95%',
   },
@@ -87,7 +91,8 @@ export const responsiveStyles = (width, height) => StyleSheet.create({
   },
 
   imgAtualizar:{
-    width: width * 0.2,
+    width: width * 0.03,
+    height: height * 0.025,
   },
 
   labelInfo: {
