@@ -1,96 +1,40 @@
-import { StyleSheet } from "react-native";
+import { StyleSheet, Dimensions } from "react-native";
+
+const { width } = Dimensions.get("window");
+const scale = width / 375
+
+function normalize(size) {
+    return Math.round( size * scale)
+}
 
 export default StyleSheet.create ({
 
-    background: {
-        flex: 1,
-        resizeMode: 'cover',
-        justifyContent: 'center'
-    },
-
     container: {
         flex: 1,
-        alignItems: 'center'
-    },
-
-    tituloPagina: {
         alignItems: 'center',
-        justifyContent: 'center',
-        marginTop: 50
+        backgroundColor: '#fefefe'
     },
 
-    txtCalorias: {
-        fontSize: 30,
-        fontWeight: 'bold',
+    textTitulo: {
+        marginTop: '13%',
+        fontFamily: 'Poppins_700Bold',
+        fontSize: normalize(35),
+        marginLeft: '-20%'
     },
 
-    formCalorias: {
-        width: '80%',
-        height: '50%',
-        backgroundColor: 'white',
-        marginTop: 150,
-        borderRadius: 10,
-    },
 
-    buscarAlimentos: {
-        alignItems: "center",
-        justifyContent: "center",
-        width: "90%",
-        height: "20%",
-        marginLeft: 10,
-        marginTop: 20,
-        shadowColor: "#000",
-        shadowOffset: {width: 0, height: 2},
-        shadowOpacity: 0.5,
-        shadowRadius: 3,
-        borderRadius: 10,
-    },
-
-    inputDigitar: {
-        fontSize: 20,
-    },
-
-    buttonBuscar: {
+    calorias: {
+        flex: 1,
         alignItems: 'center',
-        justifyContent: 'center',
-        marginTop: 10,
-        borderRadius: 10,
-        width: '80%',
-        height: '30%',
-        backgroundColor: 'blue',
+
     },
 
-    buttonBuscarText: {
-        color: 'white'
+    tituloCalorias: {
+        borderWidth: 1.3,
+        width: '550%',
+        height: '4%',
+      
     },
 
-    infoAlimento: {
-        width: '90%',
-        marginLeft: 10
-    },
-
-    titulo: {
-        fontSize: 30,
-        fontWeight: 'bold',
-        textAlign: 'center'
-    },
-
-    infosTxt: {
-        fontSize: 25,
-        marginTop: 5
-    },
-
-    btnNavigation: {
-        alignItems: 'center',
-        justifyContent: 'center',
-        marginTop: 10,
-        width: "50%",
-        height: '5%',
-        backgroundColor: 'white',
-        shadowColor: "#000",
-        shadowOffset: {width: 0, height: 2},
-        shadowOpacity: 0.5,
-        shadowRadius: 3,
-        borderRadius: 10,
-    },
+    
 });

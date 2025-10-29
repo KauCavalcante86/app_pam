@@ -68,7 +68,7 @@ export default function Perfil() {
       const payload = { [campoAtual]: campoAtual === "altura" || campoAtual === "peso" ? parseFloat(valorNovo) : valorNovo };
 
       const response = await axios.put(
-        `http://10.67.5.127:8000/api/usuarios/${usuario.id}`,
+        `http://10.67.5.97:8000/api/usuarios/${usuario.id}`,
         payload,
         { headers: { Accept: "application/json" } }
       );

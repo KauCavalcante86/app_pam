@@ -24,7 +24,7 @@ export default StyleSheet.create({
     },
 
     barra:{
-       width:365,
+       width:'75%',
         height:60,
         backgroundColor:'#b6c9edff',
         borderRadius:999,

@@ -5,11 +5,18 @@ import { Text, View, Pressable, TextInput, StyleSheet, ScrollView, ActivityIndic
 import { useNavigation } from "@react-navigation/native";
 import styles from './style'
 import { ImageBackground } from "react-native";
+import {
+  useFonts,
+  Poppins_400Regular,
+  Poppins_500Medium,
+  Poppins_700Bold,
+} from "@expo-google-fonts/poppins";
+
 
 
 // API Nutritionix
 const APP_ID = 'c5b1b052';
-const API_KEY = 'a79f9b4199034cd7d69a6cbb0f440ee3';
+const API_KEY = '2dc88d40299921562a38251e05db2ff9';
 
 const buscarNutrientes = async (query) => {
     try {
@@ -67,45 +74,38 @@ export default function Calorias() {
   }, []);
 
   return (
-    <ImageBackground source={require('../../../assets/backLogin.png')} style={styles.background} >
-        <View style={styles.container}>
+    <View style={styles.container}>
+        <Text style={styles.textTitulo}>Calorias diárias</Text>
 
-            <View style={styles.tituloPagina}>
-                <Text style={styles.txtCalorias}>CONTADOR CALORIAS</Text>
-            </View>
 
-            <View style={styles.formCalorias}>
-                <View style={styles.buscarAlimentos}>
-
-                    <TextInput style={styles.inputDigitar} placeholder="Digite um alimento: (Ex: Banana)" value={query} onChangeText={setQuery}/>
-
-                    <Pressable onPress={handleBuscar} style={styles.buttonBuscar}>
-                        <Text style={styles.buttonBuscarText}> {loading ? 'Buscando...' : 'Buscar'} </Text>
-                    </Pressable>
-
-                </View>     
-
-                   {resultado && resultado.foods && resultado.foods.map((food, index) => (
-                      <View key={index} style={styles.infoAlimento}>
-                        <Text style={styles.titulo}>{food.food_name}</Text>
-                        <Text style={styles.infosTxt}>Quantidade: {food.serving_qty} {food.serving_unit}</Text>
-                        <Text style={styles.infosTxt}>Calorias: {food.nf_calories}</Text>
-                        <Text style={styles.infosTxt}>Proteínas: {food.nf_protein} g</Text>
-                        <Text style={styles.infosTxt}>Gorduras: {food.nf_total_fat} g</Text>
-                        <Text style={styles.infosTxt}>Carboidratos: {food.nf_total_carbohydrate} g</Text>
-                      </View>
-                    ))}
-
-            </View>
-
-            <Pressable style={styles.btnNavigation} onPress={() => navigation.navigate('Home')}>
-                    <Text>VOLTAR</Text>
-            </Pressable>
-
+        <View style={styles.totalC}>
+        
         </View>
 
-    </ImageBackground>
+          <View style={styles.buscarAlimentos}>
+
+              <TextInput style={styles.inputDigitar} placeholder="Digite um alimento: (Ex: Banana)" value={query} onChangeText={setQuery}/>
+
+              <Pressable onPress={handleBuscar} style={styles.buttonBuscar}>
+                  <Text style={styles.buttonBuscarText}> {loading ? 'Buscando...' : 'Buscar'} </Text>
+              </Pressable>
+
+          </View>     
+        
+        {resultado && resultado.foods && resultado.foods.map((food, index) => (
+          <View key={index} style={styles.infoAlimento}>
+
+            <View style={styles.calorias}>
+                <View style={styles.tituloCalorias}>
+                    <Text style={styles.titulo}>{food.food_name}</Text>
+                </View>
+            </View>
+
+          </View>
+
+        ))}
+
+
+    </View>
   );
 }
-
-
