@@ -1,84 +1,87 @@
 import { useEffect, useState } from "react";
-import { View, Text, Pressable, Modal, Alert, TextInput, ScrollView, Image } from "react-native";
+import { View, Text, Pressable, Modal, Alert, TextInput, ScrollView, Image, useWindowDimensions } from "react-native";
 import styles from "./style";
 import { useNavigation } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
+import {
+  useFonts,
+  Poppins_400Regular,
+  Poppins_500Medium,
+  Poppins_700Bold,
+} from "@expo-google-fonts/poppins";
+import { responsiveStyles } from "./style";
 
 export default function Perfil() {
   const [usuario, setUsuario] = useState(null);
-
-  // Estados para edição
-  const [novoNome, setNovoNome] = useState("");
-  const [novoEmail, setNovoEmail] = useState("");
-  const [novaSenha, setNovaSenha] = useState("");
-  const [novoGenero, setNovoGenero] = useState("");
-  const [novaAltura, setNovaAltura] = useState("");
-  const [novoPeso, setNovoPeso] = useState("");
-  const [novoTipoSangue, setNovoTipoSangue] = useState("");
-
   const [modalVisible, setModalVisible] = useState(false);
+  const [campoAtual, setCampoAtual] = useState(""); // <- controla qual campo está sendo editado
+  const [valorNovo, setValorNovo] = useState("");
+
   const navigation = useNavigation();
 
-  // Carregar usuário do AsyncStorage
+      const [fontsLoaded] = useFonts({
+    Poppins_400Regular,
+    Poppins_500Medium,
+    Poppins_700Bold,
+  });
+
+  const { width: width, height: height } = useWindowDimensions();
+
+  const styles = responsiveStyles (width, height) 
+
+  // Carregar usuário salvo
   useEffect(() => {
     async function carregarUsuario() {
       const data = await AsyncStorage.getItem("usuario");
-      if (data) {
-        const usuarioSalvo = JSON.parse(data);
-        setUsuario(usuarioSalvo);
-      }
+      if (data) setUsuario(JSON.parse(data));
     }
     carregarUsuario();
   }, []);
 
-  const abrirModal = () => {
-    // Preencher os campos do modal com os valores atuais
-    setNovoNome(usuario?.nome || "");
-    setNovoEmail(usuario?.email || "");
-    setNovaSenha(""); // senha em branco por segurança
-    setNovoGenero(usuario?.genero || "");
-    setNovaAltura(usuario?.altura?.toString() || "");
-    setNovoPeso(usuario?.peso?.toString() || "");
-    setNovoTipoSangue(usuario?.tipoSangue || "");
-
+  const abrirModal = (campo, valorAtual) => {
+    setCampoAtual(campo);
+    setValorNovo(valorAtual ? valorAtual.toString() : "");
     setModalVisible(true);
   };
 
-  const fecharModal = () => setModalVisible(false);
+  const fecharModal = () => {
+    setModalVisible(false);
+    setCampoAtual("");
+    setValorNovo("");
+  };
 
-  // Atualizar usuário no backend
-  async function atualizarUsuario() {
+  // Atualizar campo específico
+  async function atualizarCampo() {
     if (!usuario) return Alert.alert("Erro", "Usuário não encontrado!");
 
+    const camposPermitidos = [
+      "nome", "email", "senha", "genero", "altura", "peso", "tipoSangue"
+    ];
+
+    if (!camposPermitidos.includes(campoAtual))
+      return Alert.alert("Erro", "Campo inválido!");
+
     try {
+      const payload = { [campoAtual]: campoAtual === "altura" || campoAtual === "peso" ? parseFloat(valorNovo) : valorNovo };
+
       const response = await axios.put(
-        `http://10.124.127.198:8000/api/usuarios/${usuario.id}`,
-        {
-          nome: novoNome || usuario.nome,
-          email: novoEmail || usuario.email,
-          senha: novaSenha || undefined, // se não preencher, não envia
-          genero: novoGenero || usuario.genero,
-          altura: parseFloat(novaAltura) || usuario.altura,
-          peso: parseFloat(novoPeso) || usuario.peso,
-          tipoSangue: novoTipoSangue || usuario.tipoSangue,
-        },
+        `http://10.67.5.127:8000/api/usuarios/${usuario.id}`,
+        payload,
         { headers: { Accept: "application/json" } }
       );
 
-      // Salvar usuário atualizado no AsyncStorage
       await AsyncStorage.setItem("usuario", JSON.stringify(response.data.usuario));
       setUsuario(response.data.usuario);
 
-      Alert.alert("Sucesso", "Dados atualizados com sucesso!");
+      Alert.alert("Sucesso", `${campoAtual} atualizado com sucesso!`);
       fecharModal();
     } catch (error) {
       console.error("Erro ao atualizar:", error.response?.data || error.message);
-      Alert.alert("Erro", "Não foi possível atualizar o usuário.");
+      Alert.alert("Erro", "Não foi possível atualizar o campo.");
     }
   }
 
-  // Logout
   async function logout() {
     await AsyncStorage.removeItem("usuario");
     navigation.reset({
@@ -87,162 +90,166 @@ export default function Perfil() {
     });
   }
 
-  const nomeUsuario = usuario?.nome || "Fulano";
-
   return (
     <View style={styles.container}>
-      <View style={styles.header}>
-        <Text style={styles.headerText}>Perfil</Text>
-        <Pressable onPress={logout} style={styles.logout}>
-          <Text style={{ color: "white" }}>Logout</Text>
-        </Pressable>
+        <View style={styles.header}>
+          <Text style={styles.headerText}>Perfil</Text>
+          <Pressable onPress={logout} style={styles.logout}>
+            <Text style={{ color: "white" }}>Logout</Text>
+          </Pressable>
+        </View>
+
+        <ScrollView style={styles.app} scrollEnabled>
+          <View style={[styles.areaFoto, {height: height * 0.2}]}>
+            <View style={styles.foto} />
+          </View>
+
+          <Text style={styles.titulo}>Conta</Text>
+          <View style={styles.areaInfo}>
+            {[
+              { label: "Nome", key: "nome" },
+              { label: "Email", key: "email" },
+              { label: "Senha", key: "senha", texto: "Alterar senha" },
+            ].map((item, i) => (
+              <View style={styles.campo} key={i}>
+                <Text style={styles.labelInfo}>{item.label}</Text>
+                <View style={styles.atualizaCampo}>
+                  <Text style={styles.txt}>
+                    {item.key === "senha"
+                      ? item.texto
+                      : usuario?.[item.key] || `(Sem ${item.label})`}
+                  </Text>
+                  <Pressable
+                    onPress={() => abrirModal(item.key, usuario?.[item.key])}
+                  >
+                    <Image
+                      style={[styles.imgAtualizar, {height: height * 0.01, width: width * 0.01}]}
+                      source={require("../../../assets/atualizar.png")}
+                    />
+                  </Pressable>
+                </View>
+              </View>
+            ))}
+          </View>
+
+          <Text style={styles.titulo}>Ficha</Text>
+          <View style={styles.areaFicha}>
+            {[
+              { label: "Gênero", key: "genero" },
+              { label: "Altura", key: "altura", sufixo: " m" },
+              { label: "Peso", key: "peso", sufixo: " Kg" },
+              { label: "Tipo Sanguíneo", key: "tipoSangue" },
+            ].map((item, i) => (
+              <View style={styles.campoFicha} key={i}>
+                <Text style={styles.labelInfo}>{item.label}</Text>
+                <View style={styles.atualizaCampo}>
+                  <Text style={styles.txt}>
+                    {usuario?.[item.key]
+                      ? `${usuario[item.key]}${item.sufixo || ""}`
+                      : `(Sem ${item.label})`}
+                  </Text>
+                  <Pressable
+                    onPress={() => abrirModal(item.key, usuario?.[item.key])}
+                  >
+                    <Image
+                      style={styles.imgAtualizar}
+                      source={require("../../../assets/atualizar.png")}
+                    />
+                  </Pressable>
+                </View>
+              </View>
+            ))}
+          </View>
+          <Text style={styles.titulo}>Ficha</Text>
+          <View style={styles.areaFicha}>
+            {[
+              { label: "Gênero", key: "genero" },
+              { label: "Altura", key: "altura", sufixo: " m" },
+              { label: "Peso", key: "peso", sufixo: " Kg" },
+              { label: "Tipo Sanguíneo", key: "tipoSangue" },
+            ].map((item, i) => (
+              <View style={styles.campoFicha} key={i}>
+                <Text style={styles.labelInfo}>{item.label}</Text>
+                <View style={styles.atualizaCampo}>
+                  <Text style={styles.txt}>
+                    {usuario?.[item.key]
+                      ? `${usuario[item.key]}${item.sufixo || ""}`
+                      : `(Sem ${item.label})`}
+                  </Text>
+                  <Pressable
+                    onPress={() => abrirModal(item.key, usuario?.[item.key])}
+                  >
+                    <Image
+                      style={styles.imgAtualizar}
+                      source={require("../../../assets/atualizar.png")}
+                    />
+                  </Pressable>
+                </View>
+              </View>
+            ))}
+          </View>
+          <Text style={styles.titulo}>Ficha</Text>
+          <View style={styles.areaFicha}>
+            {[
+              { label: "Gênero", key: "genero" },
+              { label: "Altura", key: "altura", sufixo: " m" },
+              { label: "Peso", key: "peso", sufixo: " Kg" },
+              { label: "Tipo Sanguíneo", key: "tipoSangue" },
+            ].map((item, i) => (
+              <View style={styles.campoFicha} key={i}>
+                <Text style={styles.labelInfo}>{item.label}</Text>
+                <View style={styles.atualizaCampo}>
+                  <Text style={styles.txt}>
+                    {usuario?.[item.key]
+                      ? `${usuario[item.key]}${item.sufixo || ""}`
+                      : `(Sem ${item.label})`}
+                  </Text>
+                  <Pressable
+                    onPress={() => abrirModal(item.key, usuario?.[item.key])}
+                  >
+                    <Image
+                      style={styles.imgAtualizar}
+                      source={require("../../../assets/atualizar.png")}
+                    />
+                  </Pressable>
+                </View>
+              </View>
+            ))}
+          </View>
+
+          {/* Modal dinâmico */}
+          <Modal animationType="fade" transparent={true} visible={modalVisible}>
+            <View style={styles.modalBackground}>
+              <View style={styles.conteudoModal}>
+                <Text style={styles.tituloModal}>
+                  Atualizar {campoAtual === "senha" ? "Senha" : campoAtual.charAt(0).toUpperCase() + campoAtual.slice(1)}
+                </Text>
+
+                <TextInput
+                  style={styles.campoAtualizar}
+                  placeholder={`Novo ${campoAtual}`}
+                  value={valorNovo}
+                  onChangeText={setValorNovo}
+                  secureTextEntry={campoAtual === "senha"}
+                  keyboardType={
+                    campoAtual === "altura" || campoAtual === "peso"
+                      ? "numeric"
+                      : "default"
+                  }
+                />
+                <View style={styles.campoBtnModal}>
+                  <Pressable style={styles.enviar} onPress={atualizarCampo}>
+                    <Text style={styles.txtBtn}>Salvar</Text>
+                  </Pressable>
+
+                  <Pressable style={[styles.btnClose, { backgroundColor: 'purple' }]} onPress={fecharModal}>
+                    <Text style={styles.txtBtn}>Cancelar</Text>
+                  </Pressable>
+                </View>
+              </View>
+            </View>
+          </Modal>
+        </ScrollView>
       </View>
-
-      <ScrollView style={styles.app}>
-        <View style={styles.areaFoto}>
-          <View style={styles.foto} />
-        </View>
-
-        <Text style={styles.titulo}>Conta</Text>
-
-        <View style={styles.areaInfo}>
-          <View style={styles.campo}>
-            <Text style={styles.labelInfo}>Nome</Text>
-            <View style={styles.atualizaCampo}>
-              <Text style={styles.txt}>{nomeUsuario}</Text>
-              <Pressable onPress={abrirModal}>
-                  <Image style={styles.imgAtualizar} source={require('../../../assets/atualizar.png')} />
-              </Pressable>
-            </View>
-          </View>
-
-          <View style={styles.campo}>
-            <Text style={styles.labelInfo}>Email</Text>
-            <View style={styles.atualizaCampo}>
-              <Text style={styles.txt}>{usuario?.email || "(Email não disponível)"}</Text>
-              <Pressable onPress={abrirModal}>
-                  <Image style={styles.imgAtualizar} source={require('../../../assets/atualizar.png')} />
-              </Pressable>
-            </View>
-          </View>
-
-          <View style={styles.campo}>
-            <Text style={styles.labelInfo}>Senha</Text>
-            <View style={styles.atualizaCampo}>
-              <Text style={styles.txt}>Alterar senha</Text>
-              <Pressable onPress={abrirModal}>
-                  <Image style={styles.imgAtualizar} source={require('../../../assets/atualizar.png')} />
-              </Pressable>
-            </View>
-          </View>
-        </View>
-
-        <Text style={styles.titulo}>Ficha</Text>
-        
-        <View style={styles.areaFicha}>
-          <View style={styles.campoFicha}>
-            <Text style={styles.labelInfo}>Gênero</Text>
-            <View style={styles.atualizaCampo}>
-              <Text style={styles.txt}>{usuario?.genero || "(Gênero não disponível)"}</Text>
-              <Pressable onPress={abrirModal}>
-                  <Image style={styles.imgAtualizar} source={require('../../../assets/atualizar.png')} />
-              </Pressable>
-            </View>
-          </View>
-          <View style={styles.campoFicha}>
-            <Text style={styles.labelInfo}>Altura</Text>
-            <View style={styles.atualizaCampo}>
-              <Text style={styles.txt}>{usuario?.altura || "(Altura não disponível)"} m</Text>
-              <Pressable onPress={abrirModal}>
-                  <Image style={styles.imgAtualizar} source={require('../../../assets/atualizar.png')} />
-              </Pressable>
-            </View>
-          </View>
-
-          <View style={styles.campoFicha}>
-            <Text style={styles.labelInfo}>Peso</Text>
-             <View style={styles.atualizaCampo}>
-                <Text style={styles.txt}>{usuario?.peso || "(Peso não disponível)"} Kg</Text>
-                <Pressable onPress={abrirModal}>
-                    <Image style={styles.imgAtualizar} source={require('../../../assets/atualizar.png')} />
-                </Pressable>
-            </View>
-          </View>
-
-          <View style={styles.campoFicha}>
-            <Text style={styles.labelInfo}>Tipo Sanguíneo</Text>
-              <View style={styles.atualizaCampo}>
-                <Text style={styles.txt}>{usuario?.tipoSangue || "(Tipo Sanguíneo não disponível)"}</Text>
-                <Pressable onPress={abrirModal}>
-                    <Image style={styles.imgAtualizar} source={require('../../../assets/atualizar.png')} />
-                </Pressable>
-            </View>
-          </View>
-        </View>
-
-        {/* Modal para atualizar usuário */}
-        <Modal animationType="fade" transparent={true} visible={modalVisible}>
-          <View style={styles.modalBackground}>
-            <View style={styles.conteudoModal}>
-              <Text style={{ fontSize: 18, marginBottom: 10 }}>Atualizar informações</Text>
-
-              <TextInput
-                style={styles.campoAtualizar}
-                placeholder="Nome"
-                value={novoNome}
-                onChangeText={setNovoNome}
-              />
-              <TextInput
-                style={styles.campoAtualizar}
-                placeholder="Email"
-                value={novoEmail}
-                onChangeText={setNovoEmail}
-              />
-              <TextInput
-                style={styles.campoAtualizar}
-                placeholder="Senha"
-                value={novaSenha}
-                onChangeText={setNovaSenha}
-                secureTextEntry
-              />
-              <TextInput
-                style={styles.campoAtualizar}
-                placeholder="Gênero"
-                value={novoGenero}
-                onChangeText={setNovoGenero}
-              />
-              <TextInput
-                style={styles.campoAtualizar}
-                placeholder="Altura"
-                value={novaAltura}
-                onChangeText={setNovaAltura}
-                keyboardType="numeric"
-              />
-              <TextInput
-                style={styles.campoAtualizar}
-                placeholder="Peso"
-                value={novoPeso}
-                onChangeText={setNovoPeso}
-                keyboardType="numeric"
-              />
-              <TextInput
-                style={styles.campoAtualizar}
-                placeholder="Tipo Sanguíneo"
-                value={novoTipoSangue}
-                onChangeText={setNovoTipoSangue}
-              />
-
-              <Pressable style={styles.enviar} onPress={atualizarUsuario}>
-                <Text style={{ color: "white", textAlign: "center" }}>Atualizar</Text>
-              </Pressable>
-
-              <Pressable style={styles.btnClose} onPress={fecharModal}>
-                <Text style={{ textAlign: "center" }}>Fechar</Text>
-              </Pressable>
-            </View>
-          </View>
-        </Modal>
-      </ScrollView>
-    </View>
   );
 }
