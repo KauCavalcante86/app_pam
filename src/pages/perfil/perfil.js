@@ -55,9 +55,11 @@ export default function Perfil() {
   async function atualizarCampo() {
     if (!usuario) return Alert.alert("Erro", "Usuário não encontrado!");
 
-    const camposPermitidos = [
-      "nome", "email", "senha", "genero", "altura", "peso", "tipoSangue"
-    ];
+   const camposPermitidos = [
+    "nome", "email", "senha", "genero", "altura", "peso", "tipoSangue",
+    "cep", "rua", "bairro", "cidade", "uf" // ✅ adicionados
+  ];
+
 
     if (!camposPermitidos.includes(campoAtual))
       return Alert.alert("Erro", "Campo inválido!");
@@ -162,25 +164,25 @@ export default function Perfil() {
               </View>
             ))}
           </View>
-          <Text style={styles.titulo}>Ficha</Text>
-          <View style={styles.areaFicha}>
+         <Text style={styles.titulo}>Endereço</Text>
+          <View style={[styles.areaFicha,{marginBottom:60,}]}>
             {[
-              { label: "Gênero", key: "genero" },
-              { label: "Altura", key: "altura", sufixo: " m" },
-              { label: "Peso", key: "peso", sufixo: " Kg" },
-              { label: "Tipo Sanguíneo", key: "tipoSangue" },
+              { label: "CEP", key: "cep" },
+              { label: "Rua", key: "rua" },
+              { label: "Bairro", key: "bairro" },
+              { label: "Cidade", key: "cidade" },
+              { label: "UF", key: "uf" },
             ].map((item, i) => (
               <View style={styles.campoFicha} key={i}>
                 <Text style={styles.labelInfo}>{item.label}</Text>
                 <View style={styles.atualizaCampo}>
-                  <Text style={styles.txt}>
-                    {usuario?.[item.key]
-                      ? `${usuario[item.key]}${item.sufixo || ""}`
-                      : `(Sem ${item.label})`}
-                  </Text>
                   <Pressable
+                    style={styles.btnAtualizar}
                     onPress={() => abrirModal(item.key, usuario?.[item.key])}
                   >
+                    <Text style={styles.txt}>
+                      {usuario?.[item.key] ? usuario[item.key] : `(Sem ${item.label})`}
+                    </Text>
                     <Image
                       style={styles.imgAtualizar}
                       source={require("../../../assets/atualizar.png")}
@@ -190,34 +192,7 @@ export default function Perfil() {
               </View>
             ))}
           </View>
-          <Text style={styles.titulo}>Ficha</Text>
-          <View style={styles.areaFicha}>
-            {[
-              { label: "Gênero", key: "genero" },
-              { label: "Altura", key: "altura", sufixo: " m" },
-              { label: "Peso", key: "peso", sufixo: " Kg" },
-              { label: "Tipo Sanguíneo", key: "tipoSangue" },
-            ].map((item, i) => (
-              <View style={styles.campoFicha} key={i}>
-                <Text style={styles.labelInfo}>{item.label}</Text>
-                <View style={styles.atualizaCampo}>
-                  <Text style={styles.txt}>
-                    {usuario?.[item.key]
-                      ? `${usuario[item.key]}${item.sufixo || ""}`
-                      : `(Sem ${item.label})`}
-                  </Text>
-                  <Pressable
-                    onPress={() => abrirModal(item.key, usuario?.[item.key])}
-                  >
-                    <Image
-                      style={styles.imgAtualizar}
-                      source={require("../../../assets/atualizar.png")}
-                    />
-                  </Pressable>
-                </View>
-              </View>
-            ))}
-          </View>
+
 
           {/* Modal dinâmico */}
           <Modal animationType="fade" transparent={true} visible={modalVisible}>
@@ -244,7 +219,7 @@ export default function Perfil() {
                     <Text style={styles.txtBtn}>Salvar</Text>
                   </Pressable>
 
-                  <Pressable style={[styles.btnClose, { backgroundColor: 'purple' }]} onPress={fecharModal}>
+                  <Pressable style={[styles.btnClose, { backgroundColor: '#d75252ff' }]} onPress={fecharModal}>
                     <Text style={styles.txtBtn}>Cancelar</Text>
                   </Pressable>
                 </View>
