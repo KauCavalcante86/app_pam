@@ -66,10 +66,10 @@ export default function Home() {
         </Pressable>
 
         <View style={styles.box2}>
-            <View style={styles.btnRetan}>
+            <Pressable style={styles.btnRetan} onPress={() => navigation.navigate('Agua')}>
               <Text style={[styles.nomeCampo, { fontFamily: "Poppins_400Regular" }]}>Água</Text>
               <Image style={styles.agua} source={require('../../../assets/agua.png')} />
-            </View>
+            </Pressable>
 
             <View style={styles.campoRetan}>
                  <View style={styles.opBody1}>

@@ -121,7 +121,7 @@ export const responsiveStyles = (width, height) => StyleSheet.create({
     backgroundColor: "#fff",
     borderRadius: 10,
     padding: 20,
-    gap:24,
+    gap:18,
   },
   campoAtualizar: {
     fontSize:16,

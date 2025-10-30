@@ -12,6 +12,7 @@ import Cadastro from "./src/pages/cadastro/cadastro";
 import Home from "./src/pages/home/home";
 import PageOne from "./src/pages/pageOne/pageOne";
 import Calorias from "./src/pages/calorias/calorias";
+import Agua from "./src/pages/agua/agua";
 import Perfil from "./src/pages/perfil/perfil";
 import Geo from "./src/pages/geolocalizacao/geo";
 
@@ -37,6 +38,7 @@ function AppStack() {
       <Stack.Screen name = "Perfil" component={Perfil} />
       <Stack.Screen name="geo" component={Geo} />
       <Stack.Screen name="calorias" component={Calorias}/>
+      <Stack.Screen name="Agua" component={Agua}/>
     </Stack.Navigator>
   );
 }
