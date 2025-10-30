@@ -44,7 +44,7 @@ export const styles = StyleSheet.create({
         alignItems:'center',
         justifyContent:'center',
         borderRadius:5,
-        backgroundColor:'#87bfe2ff',
+        backgroundColor:'#98d1f5ff',
         paddingVertical:8,  
         paddingHorizontal:12,  
     },
@@ -96,6 +96,13 @@ export const styles = StyleSheet.create({
         paddingHorizontal:20,
         borderRadius:8,
     },
+
+     meta: {
+    fontFamily: "Poppins_400Regular",
+    fontSize: 16,
+    color: "#606FDD",
+    marginBottom: 10,
+  },
 
 
 });

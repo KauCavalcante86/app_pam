@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { View, Text, Pressable, TextInput, Modal } from "react-native";
+import { View, Text, Pressable, TextInput, Modal, Alert } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useNavigation } from "@react-navigation/native";
 import {
@@ -20,76 +20,132 @@ export default function ModalAtualizar({ meta, setMeta }) {
   });
 
   const [showModal, setShowModal] = useState(false);
-  const [inputMeta, setInputMeta] = useState(meta ? meta.toString() : ""); // 👈 estado de texto
+  const [inputMeta, setInputMeta] = useState(meta ? meta.toString() : "");
+  const [diasSelecionados, setDiasSelecionados] = useState([]);
+  const [metasPorDia, setMetasPorDia] = useState({});
+  const [metaHoje, setMetaHoje] = useState(null);
 
-  const fecharModal = () => {
-    setShowModal(false);
-  };
+  const dias = ["Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sab"];
 
-  const abrirModal = () => {
-    setInputMeta(meta ? meta.toString() : "");
-    setShowModal(true);
+  // Carrega as metas e determina o dia atual
+  useEffect(() => {
+    (async () => {
+      const data = await AsyncStorage.getItem("@metas_por_dia");
+      const metas = data ? JSON.parse(data) : {};
+      setMetasPorDia(metas);
+
+      const diaAtualIndex = new Date().getDay(); // 0 = Domingo, 1 = Segunda...
+      const nomeDia = dias[diaAtualIndex];
+      setMetaHoje(metas[nomeDia] || null);
+    })();
+  }, []);
+
+  const abrirModal = () => setShowModal(true);
+  const fecharModal = () => setShowModal(false);
+
+  const toggleDia = (dia) => {
+    setDiasSelecionados((prev) =>
+      prev.includes(dia)
+        ? prev.filter((item) => item !== dia)
+        : [...prev, dia]
+    );
   };
 
   const salvarMeta = async () => {
-    const num = parseInt(inputMeta) || 0;
-    setMeta(num);
-    try {
-      await AsyncStorage.setItem("@meta_diaria", num.toString());
-    } catch (error) {
-      console.log("Erro ao salvar meta:", error);
-    }
-    fecharModal();
-  };
+  if (diasSelecionados.length === 0) {
+    Alert.alert("Selecione pelo menos um dia!");
+    return;
+  }
 
-  const aumentarMeta = () => {
-    const num = parseInt(inputMeta) || 0;
-    const novoValor = num + 100;
-    setInputMeta(novoValor.toString());
-  };
+  const num = parseInt(inputMeta);
+  if (isNaN(num) || num <= 0) {
+    Alert.alert("Digite uma meta válida!");
+    return;
+  }
 
-    const diminuirMeta = () => {  
-    const num = parseInt(inputMeta) || 0;
-    const novoValor = num - 100 >= 0 ? num - 100 : 0;
-    setInputMeta(novoValor.toString());
-  };
+  const novasMetas = { ...metasPorDia };
+  diasSelecionados.forEach((dia) => {
+    novasMetas[dia] = num;
+  });
+
+  setMetasPorDia(novasMetas);
+  await AsyncStorage.setItem("@metas_por_dia", JSON.stringify(novasMetas));
+
+  const diaAtual = dias[new Date().getDay()];
+  const metaDoDia = novasMetas[diaAtual] || null;
+
+  setMetaHoje(metaDoDia);
+
+  setMeta(metaDoDia);
+
+  Alert.alert("Sucesso", "Meta aplicada aos dias selecionados!");
+  setDiasSelecionados([]);
+  fecharModal();
+};
+
 
   if (!fontsLoaded) return null;
 
   return (
     <View style={styles.container}>
-      <Pressable style={styles.btnEditarMeta} onPress={abrirModal}>
-        <Text style={styles.textoBtn}>Editar</Text>
-      </Pressable>
 
+       <Pressable style={styles.btnEditarMeta} onPress={abrirModal}>
+        <Text style={styles.textoBtn}>Editar Metas</Text>
+      </Pressable>
+      
+      {/* Mostra a meta do dia atual */}
+      <Text style={{ fontSize: 18, marginBottom: 10 }}>
+        📅 Hoje é <Text style={{ fontWeight: "bold" }}>{dias[new Date().getDay()]}</Text>
+      </Text>
+      {metaHoje ? (
+        <Text style={styles.meta}>Sua meta hoje: {metaHoje} ml</Text>
+      ) : (
+        <Text style={styles.meta}>
+          Nenhuma meta definida para hoje
+        </Text>
+      )}
+
+      {/* Botão para editar metas */}
+     
+
+      {/* Modal */}
       <Modal visible={showModal} animationType="fade" transparent>
         <View style={styles.containerModal}>
           <View style={styles.appModal}>
             <Text style={styles.titleModal}>Atualizar Meta Diária</Text>
-            <View style={styles.areaInpunt}>
-                <Pressable style={styles.btnInput} onPress={() => aumentarMeta()}>
-                    <Text style={styles.txtbtn}>+</Text>
-                </Pressable>
-                <TextInput
-                keyboardType="numeric"
-                placeholder="Defina sua meta (ml)"
-                value={inputMeta}
-                onChangeText={setInputMeta} 
-                style={styles.campoMeta}
-                />
-                <Pressable style={styles.btnInput} onPress={() => diminuirMeta()}>
-                    <Text style={styles.txtbtn}>-</Text>
-                </Pressable>
-            </View>
+
             <View style={styles.areaSemana}>
-                <Pressable style={styles.btnSemana}><Text style={styles.txtSemana}>Seg</Text></Pressable>
-                <Pressable style={styles.btnSemana}><Text style={styles.txtSemana}>Ter</Text></Pressable>
-                <Pressable style={styles.btnSemana}><Text style={styles.txtSemana}>Qua</Text></Pressable>
-                <Pressable style={styles.btnSemana}><Text style={styles.txtSemana}>Qui</Text></Pressable>
-                <Pressable style={styles.btnSemana}><Text style={styles.txtSemana}>Sex</Text></Pressable>
-                <Pressable style={styles.btnSemana}><Text style={styles.txtSemana}>Sab</Text></Pressable>
-                <Pressable style={styles.btnSemana}><Text style={styles.txtSemana}>Dom</Text></Pressable>
+              {dias.map((dia) => {
+                const selecionado = diasSelecionados.includes(dia);
+                return (
+                  <Pressable
+                    key={dia}
+                    onPress={() => toggleDia(dia)}
+                    style={[
+                      styles.btnSemana,
+                      selecionado && { backgroundColor: "#63a7ecff" },
+                    ]}
+                  >
+                    <Text
+                      style={[
+                        styles.txtSemana,
+                        selecionado && { color: "#fff" },
+                      ]}
+                    >
+                      {dia}
+                    </Text>
+                  </Pressable>
+                );
+              })}
             </View>
+
+            <TextInput
+              keyboardType="numeric"
+              placeholder="Defina sua meta (ml)"
+              value={inputMeta}
+              onChangeText={setInputMeta}
+              style={styles.campoMeta}
+            />
 
             <View style={styles.botoes}>
               <Pressable style={styles.btn} onPress={fecharModal}>
