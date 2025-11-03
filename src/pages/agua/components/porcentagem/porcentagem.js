@@ -18,21 +18,6 @@ export default function Porcentagem({meta, agua}) {
 
   const [animatedValue] = useState(new Animated.Value(0)); // animação da água
 
-  useEffect(() => {
-  const loadMeta = async () => {
-    try {
-      const savedMeta = await AsyncStorage.getItem("@meta_diaria");
-      if (savedMeta !== null) {
-        setMeta(parseInt(savedMeta));
-      }
-    } catch (error) {
-      console.log("Erro ao carregar meta:", error);
-    }
-  };
-  loadMeta();
-}, []);
-
-
 
  useEffect(() => {
   if (meta > 0) {
@@ -43,14 +28,6 @@ export default function Porcentagem({meta, agua}) {
     }).start();
   }
 
-  const saveWater = async () => {
-    try {
-      await AsyncStorage.setItem("@agua_diaria", agua.toString());
-    } catch (error) {
-      console.log("Erro ao salvar dados:", error);
-    }
-  };
-  saveWater();
 }, [agua, meta]);
 
 

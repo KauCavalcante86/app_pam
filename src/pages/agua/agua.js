@@ -11,25 +11,54 @@ import CampoBtn from "./components/CampoBtn/campoBtn";
 export default function Agua() {
   const [agua, setAgua] = useState(0);
   const [meta, setMeta] = useState(0);
-  const [selecionado, setSelecionado] = useState("ml"); // valor padrão
+  const [selecionado, setSelecionado] = useState("ml");
 
-  // Carregar meta do dia atual
-  const carregarMetaHoje = useCallback(async () => {
-    const dias = ["Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sab"];
-    const diaAtual = dias[new Date().getDay()];
+  const carregarDados = useCallback(async () => {
+    try {
+      const dias = ["Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sab"];
+      const diaAtual = dias[new Date().getDay()];
 
-    const data = await AsyncStorage.getItem("@metas_por_dia");
-    if (data) {
-      const metas = JSON.parse(data);
-      setMeta(metas[diaAtual] || 0);
+      const metasData = await AsyncStorage.getItem("@metas_por_dia");
+      if (metasData) {
+        const metas = JSON.parse(metasData);
+        setMeta(metas[diaAtual] || 0);
+      }
+
+      const aguaSalva = await AsyncStorage.getItem("@agua_diaria");
+      if (aguaSalva) {
+        setAgua(parseInt(aguaSalva));
+      }
+    } catch (error) {
+      console.log("Erro ao carregar dados:", error);
     }
   }, []);
 
+  // 🔹 Sempre que a tela focar, carrega a água e meta
   useFocusEffect(
     useCallback(() => {
-      carregarMetaHoje();
-    }, [carregarMetaHoje])
+      carregarDados();
+    }, [carregarDados])
   );
+
+  // 🔹 Salvar automaticamente quando mudar
+  const salvarAgua = async (valor) => {
+    try {
+      await AsyncStorage.setItem("@agua_diaria", valor.toString());
+    } catch (error) {
+      console.log("Erro ao salvar água:", error);
+    }
+  };
+
+  const handleAddAgua = (quantidade) => {
+    const novoValor = Math.min(agua + quantidade, meta);
+    setAgua(novoValor);
+    salvarAgua(novoValor);
+  };
+
+  const handleResetAgua = async () => {
+    setAgua(0);
+    await AsyncStorage.removeItem("@agua_diaria");
+  };
 
   return (
     <View style={styles.container}>
@@ -37,54 +66,43 @@ export default function Agua() {
         <ModalAtualizar meta={meta} setMeta={setMeta} />
       </View>
 
-      {/* Botões de seleção */}
+      {/* Botões ml / porcentagem */}
       <View style={styles.containerBtn}>
         <View style={styles.btnOpcao}>
           <Pressable
-            style={[
-              styles.btn,
-              selecionado === "ml" && styles.btnSelecionado,
-            ]}
+            style={[styles.btn, selecionado === "ml" && styles.btnSelecionado]}
             onPress={() => setSelecionado("ml")}
           >
             <Image
-              style={[
-                styles.icon,
-                selecionado === "ml" && styles.iconSelecionado,
-              ]}
+              style={[styles.icon, selecionado === "ml" && styles.iconSelecionado]}
               source={require("../../../assets/ml_icon.png")}
             />
           </Pressable>
 
           <Pressable
-            style={[
-              styles.btn,
-              selecionado === "porcentagem" && styles.btnSelecionado,
-            ]}
+            style={[styles.btn, selecionado === "porcentagem" && styles.btnSelecionado]}
             onPress={() => setSelecionado("porcentagem")}
           >
             <Image
-              style={[
-                styles.icon,
-                selecionado === "porcentagem" && styles.iconSelecionado,
-              ]}
+              style={[styles.icon, selecionado === "porcentagem" && styles.iconSelecionado]}
               source={require("../../../assets/porcen_icon.png")}
             />
           </Pressable>
         </View>
       </View>
 
-      {/* Exibe um componente de acordo com o selecionado */}
-
+      {/* Exibição */}
       <View style={styles.areaComponente}>
-      {selecionado === "porcentagem" ? (
-        <Porcentagem meta={meta} agua={agua} />
-      ) : (
-        <Ml meta={meta} agua={agua} />
-      )}
+        {selecionado === "porcentagem" ? (
+          <Porcentagem meta={meta} agua={agua} />
+        ) : (
+          <Ml meta={meta} agua={agua} />
+        )}
       </View>
 
-      <CampoBtn meta={meta} setMeta={setMeta} setAgua={setAgua} />
+      <View style={styles.btnBottom}>
+        <CampoBtn onAddAgua={handleAddAgua} onResetAgua={handleResetAgua} />
+      </View>
     </View>
   );
 }

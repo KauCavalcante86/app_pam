@@ -2,6 +2,11 @@ import { StyleSheet } from "react-native";
 
 export const styles = StyleSheet.create({
 
+  container: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: '100%',
+  },
   buttonsContainer: {
     flexDirection: "row",
     gap: 15,
@@ -19,10 +24,16 @@ export const styles = StyleSheet.create({
     fontSize: 16,
   },
   resetButton: {
-    marginTop: 20,
     backgroundColor: "#E0E4FF",
-    paddingVertical: 8,
-    paddingHorizontal: 30,
+    width: '80%',
+    borderRadius: 15,
+    paddingHorizontal: 12,
+    justifyContent: 'center',
+  },
+  plusButton: {
+    backgroundColor: "#E0E4FF",
+    paddingVertical: 12,
+    paddingHorizontal: 16,
     borderRadius: 15,
   },
   resetText: {
@@ -35,6 +46,18 @@ export const styles = StyleSheet.create({
   alignItems: "flex-end",
   justifyContent: "center",
   marginVertical: 30,
+},
+areaBtnZerar:{
+  flexDirection:'row',
+  marginTop:16,
+  width:'60%',
+  gap:12,
+},
+
+plusIcon:{
+  width:16,
+  height:16,
+  tintColor:'#4090f3ff',
 },
 
 });

@@ -20,27 +20,31 @@ export const styles = StyleSheet.create({
   },
 
 containerBtn: {
-    alignItems: "center",
-    marginTop: 20,
+  width: '100%',
+  height: 64,
+  alignItems: 'center',
+  justifyContent: 'center',
+  flexDirection: "row",
+  alignItems: "center",
   },
+
   btnOpcao: {
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
-    width: "33%", 
-    height: 80,
+    width: "25%", 
+    height: '100%',
     backgroundColor: "#e5e5e5ff",
     gap: 10,
-    borderRadius: 10,
+    borderRadius: 12,
 
   },
   btn: {
     backgroundColor: "#e5e5e5ff",
-    paddingVertical: '10%',
-    paddingHorizontal: 20,
-    borderRadius: 10,
     alignItems: "center",
     justifyContent: "center",
+    padding: 10,
+    borderRadius: 12,
   },
   btnSelecionado: {
     backgroundColor: "#6F94F3",
@@ -54,6 +58,15 @@ containerBtn: {
     width: 30,
     height: 30,
     tintColor: "#fff",
+  },
+
+  btnBottom: {
+    width: '100%',
+    height: 110,
+    alignItems: 'center',
+    justifyContent: 'center',
+    flexDirection: "row",
+    alignItems: "center",
   },
 
 });
