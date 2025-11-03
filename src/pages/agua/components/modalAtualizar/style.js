@@ -7,13 +7,36 @@ export const styles = StyleSheet.create({
     backgroundColor: "#F8F9FF",
   },
 
+  areaBtnModal: {
+    flexDirection: "row",
+    justifyContent: "flex-end",
+    width: "100%",
+    gap: 10,
+    paddingHorizontal: 20,
+  },
 
-  
+  areaTitulo:{
+    alignItems:'center',
+    justifyContent:'center',
+    marginTop:50,
+  },
+
   btnEditarMeta:{
-      borderRadius:8,
+      borderRadius:999,
       width:60,
       height:60,
-      backgroundColor:'#8bd0ec83',
+      backgroundColor:'#92d2ec83',
+      justifyContent:'center',
+        alignItems:'center',
+    },
+  btnCalendario:{
+      borderRadius:30,
+      width:100,
+      height:60,
+      backgroundColor:'#92d2ec83',
+      flexDirection:'row',
+      justifyContent:'space-evenly',
+        alignItems:'center',
     },
 
     containerModal:{

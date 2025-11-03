@@ -77,7 +77,7 @@ const percentage = meta > 0 ? Math.min((agua / meta) * 100, 100) : 0;
 
 
       <AnimatedCircularProgress
-        size={150}
+        size={320}
         width={12}
         fill={percentage}
         tintColor="#70a9efff"

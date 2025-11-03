@@ -1,7 +1,7 @@
 import { useFocusEffect } from "@react-navigation/native";
 import { useCallback, useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { View, Text } from "react-native";
+import { View, Text, Pressable, Image } from "react-native";
 import { styles } from "./style";
 import ModalAtualizar from "./components/modalAtualizar/modalAtualizar";
 import Porcentagem from "./components/porcentagem/porcentagem";
@@ -11,8 +11,9 @@ import CampoBtn from "./components/CampoBtn/campoBtn";
 export default function Agua() {
   const [agua, setAgua] = useState(0);
   const [meta, setMeta] = useState(0);
+  const [selecionado, setSelecionado] = useState("ml"); // valor padrão
 
-  // Função para carregar a meta do dia atual
+  // Carregar meta do dia atual
   const carregarMetaHoje = useCallback(async () => {
     const dias = ["Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sab"];
     const diaAtual = dias[new Date().getDay()];
@@ -24,7 +25,6 @@ export default function Agua() {
     }
   }, []);
 
-  // Recarrega sempre que a tela ganhar foco
   useFocusEffect(
     useCallback(() => {
       carregarMetaHoje();
@@ -33,9 +33,57 @@ export default function Agua() {
 
   return (
     <View style={styles.container}>
-      <ModalAtualizar meta={meta} setMeta={setMeta} />
-      <Porcentagem meta={meta} agua={agua} />
-      <Ml meta={meta} agua={agua} />
+      <View style={styles.header}>
+        <ModalAtualizar meta={meta} setMeta={setMeta} />
+      </View>
+
+      {/* Botões de seleção */}
+      <View style={styles.containerBtn}>
+        <View style={styles.btnOpcao}>
+          <Pressable
+            style={[
+              styles.btn,
+              selecionado === "ml" && styles.btnSelecionado,
+            ]}
+            onPress={() => setSelecionado("ml")}
+          >
+            <Image
+              style={[
+                styles.icon,
+                selecionado === "ml" && styles.iconSelecionado,
+              ]}
+              source={require("../../../assets/ml_icon.png")}
+            />
+          </Pressable>
+
+          <Pressable
+            style={[
+              styles.btn,
+              selecionado === "porcentagem" && styles.btnSelecionado,
+            ]}
+            onPress={() => setSelecionado("porcentagem")}
+          >
+            <Image
+              style={[
+                styles.icon,
+                selecionado === "porcentagem" && styles.iconSelecionado,
+              ]}
+              source={require("../../../assets/porcen_icon.png")}
+            />
+          </Pressable>
+        </View>
+      </View>
+
+      {/* Exibe um componente de acordo com o selecionado */}
+
+      <View style={styles.areaComponente}>
+      {selecionado === "porcentagem" ? (
+        <Porcentagem meta={meta} agua={agua} />
+      ) : (
+        <Ml meta={meta} agua={agua} />
+      )}
+      </View>
+
       <CampoBtn meta={meta} setMeta={setMeta} setAgua={setAgua} />
     </View>
   );

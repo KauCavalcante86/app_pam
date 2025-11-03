@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { View, Text, Pressable, TextInput, Modal, Alert } from "react-native";
+import { View, Text, Pressable, TextInput, Modal, Alert, Image } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useNavigation } from "@react-navigation/native";
 import {
@@ -20,12 +20,13 @@ export default function ModalAtualizar({ meta, setMeta }) {
   });
 
   const [showModal, setShowModal] = useState(false);
+  const [showModalDate, setShowModalDate] = useState(false);
   const [inputMeta, setInputMeta] = useState(meta ? meta.toString() : "");
   const [diasSelecionados, setDiasSelecionados] = useState([]);
   const [metasPorDia, setMetasPorDia] = useState({});
   const [metaHoje, setMetaHoje] = useState(null);
 
-  const dias = ["Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sab"];
+  const dias = ["Dom", "Seg", "Ter", "Quar", "Quin", "Sex", "Sab"];
 
   // Carrega as metas e determina o dia atual
   useEffect(() => {
@@ -42,6 +43,8 @@ export default function ModalAtualizar({ meta, setMeta }) {
 
   const abrirModal = () => setShowModal(true);
   const fecharModal = () => setShowModal(false);
+  const abrirModalDate = () => setShowModalDate(true);
+  const fecharModalDate = () => setShowModalDate(false);
 
   const toggleDia = (dia) => {
     setDiasSelecionados((prev) =>
@@ -88,15 +91,27 @@ export default function ModalAtualizar({ meta, setMeta }) {
 
   return (
     <View style={styles.container}>
-
-       <Pressable style={styles.btnEditarMeta} onPress={abrirModal}>
-        <Text style={styles.textoBtn}>Editar Metas</Text>
-      </Pressable>
+      <View style={styles.areaBtnModal}>
+        <Pressable style={styles.btnCalendario} onPress={abrirModalDate}>
+            <Image
+            source={require("../../../../../assets/date.png")}
+            style={{ width: 30, height: 30 }}
+          />
+          <Text style={{ fontSize: 18, color: '#687CFF' }}>
+         <Text style={{ fontWeight: "bold" }}>{dias[new Date().getDay()]}</Text>
+      </Text>
+        </Pressable >
+        <Pressable style={styles.btnEditarMeta} onPress={abrirModal} >
+          <Image
+            source={require("../../../../../assets/edit.png")}
+            style={{ width: 30, height: 30 }}
+          />
+        </Pressable>
+      </View>
       
       {/* Mostra a meta do dia atual */}
-      <Text style={{ fontSize: 18, marginBottom: 10 }}>
-        📅 Hoje é <Text style={{ fontWeight: "bold" }}>{dias[new Date().getDay()]}</Text>
-      </Text>
+      <View style={styles.areaTitulo}>
+      
       {metaHoje ? (
         <Text style={styles.meta}>Sua meta hoje: {metaHoje} ml</Text>
       ) : (
@@ -104,6 +119,7 @@ export default function ModalAtualizar({ meta, setMeta }) {
           Nenhuma meta definida para hoje
         </Text>
       )}
+      </View>
 
       {/* Botão para editar metas */}
      
@@ -122,7 +138,7 @@ export default function ModalAtualizar({ meta, setMeta }) {
                     key={dia}
                     onPress={() => toggleDia(dia)}
                     style={[
-                      styles.btnSemana,
+                      styles.btnSemana, 
                       selecionado && { backgroundColor: "#63a7ecff" },
                     ]}
                   >
@@ -157,6 +173,23 @@ export default function ModalAtualizar({ meta, setMeta }) {
             </View>
           </View>
         </View>
+      </Modal>
+
+      <Modal visible={showModalDate} animationType="fade" transparent>
+          <View style={styles.containerModal}>
+              <View style={styles.appModal}>
+                <Text style={styles.titleModal}>Atualizar Meta Diária</Text>
+
+                
+
+              <Pressable style={styles.btn} onPress={fecharModalDate}>
+                <Text>Cancelar</Text>
+              </Pressable>
+              <Pressable style={styles.btn} onPress={salvarMeta}>
+                <Text>Salvar</Text>
+              </Pressable>
+            </View>
+          </View>
       </Modal>
     </View>
   );
