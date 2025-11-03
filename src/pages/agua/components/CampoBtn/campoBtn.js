@@ -1,5 +1,10 @@
 import { View, Text, Pressable, Image } from "react-native";
-import { useFonts, Poppins_400Regular, Poppins_500Medium, Poppins_700Bold } from "@expo-google-fonts/poppins";
+import {
+  useFonts,
+  Poppins_400Regular,
+  Poppins_500Medium,
+  Poppins_700Bold,
+} from "@expo-google-fonts/poppins";
 import { styles } from "./style";
 
 export default function CampoBtn({ onAddAgua, onResetAgua }) {
@@ -29,6 +34,7 @@ export default function CampoBtn({ onAddAgua, onResetAgua }) {
         <Pressable onPress={onResetAgua} style={styles.resetButton}>
           <Text style={styles.resetText}>Zerar</Text>
         </Pressable>
+
         <Pressable style={styles.plusButton}>
           <Image
             style={styles.plusIcon}

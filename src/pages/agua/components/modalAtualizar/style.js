@@ -127,5 +127,87 @@ export const styles = StyleSheet.create({
     marginBottom: 10,
   },
 
+  containerModal: {
+    flex: 1,
+    backgroundColor: "rgba(0,0,0,0.5)",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  appModal: {
+    width: "90%",
+    backgroundColor: "#fff",
+    borderRadius: 12,
+    padding: 20,
+    alignItems: "center",
+  },
+  titleModal: {
+    fontSize: 20,
+    fontWeight: "bold",
+    marginBottom: 15,
+    fontFamily: "Poppins_700Bold",
+  },
+  itemDiaSemana: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    width: "100%",
+    paddingVertical: 12,
+    paddingHorizontal: 10,
+    borderBottomWidth: 1,
+    borderColor: "#ddd",
+  },
+  txtDiaSemana: {
+    fontSize: 16,
+    fontFamily: "Poppins_500Medium",
+  },
+  txtMetaAtual: {
+    fontSize: 16,
+    fontFamily: "Poppins_400Regular",
+    color: "#555",
+  },
+  seta: {
+    fontSize: 18,
+    color: "#888",
+  },
+  campoMeta: {
+    width: "80%",
+    borderWidth: 1,
+    borderColor: "#ccc",
+    borderRadius: 8,
+    paddingHorizontal: 10,
+    paddingVertical: 8,
+    marginVertical: 15,
+    fontSize: 16,
+  },
+  btn: {
+    backgroundColor: "#687CFF",
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 8,
+    alignItems: "center",
+    width: "60%",
+  },
+  btnEditarMeta: {
+    backgroundColor: "#687CFF",
+    padding: 12,
+    borderRadius: 8,
+    alignItems: "center",
+    marginVertical: 10,
+  },
+
+   listaDias: {
+    marginVertical: 10,
+    maxHeight: 250, // opcional, para limitar altura e permitir scroll
+  },
+  btnListaDia: {
+    padding: 12,
+    marginVertical: 4,
+    borderRadius: 8,
+    borderWidth: 1,
+    borderColor: "#ccc",
+  },
+  txtListaDia: {
+    fontSize: 16,
+  },
 
 });

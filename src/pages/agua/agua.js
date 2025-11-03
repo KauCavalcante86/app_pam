@@ -4,6 +4,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { View, Text, Pressable, Image } from "react-native";
 import { styles } from "./style";
 import ModalAtualizar from "./components/modalAtualizar/modalAtualizar";
+import ModalParabens from "./components/modalParabens/modalParabens";
 import Porcentagem from "./components/porcentagem/porcentagem";
 import Ml from "./components/ml/ml";
 import CampoBtn from "./components/CampoBtn/campoBtn";
@@ -62,8 +63,11 @@ export default function Agua() {
 
   return (
     <View style={styles.container}>
+    
+    <ModalParabens agua={agua} meta={meta} />
+
       <View style={styles.header}>
-        <ModalAtualizar meta={meta} setMeta={setMeta} />
+        <ModalAtualizar meta={meta} setMeta={setMeta} agua={agua} />
       </View>
 
       {/* Botões ml / porcentagem */}
@@ -104,5 +108,6 @@ export default function Agua() {
         <CampoBtn onAddAgua={handleAddAgua} onResetAgua={handleResetAgua} />
       </View>
     </View>
+    
   );
 }
