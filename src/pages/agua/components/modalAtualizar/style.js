@@ -187,13 +187,7 @@ export const styles = StyleSheet.create({
     alignItems: "center",
     width: "60%",
   },
-  btnEditarMeta: {
-    backgroundColor: "#687CFF",
-    padding: 12,
-    borderRadius: 8,
-    alignItems: "center",
-    marginVertical: 10,
-  },
+
 
    listaDias: {
     marginVertical: 10,

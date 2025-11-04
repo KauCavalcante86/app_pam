@@ -19,32 +19,44 @@ export default function Agua() {
       const dias = ["Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sab"];
       const diaAtual = dias[new Date().getDay()];
 
+      // 🔹 Puxa metas do AsyncStorage
       const metasData = await AsyncStorage.getItem("@metas_por_dia");
       if (metasData) {
         const metas = JSON.parse(metasData);
         setMeta(metas[diaAtual] || 0);
       }
 
-      const aguaSalva = await AsyncStorage.getItem("@agua_diaria");
-      if (aguaSalva) {
-        setAgua(parseInt(aguaSalva));
+      // 🔹 Verifica a data do último registro
+      const ultimaData = await AsyncStorage.getItem("@ultima_data");
+      const hoje = new Date().toDateString(); // Ex: "Tue Nov 04 2025"
+
+      if (ultimaData !== hoje) {
+        // Dia virou ➜ reseta a água
+        await AsyncStorage.setItem("@agua_diaria", "0");
+        await AsyncStorage.setItem("@ultima_data", hoje);
+        setAgua(0);
+        return;
       }
+
+      // 🔹 Se for o mesmo dia, mantém o valor salvo
+      const aguaSalva = await AsyncStorage.getItem("@agua_diaria");
+      if (aguaSalva) setAgua(parseInt(aguaSalva));
     } catch (error) {
       console.log("Erro ao carregar dados:", error);
     }
   }, []);
 
-  // 🔹 Sempre que a tela focar, carrega a água e meta
+  // 🔹 Executa sempre que a tela focar
   useFocusEffect(
     useCallback(() => {
       carregarDados();
     }, [carregarDados])
   );
 
-  // 🔹 Salvar automaticamente quando mudar
   const salvarAgua = async (valor) => {
     try {
       await AsyncStorage.setItem("@agua_diaria", valor.toString());
+      await AsyncStorage.setItem("@ultima_data", new Date().toDateString());
     } catch (error) {
       console.log("Erro ao salvar água:", error);
     }
@@ -58,13 +70,13 @@ export default function Agua() {
 
   const handleResetAgua = async () => {
     setAgua(0);
-    await AsyncStorage.removeItem("@agua_diaria");
+    await AsyncStorage.setItem("@agua_diaria", "0");
+    await AsyncStorage.setItem("@ultima_data", new Date().toDateString());
   };
 
   return (
     <View style={styles.container}>
-    
-    <ModalParabens agua={agua} meta={meta} />
+      <ModalParabens agua={agua} meta={meta} />
 
       <View style={styles.header}>
         <ModalAtualizar meta={meta} setMeta={setMeta} agua={agua} />
@@ -108,6 +120,5 @@ export default function Agua() {
         <CampoBtn onAddAgua={handleAddAgua} onResetAgua={handleResetAgua} />
       </View>
     </View>
-    
   );
 }

@@ -14,7 +14,7 @@ export const styles = StyleSheet.create({
 
   areaComponente: {
     width: '100%',
-    height: '40%',
+    height: '50%',
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -66,7 +66,7 @@ containerBtn: {
     alignItems: 'center',
     justifyContent: 'center',
     flexDirection: "row",
-    alignItems: "center",
+    marginTop: '20%',
   },
 
 });

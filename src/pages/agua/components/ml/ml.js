@@ -65,6 +65,8 @@ export default function Ml({ meta, agua }) {
   return (
     <View style={styles.container}>
       <View style={styles.bottleContainer}>
+        <View style={styles.tampa}></View>
+        <View style={styles.gargalo}></View>
         <View style={styles.bottle}>
           <Animated.View style={[styles.water, { height: waterHeight }]} />
           <Text

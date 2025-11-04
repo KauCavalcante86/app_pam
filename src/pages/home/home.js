@@ -85,10 +85,10 @@ export default function Home() {
 
         <View style={styles.box3}>
             <View style={styles.op1}>
-                <View style={styles.op}>
+                <Pressable style={styles.op} onPress={() => navigation.navigate('Imc')}>
                   <Text style={styles.nomeQuadrado}>IMC</Text>
                   <Image style={styles.imc} source={require('../../../assets/imc.png')} />
-                </View>
+                </Pressable>
                 <View style={styles.op}></View>
                 <View style={styles.op}></View>
             </View>
