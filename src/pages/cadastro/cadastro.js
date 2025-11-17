@@ -52,7 +52,7 @@ function cep(cepDigitado) {
       headers: {"Accept": "application/json"}
     }
 
-     axios.post('http://10.67.5.97:8000/api/CriarUser', dados, config)
+     axios.post('http://10.21.145.6:8000/api/CriarUser', dados, config)
     .then(response => {
       console.log('Usuário criado com sucesso!');
       alert('Usuário criado com sucesso!');

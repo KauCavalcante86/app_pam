@@ -1,7 +1,7 @@
 import { StatusBar } from "expo-status-bar";
 import axios from 'axios';
 import { View, Text, TextInput, Pressable, Alert, RefreshControl, Image, Modal, ImageBackground } from 'react-native';
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import * as ImagePicker from 'expo-image-picker';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import styles from './style'
@@ -26,6 +26,8 @@ export default function Geo() {
     const [searchedLocation, setSearchedLocation] = useState(null);
     const [errorMsg, setErrorMsg] = useState(null);
     
+
+    const mapRef = useRef(null);
     
     const [points, setPoints] = useState ([
         {   
@@ -119,6 +121,17 @@ export default function Geo() {
         },
     ])
 
+    useEffect(() => {
+        if (searchedLocation && mapRef.current) {
+            mapRef.current.animateToRegion({
+                ...searchedLocation,
+                latitudeDelta: 0.01,
+                longitudeDelta: 0.01
+            }, 600);
+        }
+    }, [searchedLocation]);
+    
+
   useEffect(() => {
     (async () => {
       const { status } = await Location.requestForegroundPermissionsAsync();
@@ -134,8 +147,23 @@ export default function Geo() {
 
   const handleSearchLocation = async () => {
 
-    if (address.trim() === '') {
-        alert('Por favor, insira um endereço');
+    if (!address || address.trim() === '') {
+        alert('Digite algo para pesquisar.');
+        return;
+    }
+
+    const foundPoint = points.find(p =>
+        p.title.toLowerCase().includes(address.toLowerCase())
+    );
+
+    if (foundPoint) {
+        setSearchedLocation({
+            latitude: foundPoint.latitude,
+            longitude: foundPoint.longitude
+        });
+
+        setSelectedPoint(foundPoint);
+        setModalVisible(true);
         return;
     }
 
@@ -149,8 +177,8 @@ export default function Geo() {
             alert('Endereço não encontrado.')
         }
     }   catch (error) {
-        console.error(error);
-        alert('Erro ao buscar o endereço')
+        alert('Erro ao buscar o endereço');
+        console.log(error);
     }
   }
 
@@ -190,11 +218,21 @@ export default function Geo() {
                         <Image style={styles.imgVoltar} source={require('../../../assets/btnVoltar.png')} />
                    </Pressable>
                    <View style={styles.barra}>
-                        <TextInput style={styles.pesquisa}></TextInput>
+                        <TextInput 
+                            style={styles.pesquisa}
+                            placeholder="Pesquisar Local..."
+                            value={address}
+                            onChangeText={setAddress}
+                            onSubmitEditing={handleSearchLocation}
+                        >
+
+                        </TextInput>
                    </View>
                 </View>
                     {location ? (
-                        <MapView style={styles.map}
+                        <MapView
+                            ref={mapRef} 
+                            style={styles.map}
                             initialRegion={{
                                 latitude: location.coords.latitude,
                                 longitude: location.coords.longitude,
@@ -223,6 +261,14 @@ export default function Geo() {
                                     }}
                                 />
                             ))}
+
+                            {searchedLocation && (
+                                <Marker
+                                    coordinate={searchedLocation}
+                                    title="Local encontrado"
+                                    pinColor="Blue"
+                                />
+                            )}
                         </MapView>
                     ) : (
                         <Text style={styles.carregando}>{errorMsg ? errorMsg : "Carregando localização..." }</Text>
