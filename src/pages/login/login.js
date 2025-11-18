@@ -27,7 +27,7 @@ export default function Login() {
     }
 
     try {
-      const response = await axios.post("http://10.21.145.6:8000/api/login",dados,config);
+      const response = await axios.post("http://192.168.15.6:8000/api/login",dados,config);
 
       if (response.data.success) {
         const usuario = response.data.usuario; 

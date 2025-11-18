@@ -12,6 +12,13 @@ import { SafeAreaView, SafeAreaProvider} from 'react-native-safe-area-context';
 import * as Location from 'expo-location';
 import MapView, { Marker } from "react-native-maps";
 
+import {
+  useFonts,
+  Poppins_400Regular,
+  Poppins_500Medium,
+  Poppins_700Bold,
+} from "@expo-google-fonts/poppins";
+
 
 export default function Geo() {
     const navigation = useNavigation();
@@ -201,7 +208,7 @@ export default function Geo() {
                                 resizeMode="cover"
                             />
                                 <Pressable onPress={() => setModalVisible(false)}>
-                                    <Text>Fechar Modal</Text>
+                                    <Text style={styles.fecharText}>Voltar</Text>
                                 </Pressable>
                             </>
                         ): (
@@ -221,6 +228,7 @@ export default function Geo() {
                         <TextInput 
                             style={styles.pesquisa}
                             placeholder="Pesquisar Local..."
+                            placeholderTextColor={"white"}
                             value={address}
                             onChangeText={setAddress}
                             onSubmitEditing={handleSearchLocation}

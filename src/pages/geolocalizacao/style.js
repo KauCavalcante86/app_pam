@@ -1,4 +1,11 @@
-import { StyleSheet } from "react-native";
+import { StyleSheet, Dimensions } from "react-native";
+
+const { width } = Dimensions.get("window");
+const scale = width / 375
+
+function normalize(size) {
+    return Math.round( size * scale)
+}
 
 export default StyleSheet.create({
 
@@ -24,12 +31,13 @@ export default StyleSheet.create({
     },
 
     barra:{
-       width:'75%',
+       width:'80%',
         height:60,
-        backgroundColor:'#b6c9edff',
+        backgroundColor:'#4888ffff',
         borderRadius:999,
         alignItems:'center',
         zIndex:2,
+        justifyContent: 'flex-end'
     },
 
     pesquisa:{
@@ -43,7 +51,7 @@ export default StyleSheet.create({
     btnVoltar:{
         width: 60,
         height: 60,
-        backgroundColor:'#b6c9edff',
+        backgroundColor:'#4888ffff',
         alignItems:'center',
         justifyContent:'center',
         borderRadius:999,
@@ -84,19 +92,43 @@ export default StyleSheet.create({
 
     conteudoModal: {
         height: '50%',
-        backgroundColor: 'white',
+        backgroundColor: '#4888ffff',
         borderTopLeftRadius: 20,
         borderTopRightRadius: 20,
         padding: 20,
         alignItems: 'center',
-        justifyContent: 'space-between'
+        justifyContent: 'space-between',
+        
     },
+
+    modalTitle: {
+        color: 'white',
+        fontSize: normalize(25),
+        fontFamily: 'Poppins_700Bold'
+    },
+
+    modalText: {
+        color: 'white',
+        fontSize: normalize(15),
+        fontFamily: 'Poppins_400Regular',
+        lineHeight: normalize(15)
+    }, 
 
     modalImagem: {
         width: '100%',
-        height: 150,
+        height: 200,
         borderRadius: 10,
         marginTop: 10
+    },
+
+    fecharText: {
+        color: 'white',
+        fontFamily: 'Poppins_700Bold',
+        fontSize: normalize(25),
+        backgroundColor: '#93b9ffff',
+        width: 300,
+        textAlign: 'center',
+        borderRadius: 10
     },
 
     voltar: {

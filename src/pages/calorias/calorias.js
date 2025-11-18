@@ -12,28 +12,15 @@ import {
   Poppins_700Bold,
 } from "@expo-google-fonts/poppins";
 
-
-
-// API Nutritionix
-const APP_ID = 'c5b1b052';
-const API_KEY = '2dc88d40299921562a38251e05db2ff9';
-
+// API OpenFoodFacts
 const buscarNutrientes = async (query) => {
     try {
-        const response = await axios.post(
-            'https://trackapi.nutritionix.com/v2/natural/nutrients',
-            { query },
-            {
-                headers: {
-                    'x-app-id': APP_ID,
-                    'x-app-key': API_KEY,
-                    'Content-Type': 'application/json',
-                },
-            }
+        const response = await axios.get(
+            `https://world.openfoodfacts.org/cgi/search.pl?search_terms=${encodeURIComponent(query)}&search_simple=1&json=1`
         );
-        return response.data;
+        return response.data.products;
     } catch (error) {
-        console.error('Erro ao buscar nutrientes:', error);
+        console.error('Erro ao buscar alimentos:', error);
         throw error;
     }
 };
@@ -44,7 +31,7 @@ export default function Calorias() {
   const navigation = useNavigation();
 
   const [query, setQuery] = useState('');
-  const [resultado, setResultado] = useState(null);
+  const [resultado, setResultado] = useState([]);
   const [loading, setLoading] = useState(false);
 
   const handleBuscar = async () => {
@@ -60,51 +47,41 @@ export default function Calorias() {
     }
   };
 
-  useEffect(() => {
-    const fetchUser = async () => {
-      try {
-        const response = await axios.get('https://reqres.in/api/users/1');
-        console.log('Usuário de exemplo:', response.data);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-
-    fetchUser();
-  }, []);
-
   return (
     <View style={styles.container}>
         <Text style={styles.textTitulo}>Calorias diárias</Text>
 
+        <View style={styles.buscarAlimentos}>
+            <TextInput
+              style={styles.inputDigitar}
+              placeholder="Digite um alimento: (Ex: Banana)"
+              value={query}
+              onChangeText={setQuery}
+            />
 
-        <View style={styles.totalC}>
-        
-        </View>
+            <Pressable onPress={handleBuscar} style={styles.buttonBuscar}>
+                <Text style={styles.buttonBuscarText}> {loading ? 'Buscando...' : 'Buscar'} </Text>
+            </Pressable>
+        </View>     
 
-          <View style={styles.buscarAlimentos}>
-
-              <TextInput style={styles.inputDigitar} placeholder="Digite um alimento: (Ex: Banana)" value={query} onChangeText={setQuery}/>
-
-              <Pressable onPress={handleBuscar} style={styles.buttonBuscar}>
-                  <Text style={styles.buttonBuscarText}> {loading ? 'Buscando...' : 'Buscar'} </Text>
-              </Pressable>
-
-          </View>     
-        
-        {resultado && resultado.foods && resultado.foods.map((food, index) => (
+        <ScrollView>
+        {resultado.length > 0 ? resultado.map((food, index) => (
           <View key={index} style={styles.infoAlimento}>
-
-            <View style={styles.calorias}>
-                <View style={styles.tituloCalorias}>
-                    <Text style={styles.titulo}>{food.food_name}</Text>
-                </View>
-            </View>
-
+            <Text style={styles.titulo}>{food.product_name || 'Nome não disponível'}</Text>
+            <Text>Marca: {food.brands || 'Não disponível'}</Text>
+            {food.nutriments && (
+              <View>
+                <Text>Energia: {food.nutriments['energy-kcal'] || 'N/A'} kcal</Text>
+                <Text>Proteínas: {food.nutriments.proteins || 'N/A'} g</Text>
+                <Text>Carboidratos: {food.nutriments.carbohydrates || 'N/A'} g</Text>
+                <Text>Gordura: {food.nutriments.fat || 'N/A'} g</Text>
+              </View>
+            )}
           </View>
-
-        ))}
-
+        )) : (
+          loading ? <ActivityIndicator size="large" color="#0000ff" /> : null
+        )}
+        </ScrollView>
 
     </View>
   );
