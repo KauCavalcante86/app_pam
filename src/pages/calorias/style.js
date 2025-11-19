@@ -19,9 +19,8 @@ export default StyleSheet.create ({
         marginTop: '13%',
         fontFamily: 'Poppins_700Bold',
         fontSize: normalize(35),
-        marginLeft: '-20%'
+        marginLeft: '-17%'
     },
-
 
     calorias: {
         flex: 1,
@@ -36,5 +35,9 @@ export default StyleSheet.create ({
       
     },
 
+    inputDigitar: {
+        backgroundColor: '#4888ffff',
+    
+    }
     
 });

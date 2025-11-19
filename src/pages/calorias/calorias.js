@@ -3,7 +3,8 @@ import axios from 'axios';
 import { useEffect, useState } from "react";
 import { Text, View, Pressable, TextInput, StyleSheet, ScrollView, ActivityIndicator } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import styles from './style'
+// IMPORTANTE: Certifique-se de que o arquivo './style' existe e contém os estilos necessários
+import styles from './style' 
 import { ImageBackground } from "react-native";
 import {
   useFonts,
@@ -12,12 +13,13 @@ import {
   Poppins_700Bold,
 } from "@expo-google-fonts/poppins";
 
-// API OpenFoodFacts
+
 const buscarNutrientes = async (query) => {
     try {
         const response = await axios.get(
             `https://world.openfoodfacts.org/cgi/search.pl?search_terms=${encodeURIComponent(query)}&search_simple=1&json=1`
         );
+
         return response.data.products;
     } catch (error) {
         console.error('Erro ao buscar alimentos:', error);
@@ -25,14 +27,16 @@ const buscarNutrientes = async (query) => {
     }
 };
 
-// Componente principal
+
 export default function Calorias() {
 
   const navigation = useNavigation();
 
+
   const [query, setQuery] = useState('');
   const [resultado, setResultado] = useState([]);
   const [loading, setLoading] = useState(false);
+
 
   const handleBuscar = async () => {
     if (!query.trim()) return;
@@ -47,6 +51,13 @@ export default function Calorias() {
     }
   };
 
+
+  const getFirstBrand = (brands) => {
+    if (!brands) return 'Não disponível';
+
+    return brands.split(',')[0].trim();
+  };
+
   return (
     <View style={styles.container}>
         <Text style={styles.textTitulo}>Calorias diárias</Text>
@@ -56,33 +67,45 @@ export default function Calorias() {
               style={styles.inputDigitar}
               placeholder="Digite um alimento: (Ex: Banana)"
               value={query}
-              onChangeText={setQuery}
+
+              onChangeText={setQuery} 
             />
 
             <Pressable onPress={handleBuscar} style={styles.buttonBuscar}>
                 <Text style={styles.buttonBuscarText}> {loading ? 'Buscando...' : 'Buscar'} </Text>
             </Pressable>
-        </View>     
 
         <ScrollView>
-        {resultado.length > 0 ? resultado.map((food, index) => (
-          <View key={index} style={styles.infoAlimento}>
-            <Text style={styles.titulo}>{food.product_name || 'Nome não disponível'}</Text>
-            <Text>Marca: {food.brands || 'Não disponível'}</Text>
-            {food.nutriments && (
-              <View>
-                <Text>Energia: {food.nutriments['energy-kcal'] || 'N/A'} kcal</Text>
-                <Text>Proteínas: {food.nutriments.proteins || 'N/A'} g</Text>
-                <Text>Carboidratos: {food.nutriments.carbohydrates || 'N/A'} g</Text>
-                <Text>Gordura: {food.nutriments.fat || 'N/A'} g</Text>
+
+        {resultado.length > 0 ? (() => {
+          const firstFood = resultado[0];
+          
+          return (
+            <View style={styles.infoAlimento}>
+                <Text style={styles.titulo}>{firstFood.product_name || 'Nome não disponível'}</Text>
+                
+
+                <Text>Marca: {getFirstBrand(firstFood.brands)}</Text>
+                
+                {firstFood.nutriments && (
+                  <View>
+                    <Text>Energia: {firstFood.nutriments['energy-kcal'] || 'N/A'} kcal</Text>
+                    <Text>Proteínas: {firstFood.nutriments.proteins || 'N/A'} g</Text>
+                    <Text>Carboidratos: {firstFood.nutriments.carbohydrates || 'N/A'} g</Text>
+                    <Text>Gordura: {firstFood.nutriments.fat || 'N/A'} g</Text>
+                  </View>
+                )}
               </View>
-            )}
-          </View>
-        )) : (
-          loading ? <ActivityIndicator size="large" color="#0000ff" /> : null
-        )}
+            );
+          })() : (
+            // Exibe o indicador de carregamento se estiver buscando, senão exibe um aviso
+            loading 
+            ? <ActivityIndicator size="large" color="#0000ff" /> 
+            : <Text style={{ textAlign: 'center', marginTop: 20 }}>Digite um alimento para buscar.</Text>
+          )}
         </ScrollView>
 
+          </View>
     </View>
-  );
-}
+  ); 
+} 
