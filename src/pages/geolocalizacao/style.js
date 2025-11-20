@@ -122,10 +122,10 @@ export default StyleSheet.create({
     },
 
     fecharText: {
-        color: 'white',
+        color: '#93b9ffff',
         fontFamily: 'Poppins_700Bold',
         fontSize: normalize(25),
-        backgroundColor: '#93b9ffff',
+        backgroundColor: '#fefefe',
         width: 300,
         textAlign: 'center',
         borderRadius: 10
