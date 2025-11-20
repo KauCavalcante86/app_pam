@@ -2,12 +2,36 @@ import React, { createContext, useState, useEffect, useContext } from 'react';
 import { Audio } from "expo-av";
 
 const sons = [
-
-  { id: 1, nome: "Chuva Suave", img: require("../assets/chuva.png"), arquivo: require("../assets/sons/chuva.wav"),  },
-  { id: 2, nome: "Mar / Ondas", img: require("../assets/mar.png"), arquivo: require("../assets/sons/mar.wav"),  },
-  { id: 3, nome: "Floresta", img: require("../assets/floresta.png"), arquivo: require("../assets/sons/floresta.wav"),  },
-  { id: 4, nome: "Lareira", img: require("../assets/fogo.png"), arquivo: require("../assets/sons/fogo.wav"),  },
+  {
+    id: 1,
+    nome: "Chuva Suave",
+    img: require("../assets/chuva.png"),
+    arquivo: require("../assets/sons/chuva.wav"),
+    bgVideo: "https://drive.google.com/uc?export=download&id=1H60VqY6qVBrAGZm4GL9iV1Tghq3EFEGd"
+  },
+  {
+    id: 2,
+    nome: "Mar / Ondas",
+    img: require("../assets/mar.png"),
+    arquivo: require("../assets/sons/mar.wav"),
+    bgVideo: "https://drive.google.com/uc?export=download&id=1CaGiWbvpQ3G5PgosCWYYCbwIGQnSBJR6"
+  },
+  {
+    id: 3,
+    nome: "Floresta",
+    img: require("../assets/floresta.png"),
+    arquivo: require("../assets/sons/floresta.wav"),
+    bgVideo: "https://drive.google.com/uc?export=download&id=1L0oQ3d_DPqvSg2PpaXfOTS1QvzMfMRge"
+  },
+  {
+    id: 4,
+    nome: "Lareira",
+    img: require("../assets/fogo.png"),
+    arquivo: require("../assets/sons/fogo.wav"),
+    bgVideo: "https://drive.google.com/uc?export=download&id=1_t-jk_t9OBbvrHeAMDaDTaHtYQATP1lh"
+  },
 ];
+
 
 const PlayerContext = createContext();
 

@@ -83,7 +83,7 @@ export default function SonsScreen() {
                     {/* VÍDEO DE FUNDO */}
                     {somAtual?.bgVideo && (
                         <Video
-                            source={somAtual.bgVideo}
+                            source={{ uri: somAtual.bgVideo }} 
                             style={StyleSheet.absoluteFill}
                             resizeMode={ResizeMode.COVER}
                             shouldPlay={true}

@@ -162,8 +162,9 @@ if (loading) {
               />
             </Pressable>
 
-            <Pressable
+           <Pressable
               style={styles.op}
+              onPress={() => navigation.navigate("Sons")}
             >
               <Text style={styles.nomeQuadrado}>IMC</Text>
             </Pressable>
