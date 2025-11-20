@@ -3,10 +3,10 @@ import { Audio } from "expo-av";
 
 const sons = [
 
-  { id: 1, nome: "Chuva Suave", arquivo: require("../assets/sons/chuva.wav") },
-  { id: 2, nome: "Mar / Ondas",  arquivo: require("../assets/sons/mar.wav") },
-  { id: 3, nome: "Floresta",  arquivo: require("../assets/sons/floresta.wav")},
-  { id: 4, nome: "Lareira",  arquivo: require("../assets/sons/fogo.wav")},
+  { id: 1, nome: "Chuva Suave", img: require("../assets/chuva.png"), arquivo: require("../assets/sons/chuva.wav"),  },
+  { id: 2, nome: "Mar / Ondas", img: require("../assets/mar.png"), arquivo: require("../assets/sons/mar.wav"),  },
+  { id: 3, nome: "Floresta", img: require("../assets/floresta.png"), arquivo: require("../assets/sons/floresta.wav"),  },
+  { id: 4, nome: "Lareira", img: require("../assets/fogo.png"), arquivo: require("../assets/sons/fogo.wav"),  },
 ];
 
 const PlayerContext = createContext();
