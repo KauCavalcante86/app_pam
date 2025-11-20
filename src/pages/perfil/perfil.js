@@ -1,26 +1,28 @@
-import { useEffect, useState } from "react";
-import { View, Text, Pressable, Modal, Alert, TextInput, ScrollView, Image, useWindowDimensions } from "react-native";
+import React, { useEffect, useState } from "react";
+import { View, Text, Pressable, Modal, Alert, TextInput, ScrollView, Image, useWindowDimensions, ActivityIndicator } from "react-native";
+import { getUserStorage, setUserStorage } from "../../utils/storege";
+import { getUsuario, atualizarFoto, atualizarCampoUsuario } from "../../../services/usuario";
+import EditarFotoModal from "../../components/EditarFotoModal";
 import styles from "./style";
-import { useNavigation } from "@react-navigation/native";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { responsiveStyles } from "./style";
 import {
   useFonts,
   Poppins_400Regular,
   Poppins_500Medium,
   Poppins_700Bold,
 } from "@expo-google-fonts/poppins";
-import { responsiveStyles } from "./style";
 
-export default function Perfil() {
+export default function PerfilScreen() {
   const [usuario, setUsuario] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [modal, setModal] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
   const [campoAtual, setCampoAtual] = useState(""); // <- controla qual campo está sendo editado
   const [valorNovo, setValorNovo] = useState("");
 
-  const navigation = useNavigation();
-
-      const [fontsLoaded] = useFonts({
+   const [fontsLoaded] = useFonts({
     Poppins_400Regular,
     Poppins_500Medium,
     Poppins_700Bold,
@@ -32,57 +34,34 @@ export default function Perfil() {
 
   // Carregar usuário salvo
   useEffect(() => {
-    async function carregarUsuario() {
-      const data = await AsyncStorage.getItem("usuario");
-      if (data) setUsuario(JSON.parse(data));
-    }
     carregarUsuario();
   }, []);
 
-  const abrirModal = (campo, valorAtual) => {
-    setCampoAtual(campo);
-    setValorNovo(valorAtual ? valorAtual.toString() : "");
-    setModalVisible(true);
+  const carregarUsuario = async () => {
+    const userStorage = await getUserStorage();
+
+    if (!userStorage) return;
+
+    const dadosApi = await getUsuario(userStorage.id);
+
+    setUsuario(dadosApi.usuario);
+    setLoading(false);
   };
 
-  const fecharModal = () => {
-    setModalVisible(false);
-    setCampoAtual("");
-    setValorNovo("");
-  };
+ const abrirModal = (campo, valorAtual) => {
+  setCampoAtual(campo);
+  setValorNovo(valorAtual ? valorAtual.toString() : "");
+  setModalVisible(true);
+};
 
-  // Atualizar campo específico
-  async function atualizarCampo() {
-    if (!usuario) return Alert.alert("Erro", "Usuário não encontrado!");
-
-   const camposPermitidos = [
-    "nome", "email", "senha", "genero", "altura", "peso", "tipoSangue",
-    "cep", "rua", "bairro", "cidade", "uf" // ✅ adicionados
-  ];
+const fecharModal = () => {
+  setModalVisible(false);
+  setCampoAtual("");
+  setValorNovo("");
+};
 
 
-    if (!camposPermitidos.includes(campoAtual))
-      return Alert.alert("Erro", "Campo inválido!");
 
-    try {
-      const payload = { [campoAtual]: campoAtual === "altura" || campoAtual === "peso" ? parseFloat(valorNovo) : valorNovo };
-
-      const response = await axios.put(
-        `http://10.67.5.97:8000/api/usuarios/${usuario.id}`,
-        payload,
-        { headers: { Accept: "application/json" } }
-      );
-
-      await AsyncStorage.setItem("usuario", JSON.stringify(response.data.usuario));
-      setUsuario(response.data.usuario);
-
-      Alert.alert("Sucesso", `${campoAtual} atualizado com sucesso!`);
-      fecharModal();
-    } catch (error) {
-      console.error("Erro ao atualizar:", error.response?.data || error.message);
-      Alert.alert("Erro", "Não foi possível atualizar o campo.");
-    }
-  }
 
   async function logout() {
     await AsyncStorage.removeItem("usuario");
@@ -92,8 +71,87 @@ export default function Perfil() {
     });
   }
 
+  const atualizarCampo = async () => {
+  if (!usuario) return Alert.alert("Erro", "Usuário não encontrado!");
+
+  const camposPermitidos = [
+    "nome","email","senha","genero","altura","peso","tipoSangue",
+    "cep","rua","bairro","cidade","uf"
+  ];
+
+  if (!camposPermitidos.includes(campoAtual))
+    return Alert.alert("Erro", "Campo inválido!");
+
+  // Valida valor vazio
+  if (!valorNovo) return Alert.alert("Erro", `Digite um valor para ${campoAtual}`);
+
+  // Valida tipo
+  let valorEnviado = valorNovo;
+  if (campoAtual === "altura" || campoAtual === "peso") {
+    valorEnviado = parseFloat(valorNovo);
+    if (isNaN(valorEnviado)) {
+      return Alert.alert("Erro", `Digite um número válido para ${campoAtual}`);
+    }
+  }
+
+  if (campoAtual === "senha" && valorNovo.length < 6) {
+    return Alert.alert("Erro", "Senha precisa ter no mínimo 6 caracteres.");
+  }
+
+  if (campoAtual === "email" && !/\S+@\S+\.\S+/.test(valorNovo)) {
+    return Alert.alert("Erro", "Email inválido.");
+  }
+
+  try {
+    const usuarioAtualizado = await atualizarCampoUsuario(usuario.id, campoAtual, valorEnviado);
+    setUsuario(usuarioAtualizado);
+    await setUserStorage(usuarioAtualizado);
+
+    Alert.alert("Sucesso", `${campoAtual} atualizado com sucesso!`);
+    fecharModal();
+  } catch (error) {
+    console.error("Erro ao atualizar campo:", error.response?.data || error.message);
+    Alert.alert("Erro", "Não foi possível atualizar o campo.");
+  }
+};
+
+
+
+  //////////////////////////// NÃO MEEXEEEEEEEEE TA FUNCIONANDOO
+
+  
+
+const enviarNovaFoto = async (imagem) => {
+    try {
+      const resposta = await atualizarFoto(usuario.id, imagem);
+
+      const novoUsuario = {
+        ...usuario, 
+        foto_url: resposta.foto_url 
+      };
+
+  
+      setUsuario(novoUsuario);
+
+      await setUserStorage(novoUsuario);
+
+      setModal(false);
+
+    } catch (error) {
+      console.error("ERRO AO ENVIAR FOTO:", error);
+      // ...
+    }
+  };
+
+
+  if (loading) {
+    return <ActivityIndicator size="large" color="#000" />;
+  }
+
   return (
-    <View style={styles.container}>
+    
+
+<View style={styles.container}>
         <View style={styles.header}>
           <Text style={styles.headerText}>Perfil</Text>
           <Pressable onPress={logout} style={styles.logout}>
@@ -103,8 +161,35 @@ export default function Perfil() {
 
         <ScrollView style={styles.app} scrollEnabled>
           <View style={styles.areaFoto}>
-            <View style={styles.foto} />
-          </View>
+                 <View style={{ alignItems: "center", marginBottom: 20 }}>
+        <Image
+            source={{
+              uri: usuario.foto_url
+                ? (usuario.foto_url.startsWith("http")
+                    ? usuario.foto_url
+                    : `http://192.168.15.4:8000/${usuario.foto_url}`)
+                : "https://cdn-icons-png.flaticon.com/512/149/149071.png"
+            }}
+            style={{
+              width: 140,
+              height: 140,
+              borderRadius: 100,
+              backgroundColor: "#646464ff",
+            }}
+          />
+          <Pressable
+            onPress={() => setModal(true)}
+            style={{
+              marginTop: 12,
+              padding: 10,
+              backgroundColor: "#0a84ff",
+              borderRadius: 8,
+            }}
+          >
+            <Text style={{ color: "#fff" }}>Editar Foto</Text>
+          </Pressable>
+        </View>
+       </View>
 
           <Text style={styles.titulo}>Conta</Text>
           <View style={styles.areaInfo}>
@@ -227,6 +312,11 @@ export default function Perfil() {
             </View>
           </Modal>
         </ScrollView>
-      </View>
+        <EditarFotoModal
+          visible={modal}
+          onClose={() => setModal(false)}
+          onSave={(foto) => enviarNovaFoto(foto)}
+        />
+    </View>
   );
 }
