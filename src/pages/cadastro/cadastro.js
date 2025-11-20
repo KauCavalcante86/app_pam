@@ -5,7 +5,21 @@ import styles from './style';
 import { useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
 
+import {
+  useFonts,
+  Poppins_400Regular,
+  Poppins_500Medium,
+  Poppins_700Bold,
+} from "@expo-google-fonts/poppins";
+
 export default function cadastro() {
+
+  let [fontsLoaded] = useFonts({
+    Poppins_400Regular,
+    Poppins_500Medium,
+    Poppins_700Bold,
+  });
+
 
   const [endereco, SetEndereco] = useState('');
   const [rua, SetRua] = useState('');
@@ -52,7 +66,7 @@ function cep(cepDigitado) {
       headers: {"Accept": "application/json"}
     }
 
-     axios.post('http://192.168.15.6:8000/api/CriarUser', dados, config)
+     axios.post('http://192.168.15.7:8000/api/CriarUser', dados, config)
     .then(response => {
       console.log('Usuário criado com sucesso!');
       alert('Usuário criado com sucesso!');
@@ -68,15 +82,46 @@ function cep(cepDigitado) {
   return (
     <View style={styles.container}>
 
-      <TextInput style={styles.buttonCadastro} placeholder='Nome' onChangeText={(txt) => SetNome(txt)}></TextInput>
-      <TextInput style={styles.buttonCadastro} placeholder='Email' onChangeText={(txt) => SetEmail(txt)} ></TextInput>
-      <TextInput style={styles.buttonCadastro} placeholder='Senha' onChangeText={(txt) => SetSenha(txt)} ></TextInput>
-      <TextInput style={styles.buttonCadastro} placeholder='CEP' maxLength={8} onChangeText={automatizacaoCep} ></TextInput>
-      <TextInput style={styles.buttonCadastro} placeholder='Cidade' value={cidade} onChangeText={automatizacaoCep} ></TextInput>
-      <TextInput style={styles.buttonCadastro} placeholder='Bairro' value={bairro} onChangeText={automatizacaoCep} ></TextInput>
-      <TextInput style={styles.buttonCadastro} placeholder='Rua' value={rua} onChangeText={automatizacaoCep} ></TextInput>
+      <View style={styles.tituloPag}>
+          <View style={styles.buttonVoltarContainer}>
+            <Pressable
+              style={styles.buttonVoltar}
+              onPress={() => navigation.goBack()}
+            >
+
+              <Text style={styles.buttonVoltarIcon}>{'<'}</Text>
+             
+            </Pressable>
+          </View>
+
+        <View style={styles.cabecalho}>
+          <Text style={styles.titulo}>Vamos Começar</Text>
+          <Text style={styles.tituloCadastre}>Cadastre-se</Text>
+        </View>
+
+      </View>
+
+      <View style={styles.infosPrincipais}>
+        <Text style={styles.nomeButton}>Nome Completo</Text>
+        <TextInput style={styles.buttonCadastroPrincipal} onChangeText={(txt) => SetNome(txt)}></TextInput>
+
+        <Text style={styles.nomeButton}>Email</Text>
+        <TextInput style={styles.buttonCadastroPrincipal} onChangeText={(txt) => SetEmail(txt)} ></TextInput>
+
+        <Text style={styles.nomeButton}>Senha:</Text>
+        <TextInput style={styles.buttonCadastroPrincipal} onChangeText={(txt) => SetSenha(txt)} ></TextInput>
+
+        <TextInput style={styles.buttonCadastro} placeholder='CEP' maxLength={8} onChangeText={automatizacaoCep} ></TextInput>
+        <TextInput style={styles.buttonCadastro} placeholder='Cidade' value={cidade} onChangeText={automatizacaoCep} ></TextInput>
+        <TextInput style={styles.buttonCadastro} placeholder='Bairro' value={bairro} onChangeText={automatizacaoCep} ></TextInput>
+        <TextInput style={styles.buttonCadastro} placeholder='Rua' value={rua} onChangeText={automatizacaoCep} ></TextInput>
+
+        <Pressable style={styles.btn} onPress={() => criarUsuario() }></Pressable>
+      </View>
+
+
+
   
-      <Pressable style={styles.btn} onPress={() => criarUsuario() }></Pressable>
 
     </View>
   )};

@@ -65,7 +65,8 @@ export default function Calorias() {
         <View style={styles.buscarAlimentos}>
             <TextInput
               style={styles.inputDigitar}
-              placeholder="Digite um alimento: (Ex: Banana)"
+              placeholder="Digite um alimento:"
+              placeholderTextColor={'white'}
               value={query}
 
               onChangeText={setQuery} 
@@ -85,14 +86,14 @@ export default function Calorias() {
                 <Text style={styles.titulo}>{firstFood.product_name || 'Nome não disponível'}</Text>
                 
 
-                <Text>Marca: {getFirstBrand(firstFood.brands)}</Text>
+                <Text style={styles.tituloMarca}>Marca: {getFirstBrand(firstFood.brands)}</Text>
                 
                 {firstFood.nutriments && (
                   <View>
-                    <Text>Energia: {firstFood.nutriments['energy-kcal'] || 'N/A'} kcal</Text>
-                    <Text>Proteínas: {firstFood.nutriments.proteins || 'N/A'} g</Text>
-                    <Text>Carboidratos: {firstFood.nutriments.carbohydrates || 'N/A'} g</Text>
-                    <Text>Gordura: {firstFood.nutriments.fat || 'N/A'} g</Text>
+                    <Text style={styles.tituloCalorias}>Calorias: {firstFood.nutriments['energy-kcal'] || 'N/A'} kcal</Text>
+                    <Text style={styles.tituloProteinas}>Proteínas: {firstFood.nutriments.proteins || 'N/A'} g</Text>
+                    <Text style={styles.tituloCarboidratos}>Carboidratos: {firstFood.nutriments.carbohydrates || 'N/A'} g</Text>
+                    <Text style={styles.tituloGordura}>Gordura: {firstFood.nutriments.fat || 'N/A'} g</Text>
                   </View>
                 )}
               </View>
