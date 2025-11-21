@@ -1,60 +1,57 @@
-import { useState } from 'react';
-import { View, Text, TextInput, Pressable, Alert, RefreshControl } from 'react-native';
+import React, { useState } from 'react';
+import { View, Text, TextInput, Pressable, Alert, ImageBackground } from 'react-native';
 import axios from 'axios';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useNavigation } from '@react-navigation/native';
-import styles from './style';
-import { ImageBackground } from 'react-native';
+import { getUserStorage, setUserStorage } from '../../utils/storege';
 
-export default function Login() {
+import styles from './style';
+
+export default function Login({ setUsuarioLogin, navigation }) {
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
-  const navigation = useNavigation();
+  const [loading, setLoading] = useState(false);
 
-  async function logarUsuario() {
+  const logarUsuario = async () => {
     if (!email || !senha) {
       Alert.alert("Atenção", "Preencha todos os campos!");
       return;
     }
 
-      const dados = {
-      email:email,
-      senha:senha,
-    };
-
-    const config = {
-      headers: {"Accept": "application/json"}
-    }
+    setLoading(true);
 
     try {
-      const response = await axios.post("http://192.168.15.7:8000/api/login",dados,config);
+      const response = await axios.post("http://192.168.1.103:8000/api/login", {
+        email,
+        senha
+      }, { headers: { "Accept": "application/json" } });
 
       if (response.data.success) {
-        const usuario = response.data.usuario; 
+        const usuario = response.data.usuario;
 
-        await AsyncStorage.setItem("usuario", JSON.stringify(usuario));
-        navigation.getParent()?.reset({
-          index: 0,
-          routes: [{ name: 'AppStack' }],
-        });
+        // Salva no AsyncStorage
+        await setUserStorage(usuario);
+
+        // Atualiza estado global → App.js renderiza AppStack
+        setUsuarioLogin(usuario);
 
         Alert.alert("Sucesso", "Login realizado!");
       } else {
         Alert.alert("Erro", "Credenciais inválidas!");
       }
-
     } catch (error) {
       console.error("Erro no login:", error.response ? error.response.data : error.message);
       Alert.alert("Erro", "Não foi possível fazer login. Tente novamente.");
+    } finally {
+      setLoading(false);
     }
-  }
+  };
 
   return (
-    <ImageBackground source={require('../../../assets/backLogin.png')} style={styles.background}> 
-
+    <ImageBackground
+      source={require('../../../assets/backLogin.png')}
+      style={styles.background}
+    >
       <View style={styles.container}>
-
-        <Text style={styles.textFaça}>FAÇA SEU LOGIN </Text>
+        <Text style={styles.textFaça}>FAÇA SEU LOGIN</Text>
 
         <Pressable onPress={() => navigation.navigate("Cadastro")}>
           <Text style={styles.btnFazerCadastro}>Não tem conta? Cadastre-se</Text>
@@ -66,24 +63,25 @@ export default function Login() {
             placeholder="Email"
             keyboardType="email-address"
             autoCapitalize="none"
-            onChangeText={(txt) => setEmail(txt)}
+            value={email}
+            onChangeText={setEmail}
           />
 
           <TextInput
             style={styles.buttonCadastro}
             placeholder="Senha"
             secureTextEntry
-            onChangeText={(txt) => setSenha(txt)}
+            value={senha}
+            onChangeText={setSenha}
           />
 
-          <Pressable style={styles.btn} onPress={logarUsuario}>
-            <Text style={{ color: "#000", textAlign: "center", fontSize: 20 }}>Entrar</Text>
+          <Pressable style={styles.btn} onPress={logarUsuario} disabled={loading}>
+            <Text style={{ color: "#000", textAlign: "center", fontSize: 20 }}>
+              {loading ? "Entrando..." : "Entrar"}
+            </Text>
           </Pressable>
         </View>
-
-
-
-    </View>
+      </View>
     </ImageBackground>
   );
 }

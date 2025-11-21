@@ -1,6 +1,7 @@
+import { useNavigation } from '@react-navigation/native';
 import React, { useEffect, useState } from "react";
 import { View, Text, Pressable, Modal, Alert, TextInput, ScrollView, Image, useWindowDimensions, ActivityIndicator } from "react-native";
-import { getUserStorage, setUserStorage } from "../../utils/storege";
+import { getUserStorage, setUserStorage, removeUserStorage  } from "../../utils/storege";
 import { getUsuario, atualizarFoto, atualizarCampoUsuario } from "../../../services/usuario";
 import EditarFotoModal from "../../components/EditarFotoModal";
 import styles from "./style";
@@ -14,13 +15,16 @@ import {
   Poppins_700Bold,
 } from "@expo-google-fonts/poppins";
 
-export default function PerfilScreen() {
+export default function Perfil({ setUsuarioLogin }) {
   const [usuario, setUsuario] = useState(null);
   const [loading, setLoading] = useState(true);
   const [modal, setModal] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
   const [campoAtual, setCampoAtual] = useState(""); // <- controla qual campo está sendo editado
   const [valorNovo, setValorNovo] = useState("");
+
+    const navigation = useNavigation(); // <-- Adicione isso
+
 
    const [fontsLoaded] = useFonts({
     Poppins_400Regular,
@@ -63,13 +67,19 @@ const fecharModal = () => {
 
 
 
-  async function logout() {
-    await AsyncStorage.removeItem("usuario");
-    navigation.reset({
-      index: 0,
-      routes: [{ name: "AuthStack" }],
-    });
-  }
+const logout = async () => {
+    try {
+      // Remove usuário do AsyncStorage
+      await removeUserStorage();
+
+      // Atualiza o estado global no App.js → AuthStack será renderizado
+      setUsuarioLogin(null);
+    } catch (error) {
+      console.error('Erro ao deslogar:', error);
+      Alert.alert('Erro', 'Não foi possível deslogar. Tente novamente.');
+    }
+  };
+
 
   const atualizarCampo = async () => {
   if (!usuario) return Alert.alert("Erro", "Usuário não encontrado!");
