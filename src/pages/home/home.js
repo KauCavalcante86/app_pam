@@ -166,7 +166,11 @@ if (loading) {
               style={styles.op}
               onPress={() => navigation.navigate("Sons")}
             >
-              <Text style={styles.nomeQuadrado}>IMC</Text>
+              <Text style={styles.nomeQuadrado}>Som</Text>
+              <Image
+                style={styles.imc}
+                source={require("../../../assets/som.png")}
+              />
             </Pressable>
 
             <View style={styles.op}></View>

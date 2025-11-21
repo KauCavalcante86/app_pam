@@ -66,7 +66,7 @@ export default function SonsScreen() {
                         <Image source={item.img} style={styles.imgCard} />
                         <Text style={styles.nomeCard}>{item.nome}</Text>
                         {tocando === item.id && (
-                            <Ionicons name="musical-notes" size={20} color="#4CAF50" style={{marginTop: 5}} />
+                            <Ionicons name="musical-notes" size={20} color="#00b3ffff" style={{marginTop: 5}} />
                         )}
                     </Pressable>
                 )}
@@ -118,7 +118,7 @@ export default function SonsScreen() {
                                         value={volume}
                                         minimumValue={0}
                                         maximumValue={1}
-                                        minimumTrackTintColor="#4CAF50"
+                                        minimumTrackTintColor="#90b5f6ff"
                                         maximumTrackTintColor="rgba(255,255,255,0.3)"
                                         thumbTintColor="#fff"
                                         onValueChange={ajustarVolume}
@@ -164,14 +164,14 @@ export default function SonsScreen() {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: "#0d0d0d",
+        backgroundColor: "#F4F4F4",
         padding: 20,
         paddingTop: 50,
     },
-    titulo: { color: "#fff", fontSize: 28, fontWeight: "bold" },
+    titulo: { color: "#90b5f6ff", fontSize: 28, fontWeight: "bold" },
     subtitulo: { color: "#bbb", fontSize: 15, marginBottom: 20 },
     card: {
-        backgroundColor: "#1a1a1a",
+        backgroundColor: "#ffffffff",
         width: "48%",
         borderRadius: 16,
         padding: 15,
@@ -179,9 +179,9 @@ const styles = StyleSheet.create({
         alignItems: "center",
         justifyContent: "center",
     },
-    cardAtivo: { borderWidth: 1, borderColor: "#4CAF50" },
-    imgCard: { width: 80, height: 80, borderRadius: 10 },
-    nomeCard: { color: "#fff", fontSize: 16, marginTop: 10, fontWeight: "600", textAlign: 'center' },
+    cardAtivo: { borderWidth: 1, borderColor: "#00b3ffff" },
+    imgCard: { width: 80, height: 80, borderRadius: 10, tintColor:'#90b5f6ff', },
+    nomeCard: { color: "#90b5f6ff", fontSize: 16, marginTop: 10, fontWeight: "600", textAlign: 'center' },
     
     miniPlayer: {
         position: "absolute",
@@ -200,8 +200,8 @@ const styles = StyleSheet.create({
         elevation: 10,
     },
     miniImg: { width: 45, height: 45, borderRadius: 8 },
-    miniTitulo: { color: "#fff", fontWeight: "bold", fontSize: 14 },
-    miniStatus: { color: "#4CAF50", fontSize: 12 },
+    miniTitulo: { color: "#559fe4ff", fontWeight: "bold", fontSize: 14 },
+    miniStatus: { color: "#90b5f6ff", fontSize: 12 },
 
     modalContainer: {
         flex: 1,
@@ -222,7 +222,7 @@ const styles = StyleSheet.create({
         paddingTop: 50,
         paddingHorizontal: 20,
     },
-    modalHeaderTitle: { color: "#fff", fontSize: 16, fontWeight: "600", letterSpacing: 1, textShadowColor: 'rgba(0,0,0,0.7)', textShadowRadius: 3 },
+    modalHeaderTitle: { color: "#ffffffff", fontSize: 16, fontWeight: "600", letterSpacing: 1, textShadowColor: 'rgba(0,0,0,0.7)', textShadowRadius: 3 },
     btnMinimizar: { padding: 5 },
     
     modalContent: {
@@ -231,7 +231,7 @@ const styles = StyleSheet.create({
         paddingBottom: 60,
     },
     modalTitulo: { 
-        color: "#fff", 
+        color: "#fbfbfbff", 
         fontSize: 32, 
         fontWeight: "bold", 
         marginBottom: 5,
@@ -240,7 +240,7 @@ const styles = StyleSheet.create({
         textShadowRadius: 5
     },
     modalSubtitulo: { 
-        color: "#ddd", 
+        color: "#ffffffff", 
         fontSize: 18, 
         marginBottom: 20,
         textShadowColor: 'rgba(0,0,0,0.7)',
@@ -265,7 +265,7 @@ const styles = StyleSheet.create({
     btnPlayGrande: {
         width: 80,
         height: 80,
-        backgroundColor: "rgba(76, 175, 80, 0.9)",
+        backgroundColor: "#90b5f6ff",
         borderRadius: 40,
         alignItems: "center",
         justifyContent: "center",

@@ -27,7 +27,7 @@ export default function GlobalMiniPlayer({ onOpenModal }) {
                     e.stopPropagation(); 
                     pararTudo(); 
                 }}>
-                    <Ionicons name="close-circle-outline" size={30} color="#ddd" style={{marginRight: 8}} />
+                    <Ionicons name="close-circle-outline" size={30} color="#9d9d9dff" style={{marginRight: 8}} />
                 </TouchableOpacity>
 
                 <TouchableOpacity onPress={(e) => { 
@@ -37,7 +37,7 @@ export default function GlobalMiniPlayer({ onOpenModal }) {
                     <Ionicons 
                         name={isPlaying ? "pause-circle" : "play-circle"} 
                         size={45} 
-                        color="#4CAF50" 
+                        color="#90b5f6ff" 
                     />
                 </TouchableOpacity>
             </View>
@@ -47,21 +47,21 @@ export default function GlobalMiniPlayer({ onOpenModal }) {
 
 const styles = StyleSheet.create({
     miniPlayer: {
+        width:'90%',
         position: "absolute",
-        bottom: 0, 
-        left: 0,
+        bottom: 16, 
+        borderRadius:30,
+        left: 25,
         right: 0,
-        backgroundColor: "#222",
+        backgroundColor: "#000000ff",
         flexDirection: "row",
         alignItems: "center",
         justifyContent: "space-between",
         padding: 10,
         paddingHorizontal: 15,
-        borderTopWidth: 1,
-        borderTopColor: "#333",
-        paddingBottom: 20, 
     },
+
     miniImg: { width: 40, height: 40, borderRadius: 8 },
-    miniTitulo: { color: "#fff", fontWeight: "bold", fontSize: 14 },
-    miniStatus: { color: "#4CAF50", fontSize: 12 },
+    miniTitulo: { color: "#ffffffff", fontWeight: "bold", fontSize: 16 },
+    miniStatus: { color: "#5ebfffff", fontSize: 12 },
 });
