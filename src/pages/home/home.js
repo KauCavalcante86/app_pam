@@ -92,7 +92,7 @@ if (loading) {
       <View style={styles.app}>
         <Pressable
           style={styles.box1}
-          onPress={() => navigation.navigate("geo")}
+          onPress={() => navigation.navigate("Geo")}
         >
           <Text style={[styles.nomeCampo, { fontFamily: "Poppins_400Regular" }]}>
             Hospitais e UBS
@@ -134,7 +134,7 @@ if (loading) {
 
             <Pressable
               style={styles.opBody2}
-              onPress={() => navigation.navigate("calorias")}
+              onPress={() => navigation.navigate("Calorias")}
             >
               <Text
                 style={[styles.nomeCampo, { fontFamily: "Poppins_400Regular" }]}
