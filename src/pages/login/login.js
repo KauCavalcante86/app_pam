@@ -19,7 +19,7 @@ export default function Login({ setUsuarioLogin, navigation }) {
     setLoading(true);
 
     try {
-      const response = await axios.post("http://192.168.1.103:8000/api/login", {
+      const response = await axios.post("http://192.168.15.7:8000/api/login", {
         email,
         senha
       }, { headers: { "Accept": "application/json" } });
