@@ -1,7 +1,7 @@
 import { useNavigation } from '@react-navigation/native';
 import React, { useEffect, useState } from "react";
 import { View, Text, Pressable, Modal, Alert, TextInput, ScrollView, Image, useWindowDimensions, ActivityIndicator } from "react-native";
-import { getUserStorage, setUserStorage, removeUserStorage  } from "../../utils/storege";
+import { getUserStorage, setUserStorage, removeUserStorage  } from "../../utils/storage";
 import { getUsuario, atualizarFoto, atualizarCampoUsuario } from "../../../services/usuario";
 import EditarFotoModal from "../../components/EditarFotoModal";
 import styles from "./style";
@@ -177,7 +177,7 @@ const enviarNovaFoto = async (imagem) => {
               uri: usuario.foto_url
                 ? (usuario.foto_url.startsWith("http")
                     ? usuario.foto_url
-                    : `http://192.168.15.4:8000/${usuario.foto_url}`)
+                    : `http://10.171.237.192:8000/${usuario.foto_url}`)
                 : "https://cdn-icons-png.flaticon.com/512/149/149071.png"
             }}
             style={{

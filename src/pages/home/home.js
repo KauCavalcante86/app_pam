@@ -3,7 +3,7 @@ import { View, Text, Pressable, Image, ActivityIndicator } from "react-native";
 import styles from "./style";
 import { useNavigation, useFocusEffect } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { getUserStorage } from "../../utils/storege";
+import { getUserStorage } from "../../utils/storage";
 import { getUsuario, atualizarFoto } from "../../../services/usuario";
 
 
@@ -69,7 +69,7 @@ if (loading) {
                  <Image
            source={{
             uri: usuario?.foto_url
-            ? (usuario.foto_url.startsWith("http") ? usuario.foto_url : `http://192.168.15.4:8000/${usuario.foto_url}`)
+            ? (usuario.foto_url.startsWith("http") ? usuario.foto_url : `http://10.171.237.192:8000/${usuario.foto_url}`)
             : "https://cdn-icons-png.flaticon.com/512/149/149071.png"
 
            }}
@@ -120,7 +120,7 @@ if (loading) {
           </Pressable>
 
           <View style={styles.campoRetan}>
-            <Pressable style={styles.opBody1} onPress={() => navigation.navigate("Sangue")}>
+            <Pressable style={styles.opBody1} onPress={() => navigation.navigate("sangue")}>
               <Text
                 style={[styles.nomeCampo, { fontFamily: "Poppins_400Regular" }]}
               >

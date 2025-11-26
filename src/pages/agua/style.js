@@ -8,7 +8,7 @@ export const styles = StyleSheet.create({
 
   header: {
     width: '100%',
-    marginTop: 50,
+    marginTop:50,
     
   },
 

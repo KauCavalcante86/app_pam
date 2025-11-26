@@ -9,7 +9,7 @@ import { PlayerProvider } from "./context/PlayerContext";
 import GlobalMiniPlayer from "./src/components/GlobalMiniPlayer"; 
 
 // Utils
-import { getUserStorage } from "./src/utils/storege";
+import { getUserStorage } from "./src/utils/storage";
 
 // Screens
 import Splash from "./src/pages/splash/splash";
@@ -17,6 +17,7 @@ import Login from "./src/pages/login/login";
 import Cadastro from "./src/pages/cadastro/cadastro";
 import PageOne from "./src/pages/pageOne/pageOne";
 import Home from "./src/pages/home/home";
+import Sangue from "./src/pages/sangue/TipoSangue"
 import Perfil from "./src/pages/perfil/perfil";
 import Geo from "./src/pages/geolocalizacao/geo";
 import Calorias from "./src/pages/calorias/calorias";
@@ -47,6 +48,7 @@ function AppStack({ usuarioLogin, setUsuarioLogin }) {
       <Stack.Screen name="Perfil">
         {props => <Perfil {...props} setUsuarioLogin={setUsuarioLogin} />}
       </Stack.Screen>
+      <Stack.Screen name="sangue" component={Sangue} />
       <Stack.Screen name="Geo" component={Geo} />
       <Stack.Screen name="Calorias" component={Calorias} />
       <Stack.Screen name="Agua" component={Agua} />

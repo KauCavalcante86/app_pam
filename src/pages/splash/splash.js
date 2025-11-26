@@ -1,7 +1,7 @@
 // Splash.js
 import { View, ActivityIndicator, Image } from 'react-native';
 import React, { useEffect } from 'react';
-import { getUserStorage } from '../../utils/storege';
+import { getUserStorage } from '../../utils/storage';
 
 export default function Splash() {
 

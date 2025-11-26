@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, Pressable, Alert, ImageBackground } from 'react-native';
 import axios from 'axios';
-import { getUserStorage, setUserStorage } from '../../utils/storege';
+import { getUserStorage, setUserStorage } from '../../utils/storage';
 
 import styles from './style';
 
@@ -19,7 +19,7 @@ export default function Login({ setUsuarioLogin, navigation }) {
     setLoading(true);
 
     try {
-      const response = await axios.post("http://192.168.1.103:8000/api/login", {
+      const response = await axios.post("http://10.171.237.192:8000/api/login", {
         email,
         senha
       }, { headers: { "Accept": "application/json" } });

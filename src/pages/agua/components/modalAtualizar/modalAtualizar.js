@@ -8,7 +8,7 @@ import {
   Poppins_500Medium,
   Poppins_700Bold,
 } from "@expo-google-fonts/poppins";
-import { styles } from "./style";
+import { styles } from "./style"; // Assumindo que este arquivo contém styles.btnSemana
 
 export default function ModalAtualizar({ meta, setMeta, agua }) {
   const navigation = useNavigation();
@@ -26,6 +26,7 @@ export default function ModalAtualizar({ meta, setMeta, agua }) {
   const [metasPorDia, setMetasPorDia] = useState({});
   const [metaHoje, setMetaHoje] = useState(null);
 
+  // Array de dias da semana (abreviados)
   const dias = ["Dom", "Seg", "Ter", "Quar", "Quin", "Sex", "Sab"];
 
   // Carrega metas e determina o dia atual
@@ -53,15 +54,17 @@ export default function ModalAtualizar({ meta, setMeta, agua }) {
         const dados = await AsyncStorage.getItem("@metas_por_dia");
         const metas = dados ? JSON.parse(dados) : {};
 
-        if (!metas[dataKey]) {
-          metas[dataKey] = true;
+        // Se a meta para a data de hoje ainda não foi marcada como concluída
+        if (metas[dataKey] !== true) {
+          // Usamos 'true' para marcar que a meta foi atingida na data específica
+          metas[dataKey] = true; 
           await AsyncStorage.setItem("@metas_por_dia", JSON.stringify(metas));
           setMetasPorDia(metas);
+          // Opcional: Mostrar uma notificação quando a meta for atingida
+          // Alert.alert("Meta Atingida!", `Parabéns, você atingiu sua meta de ${meta}ml hoje!`);
         }
       }
     };
-
-    
 
     marcarAutomaticamente();
   }, [agua, meta]);
@@ -103,7 +106,8 @@ export default function ModalAtualizar({ meta, setMeta, agua }) {
     const metaDoDia = novasMetas[diaAtual] || null;
 
     setMetaHoje(metaDoDia);
-    setMeta(metaDoDia);
+    setMeta(metaDoDia); // Atualiza a meta no componente pai
+    setInputMeta(num.toString()); // Mantém o input atualizado com a meta salva
 
     Alert.alert("Sucesso", "Meta aplicada aos dias selecionados!");
     setDiasSelecionados([]);
@@ -112,22 +116,39 @@ export default function ModalAtualizar({ meta, setMeta, agua }) {
 
   const resetarMeta = async () => {
     try {
-      const hoje = new Date();
-      const ano = hoje.getFullYear();
-      const mes = hoje.getMonth();
-      const totalDias = new Date(ano, mes + 1, 0).getDate();
+      Alert.alert(
+        "Confirmação",
+        "Tem certeza que deseja desmarcar todas as metas concluídas deste mês? Isso não afetará as metas semanais.",
+        [
+          {
+            text: "Cancelar",
+            style: "cancel",
+          },
+          {
+            text: "Resetar",
+            onPress: async () => {
+              const hoje = new Date();
+              const ano = hoje.getFullYear();
+              const mes = hoje.getMonth();
+              const totalDias = new Date(ano, mes + 1, 0).getDate();
 
-      const dados = await AsyncStorage.getItem("@metas_por_dia");
-      const metas = dados ? JSON.parse(dados) : {};
+              const dados = await AsyncStorage.getItem("@metas_por_dia");
+              const metas = dados ? JSON.parse(dados) : {};
 
-      for (let dia = 1; dia <= totalDias; dia++) {
-        const dataKey = `${ano}-${mes + 1}-${dia}`;
-        if (metas[dataKey]) delete metas[dataKey];
-      }
+              // Remove apenas as chaves de data (que são as metas concluídas)
+              for (let dia = 1; dia <= totalDias; dia++) {
+                const dataKey = `${ano}-${mes + 1}-${dia}`;
+                if (metas[dataKey] === true) delete metas[dataKey]; // Remove apenas se for a marca de conclusão
+              }
 
-      await AsyncStorage.setItem("@metas_por_dia", JSON.stringify(metas));
-      setMetasPorDia(metas);
-      Alert.alert("Resetado", "As metas do mês foram desmarcadas!");
+              await AsyncStorage.setItem("@metas_por_dia", JSON.stringify(metas));
+              setMetasPorDia(metas);
+              Alert.alert("Resetado", "As metas do mês foram desmarcadas!");
+            },
+            style: "destructive",
+          },
+        ]
+      );
     } catch (error) {
       console.error("Erro ao resetar metas:", error);
     }
@@ -167,7 +188,6 @@ export default function ModalAtualizar({ meta, setMeta, agua }) {
         )}
       </View>
 
-  
       {/* Modal atualizar metas */}
       <Modal visible={showModal} animationType="fade" transparent>
         <View style={styles.containerModal}>
@@ -183,13 +203,15 @@ export default function ModalAtualizar({ meta, setMeta, agua }) {
                     onPress={() => toggleDia(dia)}
                     style={[
                       styles.btnSemana,
+                      // Lembrete: Defina styles.btnSemana com width/height fixo para botões redondos
                       selecionado && { backgroundColor: "#63a7ecff" },
                     ]}
                   >
                     <Text
                       style={[styles.txtSemana, selecionado && { color: "#fff" }]}
                     >
-                      {dia}
+                      {/* CORREÇÃO: Usando charAt(0) para pegar apenas a primeira letra */}
+                      {dia.charAt(0)}
                     </Text>
                   </Pressable>
                 );
@@ -205,11 +227,11 @@ export default function ModalAtualizar({ meta, setMeta, agua }) {
             />
 
             <View style={styles.botoes}>
-              <Pressable style={styles.btn} onPress={fecharModal}>
-                <Text>Cancelar</Text>
+              <Pressable style={styles.btnCancelar} onPress={fecharModal}>
+                <Text style={{ color: '#555', fontWeight: 'bold' }}>Cancelar</Text>
               </Pressable>
-              <Pressable style={styles.btn} onPress={salvarMeta}>
-                <Text>Salvar</Text>
+              <Pressable style={styles.btnSalvar} onPress={salvarMeta}>
+                <Text style={{ color: '#fff', fontWeight: 'bold' }}>Salvar</Text>
               </Pressable>
             </View>
           </View>
@@ -238,8 +260,9 @@ export default function ModalAtualizar({ meta, setMeta, agua }) {
                 const diasArray = Array.from({ length: totalDias }, (_, i) => i + 1);
 
                 return diasArray.map((dia) => {
+                  // A dataKey armazena a conclusão da meta (true)
                   const dataKey = `${ano}-${mes + 1}-${dia}`;
-                  const cumpriu = metasPorDia[dataKey];
+                  const cumpriu = metasPorDia[dataKey] === true; // Verifica se o valor é estritamente true
 
                   return (
                     <View
@@ -273,11 +296,11 @@ export default function ModalAtualizar({ meta, setMeta, agua }) {
               style={[styles.btn, { backgroundColor: "#FF5C5C", marginBottom: 10 }]}
               onPress={resetarMeta}
             >
-              <Text style={{ color: "#fff", fontWeight: "bold" }}>Resetar metas</Text>
+              <Text style={{ color: "#fff", fontWeight: "bold" }}>Resetar metas do mês</Text>
             </Pressable>
 
-            <Pressable style={styles.btn} onPress={fecharModalDate}>
-              <Text>Fechar</Text>
+            <Pressable style={styles.btnFechar} onPress={fecharModalDate}>
+              <Text style={{ color: '#333', fontWeight: 'bold' }}>Fechar</Text>
             </Pressable>
           </View>
         </View>

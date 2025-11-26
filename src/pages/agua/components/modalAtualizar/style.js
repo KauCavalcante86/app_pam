@@ -1,207 +1,162 @@
 import { StyleSheet } from "react-native";
 
 export const styles = StyleSheet.create({
+  // Estilos Gerais do Componente
   container: {
-    alignItems: "center",
-    justifyContent: "center",
-    backgroundColor: "#F8F9FF",
+    paddingHorizontal: 15,
+    paddingVertical: 10,
   },
-
+  
+  // Área dos Botões Principais (Calendário e Editar Meta)
   areaBtnModal: {
-    flexDirection: "row",
-    justifyContent: "flex-end",
-    width: "100%",
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
     gap: 10,
-    paddingHorizontal: 20,
+    marginBottom: 15,
+  },
+  btnCalendario: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    padding: 8,
+    borderRadius: 10,
+    backgroundColor: '#F5F5FF', // Fundo levemente azulado
+    borderWidth: 1,
+    borderColor: '#E0E0FF',
+  },
+  btnEditarMeta: {
+    padding: 8,
+    borderRadius: 10,
+    backgroundColor: '#F5F5FF',
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderWidth: 1,
+    borderColor: '#E0E0FF',
   },
 
-  areaTitulo:{
-    alignItems:'center',
-    justifyContent:'center',
-    marginTop:50,
+  // Área de Exibição da Meta do Dia
+  areaTitulo: {
+    // Aplicando fundo azul claro e espaçamento no container
+    alignItems: 'center',
+    marginBottom: 20,
+    padding: 15, // Espaçamento interno
+    borderRadius: 10, // Cantos arredondados
+    backgroundColor: '#F0F8FF', // Cor de fundo: Azul muito claro para destaque
+    borderWidth: 1,
+    borderColor: '#E6E6FA',
   },
-
-  btnEditarMeta:{
-      borderRadius:999,
-      width:60,
-      height:60,
-      backgroundColor:'#92d2ec83',
-      justifyContent:'center',
-        alignItems:'center',
-    },
-  btnCalendario:{
-      borderRadius:30,
-      width:100,
-      height:60,
-      backgroundColor:'#92d2ec83',
-      flexDirection:'row',
-      justifyContent:'space-evenly',
-        alignItems:'center',
-    },
-
-    containerModal:{
-        flex:1,
-        alignItems:'center',
-        justifyContent:'center',
-        backgroundColor:'#03030312',
-    },
-
-    appModal:{
-        width:'90%',
-        height: '30%',
-        backgroundColor:'#FFFFFF',
-        borderRadius:20,
-        alignItems:'center',
-        justifyContent:'center',
-        gap:20,
-    },
-
-    areaSemana:{
-        width:'80%',
-        flexDirection:'row',
-        justifyContent:'center',
-        gap:10,
-    },
-    btnSemana:{
-        
-        alignItems:'center',
-        justifyContent:'center',
-        borderRadius:5,
-        backgroundColor:'#98d1f5ff',
-        paddingVertical:8,  
-        paddingHorizontal:12,  
-    },
-    txtSemana:{
-        color:'#fff',
-        fontSize:18,
-    },
-
-
-    areaInpunt:{
-        width:'80%',
-        height:'18%',
-        flexDirection:'row',
-        alignItems:'center',
-        justifyContent:'center',
-        gap:10,
-    },
-
-    btnInput:{
-        width:'16%',
-        height:'80%',
-        backgroundColor:'#87bfe2ff',
-        alignItems:'center',
-        justifyContent:'center',
-        borderRadius:5,
-    },
-    txtbtn:{
-        color:'#fff',
-        fontSize:26,
-    },
-    
-    campoMeta:{
-        width:'40%',
-        borderWidth:1,
-        borderColor:'#cccccc',
-        fontSize:26,
-        borderRadius:10,
-    },
-
-    botoes:{
-        flexDirection:'row',
-        gap:20,
-        marginTop:20,
-    },
-
-    btn:{
-        backgroundColor:'#79c3eaff',
-        paddingVertical:10,
-        paddingHorizontal:20,
-        borderRadius:8,
-    },
-
-     meta: {
-    fontFamily: "Poppins_400Regular",
+  meta: {
+    // CORREÇÃO AQUI: Força o Text a ocupar 100% da largura do container pai
+    width: '100%', 
+    textAlign: 'center',
     fontSize: 16,
-    color: "#606FDD",
-    marginBottom: 10,
+    fontFamily: 'Poppins_500Medium',
+    color: '#333',
   },
 
+  // Estilos do Modal (Fundo e Container)
   containerModal: {
     flex: 1,
-    backgroundColor: "rgba(0,0,0,0.5)",
-    justifyContent: "center",
-    alignItems: "center",
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0, 0, 0, 0.5)', // Fundo escurecido
   },
   appModal: {
-    width: "90%",
-    backgroundColor: "#fff",
-    borderRadius: 12,
+    width: '90%',
+    maxWidth: 400,
+    backgroundColor: '#fff',
+    borderRadius: 15,
     padding: 20,
-    alignItems: "center",
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
   },
   titleModal: {
     fontSize: 20,
-    fontWeight: "bold",
-    marginBottom: 15,
-    fontFamily: "Poppins_700Bold",
+    fontFamily: 'Poppins_700Bold',
+    color: '#333',
+    marginBottom: 20,
+    textAlign: 'center',
   },
-  itemDiaSemana: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    width: "100%",
-    paddingVertical: 12,
-    paddingHorizontal: 10,
-    borderBottomWidth: 1,
-    borderColor: "#ddd",
+
+  // Área dos Botões de Seleção da Semana
+  areaSemana: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginBottom: 20,
   },
-  txtDiaSemana: {
-    fontSize: 16,
-    fontFamily: "Poppins_500Medium",
-  },
-  txtMetaAtual: {
-    fontSize: 16,
-    fontFamily: "Poppins_400Regular",
-    color: "#555",
-  },
-  seta: {
-    fontSize: 18,
-    color: "#888",
-  },
-  campoMeta: {
-    width: "80%",
+  // ESTILO btnSemana - Adaptado para 1 letra (pequeno e quadrado)
+  btnSemana: {
+    width: 40,
+    height: 40,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 8, // Borda levemente arredondada
+    backgroundColor: '#EAEAEA', // Cor padrão não selecionada (cinza claro)
     borderWidth: 1,
-    borderColor: "#ccc",
-    borderRadius: 8,
-    paddingHorizontal: 10,
-    paddingVertical: 8,
-    marginVertical: 15,
-    fontSize: 16,
+    borderColor: '#CCCCCC',
   },
+  txtSemana: {
+    fontSize: 16,
+    fontFamily: 'Poppins_500Medium',
+    color: '#555',
+  },
+
+  // Campo de Input
+  campoMeta: {
+    height: 50,
+    borderColor: '#CCC',
+    borderWidth: 1,
+    borderRadius: 8,
+    paddingHorizontal: 15,
+    marginBottom: 25,
+    fontSize: 16,
+    fontFamily: 'Poppins_400Regular',
+  },
+
+  // Botões de Ação do Modal
+  botoes: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginTop: 10,
+  },
+  // Estilo base para botões (usado no resetar)
   btn: {
-    backgroundColor: "#687CFF",
-    paddingVertical: 10,
+    paddingVertical: 12,
     paddingHorizontal: 20,
     borderRadius: 8,
-    alignItems: "center",
-    width: "60%",
+    alignItems: 'center',
+    justifyContent: 'center',
+    flex: 1,
   },
-
-
-   listaDias: {
-    marginVertical: 10,
-    maxHeight: 250, // opcional, para limitar altura e permitir scroll
-  },
-  btnListaDia: {
-    padding: 12,
-    marginVertical: 4,
+  btnCancelar: {
+    backgroundColor: '#EAEAEA',
+    marginRight: 10,
+    paddingVertical: 12,
+    paddingHorizontal: 20,
     borderRadius: 8,
-    borderWidth: 1,
-    borderColor: "#ccc",
+    alignItems: 'center',
+    justifyContent: 'center',
+    flex: 1,
   },
-  txtListaDia: {
-    fontSize: 16,
+  btnSalvar: {
+    backgroundColor: '#687CFF', // Azul principal da aplicação
+    marginLeft: 10,
+    paddingVertical: 12,
+    paddingHorizontal: 20,
+    borderRadius: 8,
+    alignItems: 'center',
+    justifyContent: 'center',
+    flex: 1,
   },
-
+  btnFechar: {
+    backgroundColor: '#EAEAEA',
+    paddingVertical: 12,
+    paddingHorizontal: 20,
+    borderRadius: 8,
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: '100%',
+  }
 });
