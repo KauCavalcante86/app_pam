@@ -120,7 +120,7 @@ if (loading) {
           </Pressable>
 
           <View style={styles.campoRetan}>
-            <View style={styles.opBody1}>
+            <Pressable style={styles.opBody1} onPress={() => navigation.navigate("Sangue")}>
               <Text
                 style={[styles.nomeCampo, { fontFamily: "Poppins_400Regular" }]}
               >
@@ -130,7 +130,7 @@ if (loading) {
                 style={styles.sangue}
                 source={require("../../../assets/sangue.png")}
               />
-            </View>
+            </Pressable>
 
             <Pressable
               style={styles.opBody2}
