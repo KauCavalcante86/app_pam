@@ -188,7 +188,7 @@ if (loading) {
 
           <View style={styles.op1}>
             <Pressable style={styles.op} onPress={() => navigation.navigate('Alergias')}></Pressable>
-            <Pressable style={styles.op}></Pressable>
+            <Pressable style={styles.op} onPress={() => navigation.navigate('Dicas')}></Pressable>
             <Pressable style={styles.op}></Pressable>
           </View>
         </View>

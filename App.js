@@ -26,6 +26,7 @@ import Imc from "./src/pages/imc/imc";
 import Sons from "./src/pages/sons/sons";
 import Vacinas from "./src/pages/vacinas/Vacinas";
 import Alergias from "./src/pages/alergias/Alergias";
+import Dicas from "./src/pages/dicas/dicas";
 
 
 const Stack = createStackNavigator();
@@ -57,7 +58,8 @@ function AppStack({ usuarioLogin, setUsuarioLogin }) {
       <Stack.Screen name="Imc" component={Imc} />
       <Stack.Screen name="Sons" component={Sons} />
       <Stack.Screen name="Vacinas" component={Vacinas} />
-      <Stack.Screen name="Alergias" component={Alergias} />
+      <Stack.Screen name="Alergias" component={Alergias} /> 
+      <Stack.Screen name="Dicas" component={Dicas} /> 
     </Stack.Navigator>
   );
 }
