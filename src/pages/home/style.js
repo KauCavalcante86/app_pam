@@ -160,6 +160,13 @@ imc:{
   marginTop:'8%',
 },
 
+vacina:{
+  width:40,
+  height:40,
+  tintColor:'#7ba8f7ff',
+  marginTop:'8%',
+},
+
   nomeCampo:{
     color:'#7ba8f7ff',
     fontSize:24,

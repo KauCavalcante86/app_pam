@@ -1,18 +1,30 @@
-// Função que retorna os tipos de sangue compatíveis para o tipo informado
 export function tiposQuePodeReceber(tipo) {
-  const tabela = {
-    "A+": ["A+", "A-", "O+", "O-"],
-    "A-": ["A-", "O-"],
+  switch (tipo) {
+    case "A+":
+      return ["A+", "A-", "O+", "O-"];
 
-    "B+": ["B+", "B-", "O+", "O-"],
-    "B-": ["B-", "O-"],
+    case "A-":
+      return ["A-", "O-"];
 
-    "AB+": ["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"],
-    "AB-": ["A-", "B-", "AB-", "O-"],
+    case "B+":
+      return ["B+", "B-", "O+", "O-"];
 
-    "O+": ["O+", "O-"],
-    "O-": ["O-"],
-  };
+    case "B-":
+      return ["B-", "O-"];
 
-  return tabela[tipo] || [];
+    case "AB+":
+      return ["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"];
+
+    case "AB-":
+      return ["A-", "B-", "AB-", "O-"];
+
+    case "O+":
+      return ["O+", "O-"];
+
+    case "O-":
+      return ["O-"];
+
+    default:
+      return ["Não informado"];
+  }
 }

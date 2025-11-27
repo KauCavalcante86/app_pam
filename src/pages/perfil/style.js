@@ -54,6 +54,7 @@ export const responsiveStyles = (width, height) => StyleSheet.create({
     padding: 16,
     alignItems:'center',
     justifyContent:'center',
+        backgroundColor:'#fff',
     gap: 18,
   },
 

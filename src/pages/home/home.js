@@ -69,7 +69,7 @@ if (loading) {
                  <Image
            source={{
             uri: usuario?.foto_url
-            ? (usuario.foto_url.startsWith("http") ? usuario.foto_url : `http://10.171.237.192:8000/${usuario.foto_url}`)
+            ? (usuario.foto_url.startsWith("http") ? usuario.foto_url : `http://192.168.15.5:8000/${usuario.foto_url}`)
             : "https://cdn-icons-png.flaticon.com/512/149/149071.png"
 
            }}
@@ -173,13 +173,23 @@ if (loading) {
               />
             </Pressable>
 
-            <View style={styles.op}></View>
+           <Pressable
+              style={styles.op}
+              onPress={() => navigation.navigate("Vacinas")}
+            >
+            <Text style={styles.nomeQuadrado}>Vacinas</Text>
+              <Image
+                style={styles.vacina}
+                source={require("../../../assets/vacina.png")}
+              />
+            </Pressable>
+
           </View>
 
           <View style={styles.op1}>
-            <View style={styles.op}></View>
-            <View style={styles.op}></View>
-            <View style={styles.op}></View>
+            <Pressable style={styles.op} onPress={() => navigation.navigate('Alergias')}></Pressable>
+            <Pressable style={styles.op}></Pressable>
+            <Pressable style={styles.op}></Pressable>
           </View>
         </View>
       </View>

@@ -177,7 +177,7 @@ const enviarNovaFoto = async (imagem) => {
               uri: usuario.foto_url
                 ? (usuario.foto_url.startsWith("http")
                     ? usuario.foto_url
-                    : `http://10.171.237.192:8000/${usuario.foto_url}`)
+                    : `http://192.168.15.5:8000/${usuario.foto_url}`)
                 : "https://cdn-icons-png.flaticon.com/512/149/149071.png"
             }}
             style={{
