@@ -9,11 +9,12 @@ import {
   Platform,
   Alert,
 } from 'react-native';
-
-// Tela de IMC (BMI) - React Native
-// Uso: importe como default export e coloque dentro da sua navegação/tela.
+import { useNavigation } from '@react-navigation/native';
 
 export default function TelaIMC() {
+
+  const navigation = useNavigation();
+  
   const [peso, setPeso] = useState(''); // em kg
   const [altura, setAltura] = useState(''); // em metros (ex: 1.75)
   const [resultado, setResultado] = useState(null);
@@ -52,6 +53,16 @@ export default function TelaIMC() {
       style={styles.container}
       behavior={Platform.select({ ios: 'padding', android: undefined })}
     >
+
+      <View style={styles.buttonVoltarContainer}>
+          <Pressable
+              style={styles.buttonVoltar}
+              onPress={() => navigation.goBack()}
+          >
+              <Text style={styles.buttonVoltarIcon}>{'<'}</Text>
+          </Pressable>
+      </View>
+
       <Text style={styles.titulo}>Calculadora de IMC</Text>
 
       <View style={styles.card}>
@@ -115,6 +126,7 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     marginBottom: 18,
     color: '#0F172A',
+    marginTop: "20%"
   },
   card: {
     backgroundColor: '#FFFFFF',
@@ -193,4 +205,29 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     paddingHorizontal: 8,
   },
+
+    buttonVoltarContainer: {
+        position: 'absolute',
+        top: 40,
+        left: 20,
+        zIndex: 10,
+    },
+    buttonVoltar: {
+        width: 50,
+        height: 50,
+        borderRadius: 25,
+        backgroundColor: 'white',
+        justifyContent: 'center',
+        alignItems: 'center',
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+        elevation: 5
+    },
+    buttonVoltarIcon: {
+        fontSize: 24,
+        color: '#333',
+        fontWeight: 'bold',
+    },
 });

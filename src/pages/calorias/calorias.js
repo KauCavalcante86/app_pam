@@ -60,6 +60,14 @@ export default function Calorias() {
 
   return (
     <View style={styles.container}>
+      <View style={styles.buttonVoltarContainer}>
+          <Pressable
+              style={styles.buttonVoltar}
+              onPress={() => navigation.goBack()}
+          >
+              <Text style={styles.buttonVoltarIcon}>{'<'}</Text>
+          </Pressable>
+      </View>
         <Text style={styles.textTitulo}>Calorias diárias</Text>
 
         <View style={styles.buscarAlimentos}>

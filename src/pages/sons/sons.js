@@ -16,9 +16,14 @@ import { Ionicons } from "@expo/vector-icons";
 
 import { usePlayer } from '../../../context/PlayerContext'; 
 
+import { useNavigation } from "@react-navigation/native";
+
 const { width } = Dimensions.get('window');
 
 export default function SonsScreen() {
+
+    const navigation = useNavigation();
+
     const [modalVisible, setModalVisible] = useState(false);
 
     const { 
@@ -49,6 +54,15 @@ export default function SonsScreen() {
 
     return (
         <View style={styles.container}>
+            <View style={styles.buttonVoltarContainer}>
+                <Pressable
+                    style={styles.buttonVoltar}
+                    onPress={() => navigation.goBack()}
+                >
+                    <Text style={styles.buttonVoltarIcon}>{'<'}</Text>
+                </Pressable>
+            </View>
+
             <Text style={styles.titulo}>Sons Relaxantes</Text>
             <Text style={styles.subtitulo}>Toque para ouvir</Text>
 
@@ -168,7 +182,7 @@ const styles = StyleSheet.create({
         padding: 20,
         paddingTop: 50,
     },
-    titulo: { color: "#90b5f6ff", fontSize: 28, fontWeight: "bold" },
+    titulo: { color: "#90b5f6ff", fontSize: 28, fontWeight: "bold", marginTop: '10%'},
     subtitulo: { color: "#bbb", fontSize: 15, marginBottom: 20 },
     card: {
         backgroundColor: "#ffffffff",
@@ -277,5 +291,31 @@ const styles = StyleSheet.create({
         width: 50,
         alignItems: 'center',
         justifyContent: 'center',
-    }
+    },
+
+    
+    buttonVoltarContainer: {
+        position: 'absolute',
+        top: 40,
+        left: 20,
+        zIndex: 10,
+    },
+    buttonVoltar: {
+        width: 50,
+        height: 50,
+        borderRadius: 25,
+        backgroundColor: 'white',
+        justifyContent: 'center',
+        alignItems: 'center',
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+        elevation: 5
+    },
+    buttonVoltarIcon: {
+        fontSize: 24,
+        color: '#333',
+        fontWeight: 'bold',
+    },
 });

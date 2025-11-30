@@ -17,7 +17,7 @@ export default StyleSheet.create ({
     },
 
     textTitulo: {
-        marginTop: '13%',
+        marginTop: '20%',
         fontFamily: 'Poppins_700Bold',
         fontSize: normalize(35),
         marginLeft: '-17%',
@@ -118,6 +118,32 @@ export default StyleSheet.create ({
         fontSize: normalize(15),
         marginLeft: 20,
         color: 'white'
-    }
+    },
+
+    
+    buttonVoltarContainer: {
+        position: 'absolute',
+        top: 40,
+        left: 20,
+        zIndex: 10,
+    },
+    buttonVoltar: {
+        width: 50,
+        height: 50,
+        borderRadius: 25,
+        backgroundColor: 'white',
+        justifyContent: 'center',
+        alignItems: 'center',
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+        elevation: 5
+    },
+    buttonVoltarIcon: {
+        fontSize: 24,
+        color: '#333',
+        fontWeight: 'bold',
+    },
     
 });

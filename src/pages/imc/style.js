@@ -9,4 +9,5 @@ conteiner: {
     alignItems: 'center',
   },
 
+  
 });

@@ -1,4 +1,4 @@
-import { useFocusEffect } from "@react-navigation/native";
+import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import { useCallback, useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { View, Text, Pressable, Image } from "react-native";
@@ -14,31 +14,29 @@ export default function Agua() {
   const [meta, setMeta] = useState(0);
   const [selecionado, setSelecionado] = useState("ml");
 
+  const navigation = useNavigation();
+
   const carregarDados = useCallback(async () => {
     try {
       const dias = ["Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sab"];
       const diaAtual = dias[new Date().getDay()];
 
-      // 🔹 Puxa metas do AsyncStorage
       const metasData = await AsyncStorage.getItem("@metas_por_dia");
       if (metasData) {
         const metas = JSON.parse(metasData);
         setMeta(metas[diaAtual] || 0);
       }
 
-      // 🔹 Verifica a data do último registro
       const ultimaData = await AsyncStorage.getItem("@ultima_data");
-      const hoje = new Date().toDateString(); // Ex: "Tue Nov 04 2025"
+      const hoje = new Date().toDateString(); 
 
       if (ultimaData !== hoje) {
-        // Dia virou ➜ reseta a água
         await AsyncStorage.setItem("@agua_diaria", "0");
         await AsyncStorage.setItem("@ultima_data", hoje);
         setAgua(0);
         return;
       }
 
-      // 🔹 Se for o mesmo dia, mantém o valor salvo
       const aguaSalva = await AsyncStorage.getItem("@agua_diaria");
       if (aguaSalva) setAgua(parseInt(aguaSalva));
     } catch (error) {
@@ -46,7 +44,6 @@ export default function Agua() {
     }
   }, []);
 
-  // 🔹 Executa sempre que a tela focar
   useFocusEffect(
     useCallback(() => {
       carregarDados();
@@ -76,6 +73,14 @@ export default function Agua() {
 
   return (
     <View style={styles.container}>
+      <View style={styles.buttonVoltarContainer}>
+        <Pressable
+          style={styles.buttonVoltar}
+          onPress={() => navigation.goBack()}
+        >
+          <Text style={styles.buttonVoltarIcon}>{'<'}</Text>
+        </Pressable>
+      </View>
       <ModalParabens agua={agua} meta={meta} />
 
       <View style={styles.header}>

@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import { StyleSheet, View, Text, ScrollView, TouchableOpacity, SafeAreaView, Dimensions } from "react-native";
+import { StyleSheet, View, Text, ScrollView, TouchableOpacity, SafeAreaView, Dimensions, Pressable } from "react-native";
+import { useNavigation } from "@react-navigation/native";
 // IMPORTAR ÍCONES (Assumindo react-native-vector-icons ou Expo Icons)
 import Icon from "react-native-vector-icons/MaterialCommunityIcons"; 
 
@@ -24,6 +25,9 @@ const CategoriaIcones = {
 
 
 export default function VacinasScreen() {
+
+  const navigation = useNavigation();
+
   const [categoriaSelecionada, setCategoriaSelecionada] = useState("criancas"); // Definir um padrão
   const [idadeSelecionada, setIdadeSelecionada] = useState(null);
 
@@ -70,6 +74,15 @@ export default function VacinasScreen() {
     <SafeAreaView style={styles.safeArea}>
       <ScrollView contentContainerStyle={styles.scrollContent}>
         <Text style={styles.titulo}>Calendário de Vacinação</Text>
+
+        <View style={styles.buttonVoltarContainer}>
+            <Pressable
+                style={styles.buttonVoltar}
+                onPress={() => navigation.goBack()}
+            >
+                <Text style={styles.buttonVoltarIcon}>{'<'}</Text>
+            </Pressable>
+        </View>
 
         {/* Abas das categorias (Horizontal) */}
         <View style={styles.abasContainer}>
@@ -155,7 +168,8 @@ const styles = StyleSheet.create({
     fontWeight: "800", 
     textAlign: "center", 
     marginBottom: 25, 
-    color: Cores.textoPrimario 
+    color: Cores.textoPrimario,
+    marginTop: '10%'
 },
 
   // Abas
@@ -238,5 +252,31 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginBottom: 4,
   },
-  vacinaTexto: { fontSize: 16, color: Cores.textoPrimario }
+  vacinaTexto: { fontSize: 16, color: Cores.textoPrimario },
+
+  
+    buttonVoltarContainer: {
+        position: 'absolute',
+        top: 10,
+        left: 20,
+        zIndex: 10,
+    },
+    buttonVoltar: {
+        width: 50,
+        height: 50,
+        borderRadius: 25,
+        backgroundColor: 'white',
+        justifyContent: 'center',
+        alignItems: 'center',
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+        elevation: 5
+    },
+    buttonVoltarIcon: {
+        fontSize: 24,
+        color: '#333',
+        fontWeight: 'bold',
+    },
 });
