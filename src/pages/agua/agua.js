@@ -1,5 +1,5 @@
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
-import { useCallback, useState } from "react";
+import { useCallback, useState, useEffect } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { View, Text, Pressable, Image } from "react-native";
 import { styles } from "./style";
@@ -8,6 +8,16 @@ import ModalParabens from "./components/modalParabens/modalParabens";
 import Porcentagem from "./components/porcentagem/porcentagem";
 import Ml from "./components/ml/ml";
 import CampoBtn from "./components/CampoBtn/campoBtn";
+
+import * as Notifications from 'expo-notifications';
+
+Notifications.setNotificationHandler({
+  handleNotification: async () => ({
+    shouldShowAlert: true,
+    shouldPlaySound: true,
+    shouldSetBadge: false,
+  }),
+});
 
 export default function Agua() {
   const [agua, setAgua] = useState(0);
@@ -50,6 +60,51 @@ export default function Agua() {
     }, [carregarDados])
   );
 
+  // Pedir permissão para notificações
+  useEffect(() => {
+    const pedirPermissao = async () => {
+      const { status } = await Notifications.requestPermissionsAsync();
+      if (status !== 'granted') {
+        alert('Você negou a permissão para as notificações!');
+        return;
+      }
+    };
+    pedirPermissao();
+  }, []);
+
+  // Monitorar água e meta para agendar ou parar notificações
+  useEffect(() => {
+    if (meta === 0) return;
+
+    if (agua >= meta) {
+      pararNotificacoes();
+    } else {
+      agendarNotificacoes();
+    }
+  }, [agua, meta]);
+
+  // Agendar notificações quando meta não atingida
+  const agendarNotificacoes = async () => {
+    await Notifications.cancelAllScheduledNotificationsAsync(); // Cancela notificações antigas
+
+    await Notifications.scheduleNotificationAsync({
+      content: {
+        title: "Hora de beber água! 💧",
+        body: "Você ainda não atingiu sua meta hoje!",
+        sound: true,
+        vibrationPattern: [0, 500, 250, 500],
+        priority: Notifications.AndroidNotificationPriority.HIGH,
+      },
+      trigger: {
+        seconds: 3600,
+        repeats: true,
+      }
+    });
+
+    console.log("🔔 Notificação ativada (Meta não atingida)");
+  };
+
+  // Salvar água no AsyncStorage
   const salvarAgua = async (valor) => {
     try {
       await AsyncStorage.setItem("@agua_diaria", valor.toString());
@@ -63,6 +118,16 @@ export default function Agua() {
     const novoValor = Math.min(agua + quantidade, meta);
     setAgua(novoValor);
     salvarAgua(novoValor);
+
+    if (novoValor >= meta) {
+      pararNotificacoes();
+    }
+  };
+
+  // Parar todas as notificações
+  const pararNotificacoes = async () => {
+    await Notifications.cancelAllScheduledNotificationsAsync();
+    console.log("🔕 Notificações canceladas (Meta atingida)");
   };
 
   const handleResetAgua = async () => {

@@ -165,4 +165,30 @@ export const responsiveStyles = (width, height) => StyleSheet.create({
     fontSize:16,
     fontFamily: "Poppins_400Regular"
   },
+
+    buttonVoltarContainer: {
+      position: 'absolute',
+      top: 40,
+      left: 20,
+      zIndex: 10,
+    },
+    buttonVoltar: {
+        width: 50,
+        height: 50,
+        borderRadius: 25,
+        backgroundColor: 'white',
+        justifyContent: 'center',
+        alignItems: 'center',
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+        elevation: 5
+    },
+    buttonVoltarIcon: {
+        fontSize: 24,
+        color: '#333',
+        fontWeight: 'bold',
+    },
+    
 });

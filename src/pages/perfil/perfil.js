@@ -167,6 +167,15 @@ const enviarNovaFoto = async (imagem) => {
           <Pressable onPress={logout} style={styles.logout}>
             <Text style={{ color: "white" }}>Logout</Text>
           </Pressable>
+
+            <View style={styles.buttonVoltarContainer}>
+              <Pressable
+                  style={styles.buttonVoltar}
+                  onPress={() => navigation.goBack()}
+              >
+                  <Text style={styles.buttonVoltarIcon}>{'<'}</Text>
+              </Pressable>
+          </View>
         </View>
 
         <ScrollView style={styles.app} scrollEnabled>
