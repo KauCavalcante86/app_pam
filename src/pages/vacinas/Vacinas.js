@@ -31,6 +31,8 @@ export default function VacinasScreen() {
   const [categoriaSelecionada, setCategoriaSelecionada] = useState("criancas"); // Definir um padrão
   const [idadeSelecionada, setIdadeSelecionada] = useState(null);
 
+
+  
   const categorias = {
     criancas: {
       titulo: "Crianças e Adolescentes",

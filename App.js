@@ -40,7 +40,6 @@ function AuthStack({ setUsuarioLogin }) {
         {props => <Login {...props} setUsuarioLogin={setUsuarioLogin} />}
       </Stack.Screen>
       <Stack.Screen name="Cadastro" component={Cadastro} />
-      <Stack.Screen name="Teste" component={Teste} />
     </Stack.Navigator>
   );
 }

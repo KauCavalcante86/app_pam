@@ -94,7 +94,7 @@ export default function TipoSangue() {
 
             <View style={styles.header}>
                 <View style={styles.tituloContainer}>
-                    <Text style={styles.titulo}>Seu Tipo Sanguíneo</Text>
+                    <Text style={styles.titulo}>Seu tipo sanguíneo</Text>
                 </View>
 
                 <View style={styles.tipoContainer}>

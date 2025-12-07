@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, FlatList, StyleSheet, TouchableOpacity, Modal, TextInput } from "react-native";
+import { View, Text, FlatList, StyleSheet, TouchableOpacity, Modal, TextInput, Pressable } from "react-native";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { getAlergias, criarAlergia, atualizarAlergia, deletarAlergia } from "../../../services/alergiaService";
+import { useNavigation } from '@react-navigation/native';
 
 export default function AlergiasInterativa() {
+  const navigation = useNavigation();
+
   const [alergias, setAlergias] = useState([]);
   const [modalVisible, setModalVisible] = useState(false);
   const [currentAlergia, setCurrentAlergia] = useState(null);
@@ -58,6 +61,12 @@ export default function AlergiasInterativa() {
 
   return (
     <View style={styles.container}>
+
+        <View style={styles.buttonVoltarContainer}>
+          <Pressable style={styles.buttonVoltar} onPress={() => navigation.goBack()}>
+            <Text style={styles.buttonVoltarIcon}>{'<'}</Text>
+          </Pressable>
+        </View>
       <Text style={styles.titulo}>Minhas Alergias</Text>
 
       <FlatList
@@ -143,7 +152,7 @@ export default function AlergiasInterativa() {
 // Mantive o mesmo StyleSheet do seu código original
 const styles = StyleSheet.create({
   container: { flex: 1, padding: 20, backgroundColor: "#FAFAFA" },
-  titulo: { fontSize: 24, fontWeight: "700", marginBottom: 20 },
+  titulo: { fontSize: 24, fontWeight: "700", marginBottom: 20, marginTop: "20%"},
   card: {
     backgroundColor: "#FFF",
     padding: 15,
@@ -177,4 +186,31 @@ const styles = StyleSheet.create({
   nivelText: { color: "#0288D1" },
   nivelTextSelected: { color: "#FFF", fontWeight: "700" },
   modalBtn: { backgroundColor: "#0288D1", padding: 12, borderRadius: 8, flex: 1, alignItems: "center", marginHorizontal: 5 },
+
+      buttonVoltarContainer: {
+        position: 'absolute',
+        top: 40,
+        left: 20,
+        zIndex: 10,
+    },
+
+    buttonVoltar: {
+        width: 50,
+        height: 50,
+        borderRadius: 25,
+        backgroundColor: 'white',
+        justifyContent: 'center',
+        alignItems: 'center',
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+        elevation: 5
+    },
+
+    buttonVoltarIcon: {
+        fontSize: 24,
+        color: '#333',
+        fontWeight: 'bold',
+    },
 });

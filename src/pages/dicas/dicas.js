@@ -1,7 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, StyleSheet, TouchableOpacity, Image } from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity, Image, Pressable } from "react-native";
+import { useNavigation } from "@react-navigation/native";
 
 export default function DicasMotivacionais() {
+
+ const navigation = useNavigation();
+
  const dicas = [
   "Acredite no seu potencial! Grandes conquistas começam com pequenos passos, e cada esforço conta na sua jornada.",
   "Cada passo que você dá em direção ao seu objetivo importa. Não desanime pelos obstáculos, eles são apenas parte do aprendizado.",
@@ -48,6 +52,11 @@ export default function DicasMotivacionais() {
 
   return (
     <View style={styles.container}>
+      <View style={styles.buttonVoltarContainer}>
+        <Pressable style={styles.buttonVoltar} onPress={() => navigation.goBack()}>
+          <Text style={styles.buttonVoltarIcon}>{'<'}</Text>
+        </Pressable>
+    </View>
       <View style={styles.card}>
         <Text style={styles.dica}>{textoAnimado}</Text>
       </View>
@@ -112,4 +121,31 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: "bold",
   },
+
+        buttonVoltarContainer: {
+        position: 'absolute',
+        top: 40,
+        left: 20,
+        zIndex: 10,
+    },
+
+    buttonVoltar: {
+        width: 50,
+        height: 50,
+        borderRadius: 25,
+        backgroundColor: 'white',
+        justifyContent: 'center',
+        alignItems: 'center',
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+        elevation: 5
+    },
+
+    buttonVoltarIcon: {
+        fontSize: 24,
+        color: '#333',
+        fontWeight: 'bold',
+    },
 });
