@@ -187,9 +187,28 @@ if (loading) {
           </View>
 
           <View style={styles.op1}>
-            <Pressable style={styles.op} onPress={() => navigation.navigate('Alergias')}></Pressable>
-            <Pressable style={styles.op} onPress={() => navigation.navigate('Dicas')}></Pressable>
-            <Pressable style={styles.op} onPress={() => navigation.navigate('Pressao')}></Pressable>
+            <Pressable style={styles.op} onPress={() => navigation.navigate('Alergias')}>
+              <Text style={styles.nomeQuadrado}>Alergias</Text>
+              <Image 
+                style={styles.alergia}
+                source={require("../../../assets/alergia.png")}
+              />
+            </Pressable>
+            <Pressable style={styles.op} onPress={() => navigation.navigate('Dicas')}>
+              <Text style={styles.nomeQuadrado}>Dicas</Text>
+              <Image 
+                style={styles.dicas}
+                source={require("../../../assets/estrategia.png")}
+              />
+            </Pressable>
+            <Pressable style={styles.op} onPress={() => navigation.navigate('Pressao')}>
+              <Text style={styles.nomeQuadrado}>Pressão</Text>
+              <Image 
+                style={styles.pressao}
+                source={require("../../../assets/pressao.png")}
+              />
+
+            </Pressable>
           </View>
         </View>
       </View>

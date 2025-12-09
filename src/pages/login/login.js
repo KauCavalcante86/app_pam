@@ -39,7 +39,7 @@ export default function Login({ setUsuarioLogin }) {
 
     try {
       const response = await axios.post(
-        "http://192.168.0.240:8000/api/login",
+        "http://192.168.15.8:8000/api/login",
         {
           email,
           senha,

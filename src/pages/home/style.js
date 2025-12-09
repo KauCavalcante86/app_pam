@@ -167,6 +167,27 @@ vacina:{
   marginTop:'8%',
 },
 
+alergia: {
+  width:60,
+  height:60,
+  tintColor:'#7ba8f7ff',
+  marginTop:'3%',
+},
+
+dicas: {
+  width:60,
+  height:60,
+  tintColor:'#7ba8f7ff',
+  marginTop:'3%',
+},
+
+pressao: {
+  width:60,
+  height:60,
+  tintColor:'#7ba8f7ff',
+  marginTop:'3%',
+},
+
   nomeCampo:{
     color:'#7ba8f7ff',
     fontSize:24,

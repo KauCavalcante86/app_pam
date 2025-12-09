@@ -72,7 +72,7 @@ export default function cadastro() {
     const config = {
       headers: { "Accept": "application/json" }
     };
-    axios.post('http://192.168.0.240:8000/api/CriarUser', dados, config)
+    axios.post('http://192.168.15.8:8000/api/CriarUser', dados, config)
       .then(response => {
         console.log('Usuário criado com sucesso!');
         alert('Usuário criado com sucesso!');
