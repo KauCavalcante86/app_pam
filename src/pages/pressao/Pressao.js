@@ -1,25 +1,24 @@
 import React, { useState, useEffect } from "react";
-import { 
-  View, Text, StyleSheet, Dimensions, ScrollView, TextInput, 
-  TouchableOpacity, Alert, SafeAreaView, Pressable
+import {
+  View,
+  Text,
+  ScrollView,
+  TextInput,
+  TouchableOpacity,
+  Alert,
+  SafeAreaView,
+  Pressable,
+  Dimensions,
 } from "react-native";
 import { LineChart } from "react-native-chart-kit";
 import { useNavigation } from "@react-navigation/native";
+
+import { styles, Cores } from "./style";
 import { getRegistros, criarRegistro } from "../../../services/saudeService";
 
-const Cores = {
-    principal: '#007AFF',
-    acao: '#34C759',
-    fundo: '#F2F2F7',
-    cardFundo: '#FFFFFF',
-    textoTitulo: '#1C1C1E',
-    textoSecundario: '#6B7280',
-    sombra: 'rgba(0, 0, 0, 0.08)',
-};
-
 const safeNumber = (value) => {
-    const num = Number(value);
-    return isFinite(num) ? num : 0; 
+  const num = Number(value);
+  return isFinite(num) ? num : 0;
 };
 
 export default function SaudeInterativa() {
@@ -29,7 +28,7 @@ export default function SaudeInterativa() {
     datas: [],
     pressaoAlta: [],
     pressaoBaixa: [],
-    batimentos: []
+    batimentos: [],
   });
 
   const [inputAlta, setInputAlta] = useState("");
@@ -48,12 +47,11 @@ export default function SaudeInterativa() {
       const registros = await getRegistros();
 
       setDadosHistorico({
-        datas: registros.map(r => r.data || ""),
-        pressaoAlta: registros.map(r => safeNumber(r.pressao_alta)),
-        pressaoBaixa: registros.map(r => safeNumber(r.pressao_baixa)),
-        batimentos: registros.map(r => safeNumber(r.batimentos)),
+        datas: registros.map((r) => r.data || ""),
+        pressaoAlta: registros.map((r) => safeNumber(r.pressao_alta)),
+        pressaoBaixa: registros.map((r) => safeNumber(r.pressao_baixa)),
+        batimentos: registros.map((r) => safeNumber(r.batimentos)),
       });
-
     } catch (error) {
       console.log("Erro ao carregar registros:", error);
     }
@@ -78,7 +76,7 @@ export default function SaudeInterativa() {
         data: inputData,
         pressao_alta: alta,
         pressao_baixa: baixa,
-        batimentos: bat
+        batimentos: bat,
       });
 
       setInputAlta("");
@@ -96,13 +94,12 @@ export default function SaudeInterativa() {
   const chartWidthBatimentos = Math.max(screenWidth, dadosHistorico.datas.length * 60);
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: Cores.fundo }}>
+    <SafeAreaView style={styles.container}>
       <ScrollView contentContainerStyle={styles.scrollContent}>
-
         {/* BOTÃO VOLTAR */}
         <View style={styles.buttonVoltarContainer}>
           <Pressable style={styles.buttonVoltar} onPress={() => navigation.goBack()}>
-            <Text style={styles.buttonVoltarIcon}>{'<'}</Text>
+            <Text style={styles.buttonVoltarIcon}>{"<"}</Text>
           </Pressable>
         </View>
 
@@ -168,7 +165,7 @@ export default function SaudeInterativa() {
                   { data: dadosHistorico.pressaoAlta, color: () => "#FF6B6B", strokeWidth: 3 },
                   { data: dadosHistorico.pressaoBaixa, color: () => "#00CC66", strokeWidth: 3 },
                 ],
-                legend: ["Alta (Sistólica)", "Baixa (Diastólica)"]
+                legend: ["Alta (Sistólica)", "Baixa (Diastólica)"],
               }}
               width={chartWidthPressao}
               height={250}
@@ -182,15 +179,17 @@ export default function SaudeInterativa() {
                 propsForDots: {
                   r: "5",
                   strokeWidth: "2",
-                  stroke: "#fff"
-                }
+                  stroke: "#fff",
+                },
               }}
               style={styles.chartStyle}
             />
           </ScrollView>
         ) : (
           <View style={styles.mensagemContainer}>
-            <Text style={styles.mensagemTexto}>Nenhum dado de pressão encontrado. Adicione um registro acima!</Text>
+            <Text style={styles.mensagemTexto}>
+              Nenhum dado de pressão encontrado. Adicione um registro acima!
+            </Text>
           </View>
         )}
 
@@ -202,7 +201,13 @@ export default function SaudeInterativa() {
             <LineChart
               data={{
                 labels: dadosHistorico.datas,
-                datasets: [{ data: dadosHistorico.batimentos, color: () => Cores.principal, strokeWidth: 3 }]
+                datasets: [
+                  {
+                    data: dadosHistorico.batimentos,
+                    color: () => Cores.principal,
+                    strokeWidth: 3,
+                  },
+                ],
               }}
               width={chartWidthBatimentos}
               height={250}
@@ -216,152 +221,20 @@ export default function SaudeInterativa() {
                 propsForDots: {
                   r: "5",
                   strokeWidth: "2",
-                  stroke: "#fff"
-                }
+                  stroke: "#fff",
+                },
               }}
               style={styles.chartStyle}
             />
           </ScrollView>
         ) : (
           <View style={styles.mensagemContainer}>
-            <Text style={styles.mensagemTexto}>Nenhum dado de batimentos encontrado. Adicione um registro acima!</Text>
+            <Text style={styles.mensagemTexto}>
+              Nenhum dado de batimentos encontrado. Adicione um registro acima!
+            </Text>
           </View>
         )}
       </ScrollView>
     </SafeAreaView>
   );
 }
-
-const styles = StyleSheet.create({
-  scrollContent: {
-    paddingHorizontal: 16,
-    paddingTop: 20,
-    paddingBottom: 40,
-  },
-
-  titulo: { 
-    fontSize: 28, 
-    fontWeight: "900", 
-    marginBottom: 25, 
-    color: Cores.textoTitulo,
-    marginTop: "20%"
-  },
-
-  subtitulo: { 
-    fontSize: 20, 
-    fontWeight: "700", 
-    marginTop: 20, 
-    marginBottom: 15, 
-    color: Cores.textoTitulo 
-  },
-
-  card: {
-    backgroundColor: Cores.cardFundo,
-    borderRadius: 15,
-    padding: 15,
-    marginBottom: 20,
-    shadowColor: Cores.sombra,
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.5,
-    shadowRadius: 10,
-    elevation: 8,
-  },
-
-  form: { marginBottom: 10 },
-
-  inputRow: { 
-    flexDirection: "row", 
-    justifyContent: "space-between", 
-    marginBottom: 10 
-  },
-
-  inputHalf: { width: "48%" },
-
-  input: {
-    backgroundColor: Cores.fundo,
-    padding: 15,
-    borderRadius: 12,
-    marginBottom: 10,
-    fontSize: 16,
-    borderWidth: 1,
-    borderColor: "#E5E7EB",
-    color: Cores.textoTitulo,
-  },
-
-  botao: {
-    backgroundColor: Cores.acao,
-    paddingVertical: 14,
-    borderRadius: 30,
-    alignItems: "center",
-    marginTop: 10,
-    shadowColor: Cores.acao,
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.3,
-    shadowRadius: 5,
-    elevation: 6,
-  },
-
-  botaoTexto: {
-    color: Cores.cardFundo,
-    fontWeight: "800",
-    fontSize: 18
-  },
-
-  chartStyle: {
-    marginVertical: 10,
-    borderRadius: 15,
-    shadowColor: Cores.sombra,
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.5,
-    shadowRadius: 10,
-    elevation: 8,
-  },
-
-  mensagemContainer: {
-    backgroundColor: Cores.cardFundo,
-    borderRadius: 15,
-    padding: 20,
-    marginTop: 10,
-    marginBottom: 20,
-    alignItems: "center",
-    shadowColor: Cores.sombra,
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.2,
-    shadowRadius: 5,
-    elevation: 4,
-  },
-
-  mensagemTexto: {
-    color: Cores.textoSecundario,
-    fontSize: 16,
-    textAlign: "center",
-    fontWeight: "600",
-  },
-
-  buttonVoltarContainer: {
-    position: "absolute",
-    top: 40,
-    left: 20,
-    zIndex: 10,
-  },
-
-  buttonVoltar: {
-    width: 50,
-    height: 50,
-    borderRadius: 25,
-    backgroundColor: "white",
-    justifyContent: "center",
-    alignItems: "center",
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
-    elevation: 5,
-  },
-
-  buttonVoltarIcon: {
-    fontSize: 24,
-    color: "#333",
-    fontWeight: "bold",
-  },
-});
