@@ -116,6 +116,7 @@ const logout = async () => {
     const usuarioAtualizado = await atualizarCampoUsuario(usuario.id, campoAtual, valorEnviado);
     setUsuario(usuarioAtualizado);
     await setUserStorage(usuarioAtualizado);
+    await AsyncStorage.setItem("perfilCompleto", "true");
 
     Alert.alert("Sucesso", `${campoAtual} atualizado com sucesso!`);
     fecharModal();

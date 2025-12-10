@@ -201,7 +201,49 @@ pressao: {
     fontSize:24,
     fontFamily: "Poppins_400Regular"
   },
+   modalOverlay: {
+    flex: 1,
+    backgroundColor: "rgba(0,0,0,0.4)",
+    justifyContent: "center",
+    alignItems: "center",
+  },
 
+  modalContent: {
+    width: "80%",
+    backgroundColor: "#FFFFFF",
+    borderRadius: 16,
+    paddingVertical: 20,
+    paddingHorizontal: 16,
+    alignItems: "center",
+  },
 
+  modalTitle: {
+    fontSize: 18,
+    fontWeight: "700",
+    color: "#1C1C1E",
+    marginBottom: 10,
+    textAlign: "center",
+  },
 
+  modalText: {
+    fontSize: 14,
+    color: "#555",
+    textAlign: "center",
+    marginBottom: 20,
+  },
+
+  modalButton: {
+    width: "100%",
+    backgroundColor: "#6F94F3",
+    borderRadius: 10,
+    paddingVertical: 12,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+
+  modalButtonText: {
+    color: "#FFFFFF",
+    fontSize: 16,
+    fontWeight: "600",
+  },
 });
