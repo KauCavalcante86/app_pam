@@ -156,7 +156,7 @@ const enviarNovaFoto = async (imagem) => {
 
 
   if (loading) {
-    return <ActivityIndicator size="large" color="#000" />;
+    return <ActivityIndicator size="large" color="#000" style={{marginTop: 100}}/>;
   }
 
   return (
