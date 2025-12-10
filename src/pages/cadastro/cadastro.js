@@ -3,6 +3,7 @@ import axios from 'axios';
 import { StyleSheet, Text, View, Pressable, TextInput, Image } from 'react-native';
 import styles from './style';
 import { useState } from 'react';
+import { cadastrarUsuario } from "../../../services/usuario";
 import { useNavigation } from '@react-navigation/native';
 
 import userIcon from '../../../assets/user.png';
@@ -56,32 +57,28 @@ export default function cadastro() {
       });
   }
 
-  // 👉 Criar usuário
-  function criarUsuario() {
-    const dados = {
-      nome: nome,
-      email: email,
-      senha: senha,
-      cep: endereco,
-      bairro: bairro,
-      rua: rua,
-      cidade: cidade,
-      uf: uf,
-    };
+      const criarUsuario = async () => {
+      const dados = {
+        nome,
+        email,
+        senha,
+        cep: endereco,
+        bairro,
+        rua,
+        cidade,
+        uf,
+      };
 
-    const config = {
-      headers: { "Accept": "application/json" }
+      try {
+        const response = await cadastrarUsuario(dados);
+
+        alert("Usuário criado com sucesso!");
+        navigation.goBack();
+
+      } catch (error) {
+        alert("Erro ao criar usuário. Verifique os dados.");
+      }
     };
-    axios.post('http://192.168.15.4:8000/api/CriarUser', dados, config)
-      .then(response => {
-        console.log('Usuário criado com sucesso!');
-        alert('Usuário criado com sucesso!');
-      })
-      .catch(error => {
-        console.error('Erro ao criar usuário', error.response ? error.response.data : error.message);
-        alert('Erro ao criar usuário. Verifique os dados e tente novamente.');
-      });
-  }
 
   if (!fontsLoaded) {
     return (

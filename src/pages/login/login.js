@@ -3,7 +3,7 @@ import { View, Text, TextInput, Pressable, Image, Alert } from "react-native";
 import axios from "axios";
 import { useNavigation } from "@react-navigation/native";
 import styles from "./style";
-
+import { loginUsuario } from "../../../services/usuario";
 import { getUserStorage, setUserStorage } from "../../utils/storage";
 
 import emailIcon from "../../../assets/email.png";
@@ -30,44 +30,32 @@ export default function Login({ setUsuarioLogin }) {
   const [loading, setLoading] = useState(false);
 
   const logarUsuario = async () => {
-    if (!email || !senha) {
-      Alert.alert("Atenção", "Preencha todos os campos!");
-      return;
+  if (!email || !senha) {
+    Alert.alert("Atenção", "Preencha todos os campos!");
+    return;
+  }
+
+  setLoading(true);
+
+  try {
+    const response = await loginUsuario(email, senha);
+
+    if (response.success) {
+      const usuario = response.usuario;
+
+      await setUserStorage(usuario);
+      setUsuarioLogin(usuario);
+
+    } else {
+      Alert.alert("Erro", "Credenciais inválidas!");
     }
+  } catch (error) {
+    Alert.alert("Erro", "Não foi possível fazer login.");
+  } finally {
+    setLoading(false);
+  }
+};
 
-    setLoading(true);
-
-    try {
-      const response = await axios.post(
-        "http://192.168.15.4:8000/api/login",
-        {
-          email,
-          senha,
-        },
-        { headers: { Accept: "application/json" } }
-      );
-
-      if (response.data.success) {
-        const usuario = response.data.usuario;
-
-        await setUserStorage(usuario);
-
-        setUsuarioLogin(usuario);
-
-        Alert.alert("Sucesso", "Login realizado!");
-      } else {
-        Alert.alert("Erro", "Credenciais inválidas!");
-      }
-    } catch (error) {
-      console.error(
-        "Erro no login:",
-        error.response ? error.response.data : error.message
-      );
-      Alert.alert("Erro", "Não foi possível fazer login. Tente novamente.");
-    } finally {
-      setLoading(false);
-    }
-  };
 
   if (!fontsLoaded) {
     return (
