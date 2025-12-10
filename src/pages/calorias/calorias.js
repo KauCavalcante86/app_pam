@@ -1,7 +1,7 @@
 import { StatusBar } from "expo-status-bar";
 import axios from 'axios';
 import { useEffect, useState } from "react";
-import { Text, View, Pressable, TextInput, StyleSheet, ScrollView, ActivityIndicator } from "react-native";
+import { Text, View, Pressable, TextInput, StyleSheet, ScrollView, ActivityIndicator, Image } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 // IMPORTANTE: Certifique-se de que o arquivo './style' existe e contém os estilos necessários
 import styles from './style' 
@@ -62,11 +62,11 @@ export default function Calorias() {
     <View style={styles.container}>
       <View style={styles.buttonVoltarContainer}>
           <Pressable
-              style={styles.buttonVoltar}
-              onPress={() => navigation.goBack()}
-          >
-              <Text style={styles.buttonVoltarIcon}>{'<'}</Text>
-          </Pressable>
+                            style={styles.btnVoltar}
+                            onPress={() => navigation.goBack()}
+                          >
+                            <Image style={styles.imgVoltar} source={require('../../../assets/btnVoltar.png')} />
+                          </Pressable>
       </View>
         <Text style={styles.textTitulo}>Calorias diárias</Text>
 

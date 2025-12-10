@@ -8,6 +8,7 @@ import {
   KeyboardAvoidingView,
   Platform,
   Alert,
+  Image
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
@@ -56,10 +57,10 @@ export default function TelaIMC() {
 
       <View style={styles.buttonVoltarContainer}>
           <Pressable
-              style={styles.buttonVoltar}
-              onPress={() => navigation.goBack()}
+            style={styles.btnVoltar}
+            onPress={() => navigation.goBack()}
           >
-              <Text style={styles.buttonVoltarIcon}>{'<'}</Text>
+            <Image style={styles.imgVoltar} source={require('../../../assets/btnVoltar.png')} />
           </Pressable>
       </View>
 
@@ -126,7 +127,7 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     marginBottom: 18,
     color: '#0F172A',
-    marginTop: "20%"
+    marginTop: "25%"
   },
   card: {
     backgroundColor: '#FFFFFF',
@@ -230,4 +231,19 @@ const styles = StyleSheet.create({
         color: '#333',
         fontWeight: 'bold',
     },
+    btnVoltar:{
+        width: 60,
+        height: 60,
+        backgroundColor:'#4888ffff',
+        alignItems:'center',
+        justifyContent:'center',
+        borderRadius:999,
+        zIndex:2,
+    },
+
+    imgVoltar:{
+        width: 15,
+        height: 26,
+        marginRight:5,
+    }, 
 });

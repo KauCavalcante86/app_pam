@@ -82,8 +82,11 @@ export default function Login({ setUsuarioLogin }) {
 
       {/* BOTÃO VOLTAR */}
       <View style={styles.buttonVoltarContainer}>
-        <Pressable style={styles.buttonVoltar} onPress={() => navigation.goBack()}>
-          <Text style={styles.buttonVoltarIcon}>{"<"}</Text>
+        <Pressable
+          style={styles.btnVoltar}
+          onPress={() => navigation.goBack()}
+        >
+          <Image style={styles.imgVoltar} source={require('../../../assets/btnVoltar.png')} />
         </Pressable>
       </View>
 

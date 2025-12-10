@@ -6,6 +6,7 @@ import {
   ActivityIndicator,
   SafeAreaView,
   Pressable,
+  Image
 } from "react-native";
 
 import { styles, Cores } from "./style"; 
@@ -85,10 +86,10 @@ export default function TipoSangue() {
             
             <View style={styles.buttonVoltarContainer}>
                 <Pressable
-                    style={styles.buttonVoltar}
-                    onPress={() => navigation.goBack()}
+                  style={styles.btnVoltar}
+                  onPress={() => navigation.goBack()}
                 >
-                    <Text style={styles.buttonVoltarIcon}>{'<'}</Text>
+                  <Image style={styles.imgVoltar} source={require('../../../assets/btnVoltar.png')} />
                 </Pressable>
             </View>
 

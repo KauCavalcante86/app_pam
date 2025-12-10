@@ -9,6 +9,7 @@ import {
   TextInput,
   Pressable,
   Dimensions,
+  Image,
 } from "react-native";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { useNavigation } from "@react-navigation/native";
@@ -92,9 +93,12 @@ export default function AlergiasInterativa() {
     <View style={styles.container}>
       {/* BOTÃO VOLTAR */}
       <View style={styles.buttonVoltarContainer}>
-        <Pressable style={styles.buttonVoltar} onPress={() => navigation.goBack()}>
-          <Text style={styles.buttonVoltarIcon}>{'<'}</Text>
-        </Pressable>
+        <Pressable
+                  style={styles.btnVoltar}
+                  onPress={() => navigation.goBack()}
+                >
+                  <Image style={styles.imgVoltar} source={require('../../../assets/btnVoltar.png')} />
+                </Pressable>
       </View>
 
       {/* TÍTULO */}

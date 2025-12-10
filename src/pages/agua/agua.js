@@ -140,10 +140,10 @@ export default function Agua() {
     <View style={styles.container}>
       <View style={styles.buttonVoltarContainer}>
         <Pressable
-          style={styles.buttonVoltar}
+          style={styles.btnVoltar}
           onPress={() => navigation.goBack()}
         >
-          <Text style={styles.buttonVoltarIcon}>{'<'}</Text>
+          <Image style={styles.imgVoltar} source={require('../../../assets/btnVoltar.png')} />
         </Pressable>
       </View>
       <ModalParabens agua={agua} meta={meta} />

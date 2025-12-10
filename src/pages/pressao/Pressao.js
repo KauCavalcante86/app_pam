@@ -9,6 +9,7 @@ import {
   SafeAreaView,
   Pressable,
   Dimensions,
+  Image
 } from "react-native";
 import { LineChart } from "react-native-chart-kit";
 import { useNavigation } from "@react-navigation/native";
@@ -98,14 +99,17 @@ export default function SaudeInterativa() {
       <ScrollView contentContainerStyle={styles.scrollContent}>
         {/* BOTÃO VOLTAR */}
         <View style={styles.buttonVoltarContainer}>
-          <Pressable style={styles.buttonVoltar} onPress={() => navigation.goBack()}>
-            <Text style={styles.buttonVoltarIcon}>{"<"}</Text>
+          <Pressable
+            style={styles.btnVoltar}
+            onPress={() => navigation.goBack()}
+          >
+            <Image style={styles.imgVoltar} source={require('../../../assets/btnVoltar.png')} />
           </Pressable>
         </View>
 
         <Text style={styles.titulo}>Saúde do Coração</Text>
 
-        {/* CARD DE ADIÇÃO */}
+       <View style={styles.fundo3}>
         <View style={styles.card}>
           <Text style={styles.subtitulo}>Adicionar Novo Registro</Text>
 
@@ -234,6 +238,7 @@ export default function SaudeInterativa() {
             </Text>
           </View>
         )}
+        </View>
       </ScrollView>
     </SafeAreaView>
   );

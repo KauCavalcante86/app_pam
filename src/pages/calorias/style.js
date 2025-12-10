@@ -17,7 +17,7 @@ export default StyleSheet.create ({
     },
 
     textTitulo: {
-        marginTop: '20%',
+        marginTop: '25%',
         fontFamily: 'Poppins_700Bold',
         fontSize: normalize(35),
         marginLeft: '-17%',
@@ -144,6 +144,21 @@ export default StyleSheet.create ({
         fontSize: 24,
         color: '#333',
         fontWeight: 'bold',
+    },
+    imgVoltar:{
+        width: 15,
+        height: 26,
+        marginRight:5,
+    }, 
+
+    btnVoltar:{
+        width: 60,
+        height: 60,
+        backgroundColor:'#4888ffff',
+        alignItems:'center',
+        justifyContent:'center',
+        borderRadius:999,
+        zIndex:2,
     },
     
 });

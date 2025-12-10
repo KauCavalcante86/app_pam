@@ -56,10 +56,10 @@ export default function SonsScreen() {
         <View style={styles.container}>
             <View style={styles.buttonVoltarContainer}>
                 <Pressable
-                    style={styles.buttonVoltar}
+                    style={styles.btnVoltar}
                     onPress={() => navigation.goBack()}
                 >
-                    <Text style={styles.buttonVoltarIcon}>{'<'}</Text>
+                    <Image style={styles.imgVoltar} source={require('../../../assets/btnVoltar.png')} />
                 </Pressable>
             </View>
 
@@ -182,7 +182,7 @@ const styles = StyleSheet.create({
         padding: 20,
         paddingTop: 50,
     },
-    titulo: { color: "#90b5f6ff", fontSize: 28, fontWeight: "bold", marginTop: '10%'},
+    titulo: { color: "#90b5f6ff", fontSize: 28, fontWeight: "bold", marginTop: '15%'},
     subtitulo: { color: "#bbb", fontSize: 15, marginBottom: 20 },
     card: {
         backgroundColor: "#ffffffff",
@@ -317,5 +317,20 @@ const styles = StyleSheet.create({
         fontSize: 24,
         color: '#333',
         fontWeight: 'bold',
+    },
+    btnVoltar:{
+        width: 60,
+        height: 60,
+        backgroundColor:'#4888ffff',
+        alignItems:'center',
+        justifyContent:'center',
+        borderRadius:999,
+        zIndex:2,
+    },
+
+    imgVoltar:{
+        width: 15,
+        height: 26,
+        marginRight:5,
     },
 });

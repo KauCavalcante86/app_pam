@@ -53,8 +53,11 @@ export default function DicasMotivacionais() {
   return (
     <View style={styles.container}>
       <View style={styles.buttonVoltarContainer}>
-        <Pressable style={styles.buttonVoltar} onPress={() => navigation.goBack()}>
-          <Text style={styles.buttonVoltarIcon}>{'<'}</Text>
+        <Pressable
+          style={styles.btnVoltar}
+          onPress={() => navigation.goBack()}
+        >
+          <Image style={styles.imgVoltar} source={require('../../../assets/btnVoltar.png')} />
         </Pressable>
     </View>
       <View style={styles.card}>
@@ -147,5 +150,21 @@ const styles = StyleSheet.create({
         fontSize: 24,
         color: '#333',
         fontWeight: 'bold',
+    },
+
+    imgVoltar:{
+        width: 15,
+        height: 26,
+        marginRight:5,
+    }, 
+
+    btnVoltar:{
+        width: 60,
+        height: 60,
+        backgroundColor:'#4888ffff',
+        alignItems:'center',
+        justifyContent:'center',
+        borderRadius:999,
+        zIndex:2,
     },
 });

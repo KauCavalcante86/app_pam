@@ -83,6 +83,7 @@ containerBtn: {
         backgroundColor: 'white',
         justifyContent: 'center',
         alignItems: 'center',
+
         shadowColor: '#000',
         shadowOffset: { width: 0, height: 2 },
         shadowOpacity: 0.25,
@@ -95,5 +96,21 @@ containerBtn: {
         color: '#333',
         fontWeight: 'bold',
     },
+    imgVoltar:{
+        width: 15,
+        height: 26,
+        marginRight:5,
+    }, 
+
+    btnVoltar:{
+        width: 60,
+        height: 60,
+        backgroundColor:'#4888ffff',
+        alignItems:'center',
+        justifyContent:'center',
+        borderRadius:999,
+        zIndex:2,
+    },
+    
 
 });

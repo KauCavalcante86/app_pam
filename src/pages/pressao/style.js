@@ -6,7 +6,7 @@ export const Cores = {
   acao: "#6F94F3",
   fundo: "#eff1fcff",
   cardFundo: "#FFFFFF",
-  textoTitulo: "#3758a0ff",
+  textoTitulo: "#465981ff",
   textoSecundario: "#6B7280",
   bordaInput: "#E5E7EB",
   sombra: "rgba(0, 0, 0, 0.08)",
@@ -15,19 +15,28 @@ export const Cores = {
 export const styles = StyleSheet.create({
   container: {
     flex: 1,
+    width: '100%',
     backgroundColor: Cores.fundo,
   },
 
   scrollContent: {
-    paddingHorizontal: 20,
-    paddingTop: 80, 
-    paddingBottom: 40,
+    paddingTop: 80,
+    flexGrow: 2,
+  },
+
+  fundo3: {
+    flex: 1,  
+    width: "100%",
+    padding: 15,
+    borderTopLeftRadius: 60,
+    borderTopRightRadius: 60,
+    backgroundColor: "#6c9fff",
   },
 
   titulo: {
     fontSize: 26,
     fontWeight: "900",
-    color: Cores.textoTitulo,
+    textAlign: 'center',
     marginBottom: 20,
     marginTop: 10,
   },
@@ -37,14 +46,14 @@ export const styles = StyleSheet.create({
     fontWeight: "700",
     marginTop: 16,
     marginBottom: 12,
-    color: Cores.textoTitulo,
   },
 
   card: {
     backgroundColor: Cores.cardFundo,
     borderRadius: 16,
     padding: 16,
-    marginBottom: 20,
+    marginBottom: 30,
+    marginTop: 20,
     shadowColor: Cores.sombra,
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.15,
@@ -156,4 +165,19 @@ export const styles = StyleSheet.create({
     color: "#333",
     fontWeight: "bold",
   },
+  btnVoltar:{
+        width: 60,
+        height: 60,
+        backgroundColor:'#4888ffff',
+        alignItems:'center',
+        justifyContent:'center',
+        borderRadius:999,
+        zIndex:2,
+    },
+
+    imgVoltar:{
+        width: 15,
+        height: 26,
+        marginRight:5,
+    },
 });

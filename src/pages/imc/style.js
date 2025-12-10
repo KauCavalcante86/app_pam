@@ -8,6 +8,7 @@ conteiner: {
     justifyContent: 'center',
     alignItems: 'center',
   },
+  
 
   
 });

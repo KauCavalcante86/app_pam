@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, Text, ScrollView, TouchableOpacity, SafeAreaView, Pressable } from "react-native";
+import { View, Text, ScrollView, TouchableOpacity, SafeAreaView, Pressable, Image } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import styles from "./style";
@@ -66,8 +66,11 @@ export default function VacinasScreen() {
 
         {/* Botão Voltar */}
         <View style={styles.buttonVoltarContainer}>
-          <Pressable style={styles.buttonVoltar} onPress={() => navigation.goBack()}>
-            <Text style={styles.buttonVoltarIcon}>{"<"}</Text>
+          <Pressable
+            style={styles.btnVoltar}
+            onPress={() => navigation.goBack()}
+          >
+            <Image style={styles.imgVoltar} source={require('../../../assets/btnVoltar.png')} />
           </Pressable>
         </View>
 
