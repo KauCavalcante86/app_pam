@@ -10,7 +10,7 @@ import {
   TouchableOpacity,
   Dimensions 
 } from "react-native";
-import { Video, ResizeMode } from "expo-audio";
+import { Video, ResizeMode } from "expo-av";
 import Slider from "@react-native-community/slider";
 import { Ionicons } from "@expo/vector-icons";
 
