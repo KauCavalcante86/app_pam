@@ -69,10 +69,8 @@ const fecharModal = () => {
 
 const logout = async () => {
     try {
-      // Remove usuário do AsyncStorage
       await removeUserStorage();
 
-      // Atualiza o estado global no App.js → AuthStack será renderizado
       setUsuarioLogin(null);
     } catch (error) {
       console.error('Erro ao deslogar:', error);
@@ -92,10 +90,8 @@ const logout = async () => {
   if (!camposPermitidos.includes(campoAtual))
     return Alert.alert("Erro", "Campo inválido!");
 
-  // Valida valor vazio
   if (!valorNovo) return Alert.alert("Erro", `Digite um valor para ${campoAtual}`);
 
-  // Valida tipo
   let valorEnviado = valorNovo;
   if (campoAtual === "altura" || campoAtual === "peso") {
     valorEnviado = parseFloat(valorNovo);

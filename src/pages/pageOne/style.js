@@ -14,41 +14,33 @@ export default StyleSheet.create({
     flexDirection:'column',
   },
 
-  boasvindas:{ 
-    position:'absolute',
-    top:'42%',
-    textAlign:'left',
-    fontWeight:'bold',
-    fontSize: 60,
-    marginBottom:'20%',
-    lineHeight: 50,
-  },
-
   textSaude:{
+    color:'#1899f5',
     position:'absolute',
-    top:'55%',
+    top:'75%',
+    left:'12%',
     textAlign:'left',
-    fontSize: 25,
-    marginRight:'20%',
+    fontSize: 18,
+    marginRight:'34%',
+    fontStyle: 'bold',
   },
 
     btn:{
         width:'80%',
         height:'8%',
-        borderRadius:30,
-        backgroundColor:'#ffffffff',
+        borderRadius:64,
         margin:'20%',
         shadowColor: '#000',
         shadowOffset: { width: 0, height: 4 },
         shadowOpacity: 0.3,
         shadowRadius: 4.65,
+        alignItems:'flex-start',
+        justifyContent:'center',
     },
 
     btnText:{
-        color:'black',
-        fontSize:20,
-        textAlign:'center',
-        marginTop:'6%',
-
+        color:'#dbe5f5',
+        fontSize:22,
+        marginLeft:18,
     }
 });

@@ -30,7 +30,7 @@ export default StyleSheet.create({
   },
 
   perfil:{
-    width:'40%',
+    width:'60%',
     height:'100%',
     backgroundColor:'#ffff',
     borderRadius:'100%',

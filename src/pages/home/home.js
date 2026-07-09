@@ -163,7 +163,7 @@ export default function Home() {
       <View style={styles.app}>
         <Pressable
           style={styles.box1}
-          onPress={() => navigation.navigate("Geo")}
+          onPress={() => navigation.navigate("Perfil")}
         >
           <Text
             style={[styles.nomeCampo, { fontFamily: "Poppins_400Regular" }]}
