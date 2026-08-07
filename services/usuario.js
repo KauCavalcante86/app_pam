@@ -38,8 +38,12 @@ export const loginUsuario = async (email, senha) => {
 
     return response.data;
   } catch (error) {
-    console.error("Erro no login:", error.response?.data || error.message);
-    throw error;
+    return {
+      success: false,
+      message:
+        error.response?.data?.message ||
+        "E-mail ou senha inválidos.",
+    };
   }
 };
 

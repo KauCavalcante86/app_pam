@@ -5,9 +5,10 @@ import { useNavigation } from "@react-navigation/native";
 import styles from "./style";
 import { loginUsuario } from "../../../services/usuario";
 import { getUserStorage, setUserStorage } from "../../utils/storage";
-
+import { LinearGradient } from 'expo-linear-gradient';
 import emailIcon from "../../../assets/email.png";
 import padlockIcon from "../../../assets/padlock.png";
+import Popup from "../../components/Popup";
 
 import {
   useFonts,
@@ -29,9 +30,21 @@ export default function Login({ setUsuarioLogin }) {
   const [senha, setSenha] = useState("");
   const [loading, setLoading] = useState(false);
 
+  const [popupVisible, setPopupVisible] = useState(false);
+  const [popupTitle, setPopupTitle] = useState("");
+  const [popupMessage, setPopupMessage] = useState("");
+  const [popupType, setPopupType] = useState("error");
+
+  const showPopup = (title, message, type = "error") => {
+    setPopupTitle(title);
+    setPopupMessage(message);
+    setPopupType(type);
+    setPopupVisible(true);
+  };
+
   const logarUsuario = async () => {
   if (!email || !senha) {
-    Alert.alert("Atenção", "Preencha todos os campos!");
+      showPopup("Atenção", "Preencha todos os campos!", "warning");
     return;
   }
 
@@ -41,16 +54,22 @@ export default function Login({ setUsuarioLogin }) {
     const response = await loginUsuario(email, senha);
 
     if (response.success) {
-      const usuario = response.usuario;
+  const usuario = response.usuario;
 
-      await setUserStorage(usuario);
-      setUsuarioLogin(usuario);
+  showPopup("Sucesso", "Login realizado com sucesso!", "success");
+
+  setTimeout(async () => {
+    await setUserStorage(usuario);
+    setUsuarioLogin(usuario);
+  }, 1500);
 
     } else {
-      Alert.alert("Erro", "Credenciais inválidas!");
-    }
+      showPopup("Erro", "Credenciais inválidas!", "error");    }
   } catch (error) {
-    Alert.alert("Erro", "Não foi possível fazer login.");
+      showPopup(
+        "Erro",
+        error.response?.data?.message || "Não foi possível fazer login."
+      );
   } finally {
     setLoading(false);
   }
@@ -66,37 +85,38 @@ export default function Login({ setUsuarioLogin }) {
   }
 
   return (
+     <LinearGradient
+      colors={[
+        '#9EC8FF',
+        '#C4DCFF',
+        '#E7F1FF',
+        '#FFFFFF',
+      ]}
+      locations={[0, 0.35, 0.7, 1]}
+      start={{ x: 0.5, y: 0 }}
+      end={{ x: 0.5, y: 1 }}
+      style={{ flex: 1 }}
+    >
     <View style={styles.container}>
 
-      {/* BOTÃO VOLTAR */}
-      <View style={styles.buttonVoltarContainer}>
-        <Pressable
-          style={styles.btnVoltar}
-          onPress={() => navigation.goBack()}
-        >
-          <Image style={styles.imgVoltar} source={require('../../../assets/btnVoltar.png')} />
-        </Pressable>
+      <View style={{width: "100%", height: 28, flexDirection: "row", alignItems: "center", marginTop: 48, gap: 10, paddingHorizontal: 10 }}>
+        <Image source={require('../../../assets/logoBrancaCora.png')} style={{ height: 48, width: 42 }} />
+        <Text style={{ fontFamily: "Poppins_400Regular", fontSize: 18, color: "white" }}>CORA</Text>
       </View>
-
       {/* CABEÇALHO */}
       <View style={styles.cabecalho}>
         <View style={styles.textos}>
-          <Text style={styles.titulo}>Bem-vindo de volta</Text>
-          <Text style={styles.tituloCadastre}>Faça seu login</Text>
+          <Text style={[styles.titulo, { fontFamily: "Poppins_400Regular", color: "white" }]}>Seu agente de saúde na palma da sua mão.</Text>
         </View>
       </View>
 
-      {/* ÁREA AZUL - FORMULÁRIO */}
-      <View style={styles.infosPrincipais}>
-
         {/* Email */}
-        <Text style={styles.nomeButton}>Email</Text>
         <View style={styles.inputIconContainer}>
-          <Image source={emailIcon} style={styles.iconStyle} />
+          <Image source={require('../../../assets/emailIcon.png')} style={styles.iconStyleEmail} />
           <TextInput
-            style={styles.inputComIcon}
-            placeholder="exemplo@email.com"
-            placeholderTextColor="black"
+            style={styles.input}
+            placeholder="Digite seu E-mail"
+            placeholderTextColor="#8d8c8c"
             onChangeText={setEmail}
             value={email}
             keyboardType="email-address"
@@ -105,34 +125,68 @@ export default function Login({ setUsuarioLogin }) {
         </View>
 
         {/* Senha */}
-        <Text style={styles.nomeButtonS}>Senha:</Text>
-        <View style={styles.inputIconContainer}>
-          <Image source={padlockIcon} style={styles.iconStyle} />
-          <TextInput
-            style={styles.inputComIcon}
-            placeholder="Sua Senha"
-            secureTextEntry
-            placeholderTextColor="black"
-            onChangeText={setSenha}
-            value={senha}
-          />
+        <View style={styles.senhaContainer}>
+          <View style={styles.inputIconContainer}>
+            <Image source={require('../../../assets/senhaIcon.png')} style={styles.iconStyleSenha} />
+            <TextInput
+              style={styles.input}
+              placeholder="Digite sua Senha"
+              secureTextEntry
+              placeholderTextColor="#8d8c8c"
+              onChangeText={setSenha}
+              value={senha}
+            />
+          </View>
+          <Text style={styles.btnEsqueciSenha}> Esqueceu sua senha? </Text>
         </View>
-
         {/* BOTÃO LOGIN */}
         <Pressable style={styles.btn} onPress={logarUsuario} disabled={loading}>
-          <Text style={styles.btnTexto}>
-            {loading ? "Entrando..." : "Entrar"}
-          </Text>
+          
+          <LinearGradient
+            colors={['#4DAFFF', '#008CFF', '#0077FF']}
+            start={{ x: 0, y: 0.5 }}
+            end={{ x: 1, y: 0.5 }}
+            style={{
+              height:'100%',
+              width:'100%',
+              borderRadius: 64,
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              flexDirection: 'row',
+            }}>
+              <Text style={[styles.btnTexto, { fontFamily: "Poppins_400Regular" }]}>
+                {loading ? "Entrando..." : "Entrar"}
+              </Text>
+              <Image style={{ width: 12, height: 22, marginRight: 18 }} source={require('../../../assets/Arrow.png')} />
+            </LinearGradient>
         </Pressable>
 
         {/* IR PARA CADASTRO */}
-        <Pressable onPress={() => navigation.navigate("Cadastro")}>
-          <Text style={styles.btnFazerCadastro}>
-            Não tem conta? Cadastre-se
-          </Text>
-        </Pressable>
 
+        <View style={{ flexDirection: "row", alignItems: "center", marginTop: 32, gap: 18, }}>
+            <Image source={require('../../../assets/Line.png')} style={styles.Line} />
+            <Text style={{fontFamily: "Poppins_400Regular", color: "#00000057"}}>ou</Text>
+            <Image source={require('../../../assets/Line.png')} style={styles.Line} />
+        </View>
+        <View style={styles.boxCadContainer}>
+          <View style={styles.boxCad}>
+            <Image source={require('../../../assets/Google.png')} style={styles.iconGoogle} />   
+          </View>
+          <View style={styles.boxCad}>
+            <Image source={require('../../../assets/Apple.png')} style={styles.iconApple} />   
+          </View>
+        </View>
+        <Pressable onPress={() => navigation.navigate("Cadastro")}>
+          <Text style={styles.btnFazerCadastro}> Novo por aqui? Crie sua conta. </Text>
+        </Pressable>
       </View>
-    </View>
+        <Popup
+            visible={popupVisible}
+            title={popupTitle}
+            message={popupMessage}
+            type={popupType}
+            onClose={() => setPopupVisible(false)}
+          />
+      </LinearGradient> 
   );
 }
