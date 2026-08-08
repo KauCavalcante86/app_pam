@@ -34,6 +34,7 @@ export default function Login({ setUsuarioLogin }) {
   const [popupTitle, setPopupTitle] = useState("");
   const [popupMessage, setPopupMessage] = useState("");
   const [popupType, setPopupType] = useState("error");
+  const [mostrarSenha, setMostrarSenha] = useState(false);
 
   const showPopup = (title, message, type = "error") => {
     setPopupTitle(title);
@@ -131,11 +132,31 @@ export default function Login({ setUsuarioLogin }) {
             <TextInput
               style={styles.input}
               placeholder="Digite sua Senha"
-              secureTextEntry
+              secureTextEntry={!mostrarSenha}
               placeholderTextColor="#8d8c8c"
               onChangeText={setSenha}
               value={senha}
             />
+              <Pressable
+                onPress={() => setMostrarSenha(!mostrarSenha)}
+                style={{
+                  padding: 10,
+                  marginRight: 5,
+                }}
+              >
+                <Image
+                  source={
+                    mostrarSenha
+                      ? require("../../../assets/passOpen.png")
+                      : require("../../../assets/passClose.png")
+                  }
+                  style={{
+                    width: 22,
+                    height: 22,
+                    tintColor: "rgb(117, 116, 116)",
+                  }}
+                />
+              </Pressable>
           </View>
           <Text style={styles.btnEsqueciSenha}> Esqueceu sua senha? </Text>
         </View>
