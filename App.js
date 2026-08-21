@@ -15,6 +15,7 @@ import { getUserStorage } from "./src/utils/storage";
 import Splash from "./src/pages/splash/splash";
 import Login from "./src/pages/login/login";
 import Cadastro from "./src/pages/cadastro/cadastro";
+import ChatSaude from "./src/pages/cadastro/components/ChatSaude";
 import PageOne from "./src/pages/pageOne/pageOne";
 import Home from "./src/pages/home/home";
 import Sangue from "./src/pages/sangue/TipoSangue"
@@ -40,6 +41,7 @@ function AuthStack({ setUsuarioLogin }) {
         {props => <Login {...props} setUsuarioLogin={setUsuarioLogin} />}
       </Stack.Screen>
       <Stack.Screen name="Cadastro" component={Cadastro} />
+      <Stack.Screen name="ChatSaude" component={ChatSaude} />
     </Stack.Navigator>
   );
 }

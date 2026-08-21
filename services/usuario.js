@@ -61,3 +61,26 @@ export const cadastrarUsuario = async (dados) => {
     throw error;
   }
 };
+
+export const verificarEmail = async (email) => {
+  try {
+    const response = await api.post(
+      '/verificar-email',
+      { email },
+      {
+        headers: {
+          Accept: 'application/json',
+        },
+      }
+    );
+
+    return response.data;
+  } catch (error) {
+    return {
+      success: false,
+      message:
+        error.response?.data?.message ||
+        'Não foi possível verificar o e-mail.',
+    };
+  }
+};
