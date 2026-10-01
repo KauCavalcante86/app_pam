@@ -10,7 +10,7 @@ import {
   TouchableOpacity,
   Dimensions 
 } from "react-native";
-import { Video, ResizeMode } from "expo-av";
+import { VideoView, useVideoPlayer } from "expo-video";
 import Slider from "@react-native-community/slider";
 import { Ionicons } from "@expo/vector-icons";
 
@@ -19,6 +19,22 @@ import { usePlayer } from '../../../context/PlayerContext';
 import { useNavigation } from "@react-navigation/native";
 
 const { width } = Dimensions.get('window');
+
+function BackgroundVideo({ uri }) {
+    const player = useVideoPlayer(uri, (player) => {
+        player.loop = true;
+        player.muted = true;
+        player.play();
+    });
+
+    return (
+        <VideoView
+            player={player}
+            style={StyleSheet.absoluteFill}
+            contentFit="cover"
+        />
+    );
+}
 
 export default function SonsScreen() {
 
@@ -96,15 +112,8 @@ export default function SonsScreen() {
                     
                     {/* VÍDEO DE FUNDO */}
                     {somAtual?.bgVideo && (
-                        <Video
-                            source={{ uri: somAtual.bgVideo }} 
-                            style={StyleSheet.absoluteFill}
-                            resizeMode={ResizeMode.COVER}
-                            shouldPlay={true}
-                            isLooping={true}
-                            isMuted={true}
-                        />
-                    )}
+    <BackgroundVideo uri={somAtual.bgVideo} />
+)}
 
                     <View style={styles.overlay} />
 

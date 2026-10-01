@@ -13,6 +13,7 @@ import userIcon from '../../../assets/user.png';
 import emailIcon from '../../../assets/email.png';
 import padlockIcon from '../../../assets/padlock.png';
 import { cadastrarUsuario, verificarEmail } from '../../../services/usuario';
+import { LinearGradient } from 'expo-linear-gradient';
 
 import CoraChat from './components/CoraChat';
 import ChatSaude from './components/ChatSaude';
@@ -200,6 +201,20 @@ export default function Cadastro() {
   }
 
   return (
+     <LinearGradient
+          colors={[
+            '#9EC8FF',
+            '#C4DCFF',
+            '#E7F1FF',
+            '#FFFFFF',
+          ]}
+          locations={[0, 0.35, 0.7, 1]}
+          start={{ x: 0.5, y: 0 }}
+          end={{ x: 0.5, y: 1 }}
+          style={{ flex: 1 }}
+        >
+
+        
     <View style={styles.container}>
       <View style={styles.cabecalho}>
         <View style={styles.buttonVoltarContainer}>
@@ -322,13 +337,13 @@ export default function Cadastro() {
         onClose={() => setPopupVisible(false)}
       />
     </View>
+    </LinearGradient>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#7A9FEE',
   },
 
   cabecalho: {
@@ -348,7 +363,6 @@ const styles = StyleSheet.create({
     width: 58,
     height: 58,
     borderRadius: 30,
-    backgroundColor: '#6B91E5',
     justifyContent: 'center',
     alignItems: 'center',
   },
