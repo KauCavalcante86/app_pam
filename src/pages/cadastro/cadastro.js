@@ -8,6 +8,7 @@ import {
   StyleSheet,
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import styles from './styles';
 import Popup from '../../components/Popup';
 import userIcon from '../../../assets/user.png';
 import emailIcon from '../../../assets/email.png';
@@ -218,28 +219,20 @@ export default function Cadastro() {
     <View style={styles.container}>
       <View style={styles.cabecalho}>
         <View style={styles.buttonVoltarContainer}>
-          <Pressable
-            style={styles.btnVoltar}
-            onPress={() => navigation.goBack()}
-          >
-            <Image
-              style={styles.imgVoltar}
-              source={require('../../../assets/btnVoltar.png')}
-            />
-          </Pressable>
+         
+            <View style={{width: "40%", height: 28, flexDirection: "row", alignItems: "center", gap: 10, paddingHorizontal: 10 }}>
+              <Image source={require('../../../assets/logoBrancaCora.png')} style={{ height: 48, width: 42 }} />
+              <Text style={{ fontFamily: "Poppins_400Regular", fontSize: 18, color: "white" }}>CORA</Text>
+            </View>
         </View>
-
+       
         <View style={styles.textos}>
-          <Text style={styles.titulo}>Vamos começar</Text>
-          <Text style={styles.tituloCadastre}>Cadastre-se</Text>
+          <Text style={[styles.titulo, { fontFamily: "Poppins_400Regular", color: "white" }]}>Seu agente de saúde na palma da sua mão.</Text>
         </View>
       </View>
 
       <View style={styles.infosPrincipais}>
-        <Text style={styles.nomeButton}>
-          Como podemos te chamar?
-        </Text>
-
+        
         <View style={styles.inputIconContainer}>
           <Image source={userIcon} style={styles.iconStyle} />
 
@@ -247,15 +240,14 @@ export default function Cadastro() {
             style={styles.inputComIcon}
             value={nome}
             onChangeText={setNome}
-            placeholder="Digite aqui"
-            placeholderTextColor="#000"
+            placeholder="Digite seu nome"
+            placeholderTextColor="#919191"
           />
-        </View>
+        </View> 
 
-        <Text style={styles.nomeButton}>E-mail</Text>
-
+      
         <View style={styles.inputIconContainer}>
-          <Image source={emailIcon} style={styles.iconStyle} />
+          <Image source={require('../../../assets/emailIcon.png')} style={styles.iconStyleEmail} />
 
           <TextInput
             style={styles.inputComIcon}
@@ -263,39 +255,47 @@ export default function Cadastro() {
             onChangeText={setEmail}
             keyboardType="email-address"
             autoCapitalize="none"
-            placeholder="exemplo@email.com"
-            placeholderTextColor="#000"
+            placeholder="Digite seu e-mail"
+            placeholderTextColor="#919191"
           />
         </View>
 
-        <Text style={styles.nomeButton}>Senha</Text>
 
         <View style={styles.inputIconContainer}>
-          <Image source={padlockIcon} style={styles.iconStyle} />
-
+          <Image source={require('../../../assets/senhaIcon.png')} style={styles.iconStyleSenha} />
           <TextInput
             style={styles.inputComIcon}
             value={senha}
             onChangeText={setSenha}
             secureTextEntry={!mostrarSenha}
-            placeholder="Sua senha"
-            placeholderTextColor="#000"
+            placeholder="Digite sua senha"
+            placeholderTextColor="#919191"
           />
 
           <Pressable
-            style={styles.eyeButton}
             onPress={() => setMostrarSenha(!mostrarSenha)}
+            style={{
+              padding: 10,
+              marginRight: 5,
+            }}
           >
-            <Text style={styles.eyeText}>
-              {mostrarSenha ? '🙈' : '👁️'}
-            </Text>
-          </Pressable>
+            <Image
+              source={
+                  mostrarSenha
+                  ? require("../../../assets/passOpen.png")
+                  : require("../../../assets/passClose.png")
+                  }
+                  style={{
+                    width: 22,
+                    height: 22,
+                    tintColor: "rgb(117, 116, 116)",
+                  }}
+              />
+            </Pressable>
         </View>
 
-        <Text style={styles.nomeButton}>Confirmar senha</Text>
-
         <View style={styles.inputIconContainer}>
-          <Image source={padlockIcon} style={styles.iconStyle} />
+          <Image source={require('../../../assets/senhaIcon.png')} style={styles.iconStyleSenha} />
 
           <TextInput
             style={styles.inputComIcon}
@@ -303,31 +303,82 @@ export default function Cadastro() {
             onChangeText={setSenhaConfirmacao}
             secureTextEntry={!mostrarSenhaConfirmacao}
             placeholder="Confirme sua senha"
-            placeholderTextColor="#000"
+            placeholderTextColor="#919191"
           />
 
-          <Pressable
-            style={styles.eyeButton}
-            onPress={() =>
-              setMostrarSenhaConfirmacao(
+              <Pressable
+                onPress={() => setMostrarSenhaConfirmacao(
                 !mostrarSenhaConfirmacao
-              )
-            }
-          >
-            <Text style={styles.eyeText}>
-              {mostrarSenhaConfirmacao ? '🙈' : '👁️'}
-            </Text>
-          </Pressable>
+              )}
+                style={{
+                  padding: 10,
+                  marginRight: 5,
+                }}
+              >
+                <Image
+                  source={
+                  mostrarSenhaConfirmacao
+                      ? require("../../../assets/passOpen.png")
+                      : require("../../../assets/passClose.png")
+                  }
+                  style={{
+                    width: 22,
+                    height: 22,
+                    tintColor: "rgb(117, 116, 116)",
+                  }}
+                />
+              </Pressable>
         </View>
 
-        <Pressable
-          style={styles.btn}
-          onPress={proximoCadastro}
-        >
-          <Text style={styles.btnTexto}>
-            Próximo →
-          </Text>
-        </Pressable>
+        <View style={{width: '100%', height: 54, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginTop: 48,}}>
+           
+           <Pressable
+            style={styles.btnVoltar}
+            onPress={() => navigation.goBack()}
+          >
+            <LinearGradient
+                        colors={['#4DAFFF', '#008CFF', '#0077FF']}
+                        start={{ x: 0, y: 0.5 }}
+                        end={{ x: 1, y: 0.5 }}
+                        style={{
+                          height:'100%',
+                          width:'100%',
+                          borderRadius: 64,
+                          justifyContent: 'center',
+                          alignItems: 'center',
+                          flexDirection: 'row',
+                        }}>          
+            <Image
+              style={styles.imgVoltar}
+              source={require('../../../assets/btnVoltar.png')}
+            />
+            </LinearGradient>  
+          </Pressable>
+
+          <Pressable
+            style={styles.btn}
+            onPress={proximoCadastro}
+          >
+            <LinearGradient
+                        colors={['#4DAFFF', '#008CFF', '#0077FF']}
+                        start={{ x: 0, y: 0.5 }}
+                        end={{ x: 1, y: 0.5 }}
+                        style={{
+                          height:'100%',
+                          width:'100%',
+                          paddingHorizontal: 22,
+                          borderRadius: 64,
+                          justifyContent: 'space-between',
+                          alignItems: 'center',
+                          flexDirection: 'row',
+                        }}>
+            <Text style={styles.btnTexto}>
+              Próximo 
+            </Text>
+            <Image style={{ width: 12, height: 22 }} source={require('../../../assets/Arrow.png')} />
+            </LinearGradient>
+          </Pressable>
+        </View>
       </View>
       <Popup
         visible={popupVisible}
@@ -340,119 +391,3 @@ export default function Cadastro() {
     </LinearGradient>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-
-  cabecalho: {
-    width: '100%',
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingTop: 45,
-    paddingHorizontal: 20,
-  },
-
-  buttonVoltarContainer: {
-    width: 70,
-    alignItems: 'flex-start',
-  },
-
-  btnVoltar: {
-    width: 58,
-    height: 58,
-    borderRadius: 30,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-
-  imgVoltar: {
-    width: 28,
-    height: 28,
-    resizeMode: 'contain',
-  },
-
-  textos: {
-    flex: 1,
-    alignItems: 'center',
-    marginRight: 55,
-  },
-
-  titulo: {
-    fontSize: 28,
-    fontFamily: 'Poppins_700Bold',
-    color: '#000',
-  },
-
-  tituloCadastre: {
-    fontSize: 20,
-    fontFamily: 'Poppins_400Regular',
-    color: '#000',
-  },
-
-  infosPrincipais: {
-    flex: 1,
-    paddingHorizontal: 25,
-    paddingTop: 35,
-  },
-
-  nomeButton: {
-    fontSize: 17,
-    fontFamily: 'Poppins_500Medium',
-    color: '#000',
-    marginBottom: 8,
-    marginTop: 12,
-  },
-
-  inputIconContainer: {
-    width: '100%',
-    height: 55,
-    backgroundColor: 'rgba(255,255,255,0.25)',
-    borderWidth: 1,
-    borderColor: '#FFFFFF',
-    borderRadius: 14,
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingHorizontal: 14,
-  },
-
-  iconStyle: {
-    width: 23,
-    height: 23,
-    resizeMode: 'contain',
-    marginRight: 10,
-  },
-
-  inputComIcon: {
-    flex: 1,
-    height: '100%',
-    fontSize: 16,
-    fontFamily: 'Poppins_400Regular',
-    color: '#000',
-  },
-
-  eyeButton: {
-    padding: 5,
-  },
-
-  eyeText: {
-    fontSize: 20,
-  },
-
-  btn: {
-    width: '100%',
-    height: 55,
-    backgroundColor: '#0077FF',
-    borderRadius: 14,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginTop: 30,
-  },
-
-  btnTexto: {
-    color: '#FFF',
-    fontSize: 17,
-    fontFamily: 'Poppins_700Bold',
-  },
-});

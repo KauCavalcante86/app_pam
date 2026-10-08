@@ -92,7 +92,6 @@ export default StyleSheet.create({
     fontFamily: "Poppins_400Regular",
   },
 
-  // BOTÃO ENTRAR
   btn: {
     width: "52%",
     height: 56,
