@@ -375,7 +375,7 @@ export default function Cadastro() {
             <Text style={styles.btnTexto}>
               Próximo 
             </Text>
-            <Image style={{ width: 12, height: 22 }} source={require('../../../assets/Arrow.png')} />
+            <Image style={{ width: 12, height: 22,     resizeMode: 'contain', }} source={require('../../../assets/Arrow.png')} />
             </LinearGradient>
           </Pressable>
         </View>

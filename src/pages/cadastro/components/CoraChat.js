@@ -6,7 +6,10 @@ import {
   TextInput,
   ScrollView,
   StyleSheet,
+  Image,
+  Animated,
 } from 'react-native';
+import styles from './styles';
 
 import {
   useFonts,
@@ -100,6 +103,102 @@ export default function CoraChat({
     },
   ];
 
+  const progressoAnimado = useRef(new Animated.Value(1)).current;
+
+  useEffect(() => {
+    Animated.timing(progressoAnimado, {
+      toValue: etapa + 1,
+      duration: 500,
+      useNativeDriver: false,
+    }).start();
+  }, [etapa]);
+
+  
+function EntradaSuave({ children, animacaoKey, style }) {
+  const opacidade = React.useRef(new Animated.Value(0)).current;
+  const deslocamento = React.useRef(new Animated.Value(14)).current;
+
+  React.useEffect(() => {
+    opacidade.setValue(0);
+    deslocamento.setValue(14);
+
+    Animated.parallel([
+      Animated.timing(opacidade, {
+        toValue: 1,
+        duration: 350,
+        useNativeDriver: true,
+      }),
+      Animated.timing(deslocamento, {
+        toValue: 0,
+        duration: 350,
+        useNativeDriver: true,
+      }),
+    ]).start();
+  }, [animacaoKey]);
+
+    return (
+      <Animated.View
+        style={[
+          style,
+          {
+            opacity: opacidade,
+            transform: [{ translateY: deslocamento }],
+          },
+        ]}
+      >
+        {children}
+      </Animated.View>
+    );
+  }
+
+  function OpcaoAnimada({
+    opcao,
+    selecionada,
+    onPress,
+    styles,
+  }) {
+    const escala = React.useRef(new Animated.Value(1)).current;
+
+    React.useEffect(() => {
+      Animated.spring(escala, {
+        toValue: selecionada ? 1.025 : 1,
+        friction: 6,
+        tension: 150,
+        useNativeDriver: true,
+      }).start();
+    }, [selecionada]);
+
+    return (
+      <Animated.View
+        style={{
+          transform: [{ scale: escala }],
+        }}
+      >
+        <Pressable
+          style={[
+            styles.opcao,
+            selecionada && styles.opcaoSelecionada,
+          ]}
+          onPress={onPress}
+        >
+          <Text
+            style={[
+              styles.textoOpcao,
+              selecionada && styles.textoOpcaoSelecionada,
+            ]}
+          >
+            {opcao}
+          </Text>
+        </Pressable>
+      </Animated.View>
+    );
+  }
+
+  const larguraProgresso = progressoAnimado.interpolate({
+    inputRange: [0, perguntas.length],
+    outputRange: ['0%', '100%'],
+  });
+
   const perguntaAtual = perguntas[etapa];
 
   // Faz o chat descer automaticamente
@@ -124,7 +223,6 @@ export default function CoraChat({
   const proximaPergunta = () => {
     let resposta = respostaSelecionada;
 
-    // Se for campo numérico
     if (perguntaAtual.tipo === 'numero') {
       resposta = valorTexto.trim();
 
@@ -133,7 +231,6 @@ export default function CoraChat({
       }
     }
 
-    // Se for opção e nenhuma foi selecionada
     if (
       perguntaAtual.tipo === 'opcoes' &&
       !respostaSelecionada
@@ -195,6 +292,33 @@ export default function CoraChat({
     }, 350);
   };
 
+    const voltarPergunta = () => {
+    if (etapa > 0) {
+      const etapaAnterior = etapa - 1;
+      const respostaAnterior = respostas[etapaAnterior];
+
+      setEtapa(etapaAnterior);
+
+      setRespostaSelecionada(
+        respostaAnterior?.id === perguntas[etapaAnterior].id &&
+        perguntas[etapaAnterior].tipo === 'opcoes'
+          ? respostaAnterior.resposta
+          : null
+      );
+
+      setValorTexto(
+        respostaAnterior?.id === perguntas[etapaAnterior].id &&
+        perguntas[etapaAnterior].tipo === 'numero'
+          ? respostaAnterior.resposta
+          : ''
+      );
+
+      setRespostas(prev => prev.slice(0, etapaAnterior));
+    } else {
+      setModo('intro');
+    }
+  };
+
   if (!fontsLoaded) {
     return null;
   }
@@ -213,23 +337,16 @@ export default function CoraChat({
 
           <View style={styles.logoArea}>
 
-            <View style={styles.logo}>
+            <Image source={require('../../../../assets/logoBrancaCora.png')} style={{ height: 116, width: 116, resizeMode: 'contain' }} />    
 
-              <Text style={styles.logoSimbolo}>
-                +
-              </Text>
-
-              <View style={styles.logoBolinhas}>
-                <Text>●</Text>
-                <Text>●</Text>
-              </View>
-
-            </View>
-
-            <View>
+            <View style={{ marginLeft: 10 }}>
 
               <Text style={styles.logoTitulo}>
-                Olá, {primeiroNome}! Eu sou a Cora.
+                Olá, {primeiroNome}!
+              </Text>
+
+              <Text style={styles.coraTitulo}>
+                Eu sou a Cora.
               </Text>
 
               <Text style={styles.logoSubtitulo}>
@@ -242,37 +359,35 @@ export default function CoraChat({
 
           <View style={styles.introMensagens}>
 
-            <View style={styles.mensagemCoraArea}>
-
+            <EntradaSuave
+              animacaoKey={etapa}
+              style={styles.mensagemCoraArea}
+            >
               <Text style={styles.nomeCora}>
                 ◉ Cora
               </Text>
 
               <View style={styles.balaoCora}>
-
                 <Text style={styles.textoCora}>
                   Vou te fazer algumas perguntas rápidas aqui no chat 👇
                 </Text>
-
               </View>
+            </EntradaSuave>
 
-            </View>
-
-            <View style={styles.mensagemCoraArea}>
-
+            <EntradaSuave
+              animacaoKey={etapa}
+              style={styles.mensagemCoraArea}
+            >
               <Text style={styles.nomeCora}>
                 ◉ Cora
               </Text>
 
               <View style={styles.balaoCora}>
-
                 <Text style={styles.textoCora}>
                   É só responder e eu cuido do resto.
                 </Text>
-
               </View>
-
-            </View>
+            </EntradaSuave>
 
           </View>
 
@@ -287,9 +402,7 @@ export default function CoraChat({
             Ir ao Chat
           </Text>
 
-          <Text style={styles.setaBaixo}>
-            ↓
-          </Text>
+            <Image source={require('../../../../assets/btnNextChat.png')} style={{ height: 42, width: 42, resizeMode: 'contain' }} />    
 
         </Pressable>
 
@@ -308,33 +421,27 @@ export default function CoraChat({
 
       {/* CABEÇALHO */}
 
-      <View style={styles.cabecalho}>
+     <View style={styles.cabecalho}>
+        <View style={styles.containerCabecalho}>
+          <Pressable
+            style={styles.btnVoltar}
+            onPress={voltarPergunta}
+          >
+             <Image source={require('../../../../assets/btnVoltarStep.png')} style={{ height: 32, width: 32, resizeMode: 'contain' }} />
+          </Pressable>
 
-        <Pressable
-          style={styles.btnVoltar}
-          onPress={voltar}
-        >
-
-          <Text style={styles.setaVoltar}>
-            ‹
-          </Text>
-
-        </Pressable>
-
-        <View>
-
-          <Text style={styles.titulo}>
-            Oi, {primeiroNome}! 👋
-          </Text>
-
-          <Text style={styles.subtitulo}>
-            Eu sou a Cora.
-          </Text>
-
+          <View style={styles.barraProgresso}>
+            <Animated.View
+              style={[
+                styles.barraProgressoPreenchida,
+                {
+                  width: larguraProgresso,
+                },
+              ]}
+            />
+          </View>
         </View>
-
       </View>
-
       {/* CHAT */}
 
       <ScrollView
@@ -370,6 +477,7 @@ export default function CoraChat({
               </View>
 
             </View>
+  
 
             {/* RESPOSTA DO USUÁRIO */}
 
@@ -507,9 +615,7 @@ export default function CoraChat({
               : 'Próximo'}
           </Text>
 
-          <Text style={styles.setaBaixoChat}>
-            ↓
-          </Text>
+         <Image source={require('../../../../assets/btnNextChat.png')} style={{ height: 42, width: 42, resizeMode: 'contain' }} />
 
         </Pressable>
 
@@ -519,311 +625,3 @@ export default function CoraChat({
   );
 }
 
-const styles = StyleSheet.create({
-
-  container: {
-    flex: 1,
-    backgroundColor: '#DCEBFF',
-  },
-
-  /*
-   * INTRO
-   */
-
-  introConteudo: {
-    flex: 1,
-    paddingTop: 80,
-    paddingHorizontal: 26,
-  },
-
-  logoArea: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginTop: 80,
-  },
-
-  logo: {
-    width: 135,
-    height: 135,
-    borderRadius: 65,
-    backgroundColor: '#087EFF',
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginRight: 22,
-  },
-
-  logoSimbolo: {
-    position: 'absolute',
-    top: 17,
-    color: '#FFF',
-    fontSize: 55,
-    fontFamily: 'Poppins_700Bold',
-  },
-
-  logoBolinhas: {
-    flexDirection: 'row',
-    gap: 35,
-    marginTop: 65,
-  },
-
-  logoTitulo: {
-    fontSize: 25,
-    color: '#006DFF',
-    fontFamily: 'Poppins_500Medium',
-  },
-
-  logoSubtitulo: {
-    fontSize: 21,
-    color: '#7A8798',
-    fontFamily: 'Poppins_400Regular',
-    marginTop: 4,
-  },
-
-  introMensagens: {
-    marginTop: 100,
-  },
-
-  /*
-   * MENSAGENS
-   */
-
-  mensagemCoraArea: {
-    alignSelf: 'flex-start',
-    width: '94%',
-    marginBottom: 25,
-  },
-
-  nomeCora: {
-    fontSize: 15,
-    color: '#0077FF',
-    fontFamily: 'Poppins_500Medium',
-    marginBottom: 5,
-  },
-
-  balaoCora: {
-    backgroundColor: '#299CF0',
-    borderRadius: 18,
-    borderTopLeftRadius: 5,
-    padding: 17,
-  },
-
-  textoCora: {
-    color: '#FFF',
-    fontSize: 18,
-    lineHeight: 27,
-    fontFamily: 'Poppins_400Regular',
-  },
-
-  /*
-   * BOTÃO INTRO
-   */
-
-  btnIrChat: {
-    alignItems: 'center',
-    paddingBottom: 55,
-  },
-
-  textoIrChat: {
-    fontSize: 23,
-    color: '#888',
-    fontFamily: 'Poppins_500Medium',
-  },
-
-  setaBaixo: {
-    color: '#299CF0',
-    fontSize: 55,
-    lineHeight: 50,
-  },
-
-  /*
-   * CABEÇALHO
-   */
-
-  cabecalho: {
-    paddingTop: 45,
-    paddingHorizontal: 20,
-    paddingBottom: 15,
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-
-  btnVoltar: {
-    width: 55,
-    height: 55,
-    borderRadius: 30,
-    backgroundColor: '#6B91E5',
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginRight: 15,
-  },
-
-  setaVoltar: {
-    color: '#FFF',
-    fontSize: 42,
-    lineHeight: 45,
-  },
-
-  titulo: {
-    fontSize: 25,
-    color: '#006DFF',
-    fontFamily: 'Poppins_700Bold',
-  },
-
-  subtitulo: {
-    fontSize: 18,
-    color: '#000',
-    fontFamily: 'Poppins_400Regular',
-  },
-
-  /*
-   * CHAT
-   */
-
-  chat: {
-    flex: 1,
-  },
-
-  chatContent: {
-    paddingHorizontal: 20,
-    paddingBottom: 40,
-  },
-
-  conversaItem: {
-    width: '100%',
-    marginBottom: 10,
-  },
-
-  /*
-   * RESPOSTA USUÁRIO
-   */
-
-  mensagemUsuarioArea: {
-    alignSelf: 'flex-end',
-    maxWidth: '78%',
-    marginBottom: 22,
-  },
-
-  balaoUsuario: {
-    backgroundColor: '#0077FF',
-    borderRadius: 18,
-    borderTopRightRadius: 5,
-    paddingHorizontal: 18,
-    paddingVertical: 13,
-  },
-
-  respostaLabel: {
-    fontSize: 13,
-    color: '#DCEBFF',
-    fontFamily: 'Poppins_500Medium',
-    marginBottom: 2,
-  },
-
-  textoUsuario: {
-    color: '#FFF',
-    fontSize: 17,
-    fontFamily: 'Poppins_400Regular',
-  },
-
-  /*
-   * OPÇÕES
-   */
-
-  opcoes: {
-    backgroundColor: '#FFF',
-    borderRadius: 16,
-    marginTop: 18,
-    overflow: 'hidden',
-  },
-
-  opcao: {
-    minHeight: 58,
-    justifyContent: 'center',
-    paddingHorizontal: 18,
-    borderBottomWidth: 1,
-    borderBottomColor: '#E5E5E5',
-  },
-
-  opcaoSelecionada: {
-    backgroundColor: '#4DABF5',
-    marginHorizontal: 8,
-    marginVertical: 4,
-    borderRadius: 14,
-    borderBottomWidth: 0,
-  },
-
-  textoOpcao: {
-    fontSize: 17,
-    color: '#000',
-    fontFamily: 'Poppins_400Regular',
-  },
-
-  textoOpcaoSelecionada: {
-    color: '#FFF',
-    fontFamily: 'Poppins_500Medium',
-  },
-
-  /*
-   * INPUT
-   */
-
-  inputArea: {
-    backgroundColor: '#FFF',
-    borderRadius: 15,
-    marginTop: 18,
-    height: 60,
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingHorizontal: 15,
-  },
-
-  input: {
-    flex: 1,
-    fontSize: 18,
-    color: '#000',
-    fontFamily: 'Poppins_400Regular',
-  },
-
-  unidade: {
-    fontSize: 16,
-    color: '#666',
-    fontFamily: 'Poppins_500Medium',
-  },
-
-  /*
-   * PROGRESSO
-   */
-
-  progresso: {
-    fontSize: 15,
-    color: '#777',
-    fontFamily: 'Poppins_400Regular',
-    marginTop: 5,
-    marginBottom: 10,
-  },
-
-  /*
-   * BOTÃO PRÓXIMO
-   */
-
-  btnProximo: {
-    alignItems: 'center',
-    paddingVertical: 8,
-  },
-
-  btnDesativado: {
-    opacity: 0.45,
-  },
-
-  textoProximo: {
-    fontSize: 22,
-    color: '#888',
-    fontFamily: 'Poppins_500Medium',
-  },
-
-  setaBaixoChat: {
-    fontSize: 48,
-    color: '#299CF0',
-    lineHeight: 45,
-  },
-
-});
