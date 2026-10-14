@@ -1,177 +1,100 @@
-import React, { useEffect, useState, useCallback } from "react";
+import { useEffect, useState, useCallback } from "react";
 import {
   View,
   Text,
-  FlatList,
-  ActivityIndicator,
-  SafeAreaView,
   Pressable,
-  Image
+  Image,
+  ActivityIndicator,
+  Modal,
 } from "react-native";
-
-import { styles, Cores } from "./style"; 
+import { LinearGradient } from 'expo-linear-gradient';
+import styles from "./style";
 import { useNavigation, useFocusEffect } from "@react-navigation/native";
-import Icon from "react-native-vector-icons/MaterialCommunityIcons"; 
-import AsyncStorage from "@react-native-async-storage/async-storage"; 
-
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { getUserStorage } from "../../utils/storage";
-import { tiposQuePodeReceber } from "../../utils/sangue";
 
-const ALL_BLOOD_TYPES = ["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"];
-const STORAGE_KEY_TIPO = "@user_blood_type";
+import {
+  useFonts,
+  Poppins_400Regular,
+  Poppins_500Medium,
+  Poppins_700Bold,
+} from "@expo-google-fonts/poppins";
 
 export default function TipoSangue() {
-  const navigation = useNavigation();
-  const [tipo, setTipo] = useState(null);
-  const [showPicker, setShowPicker] = useState(false);
 
-  const handleSelecionarTipo = async (novoTipo) => {
-    try {
-      await AsyncStorage.setItem(STORAGE_KEY_TIPO, novoTipo);
-      setTipo(novoTipo); 
-      setShowPicker(false);
-    } catch (error) {
-      console.log("Erro ao salvar tipo sanguíneo:", error);
-    }
-  };
+  const [fontsLoaded] = useFonts({
+    Poppins_400Regular,
+    Poppins_500Medium,
+    Poppins_700Bold,
+  });
 
-  const carregarDados = useCallback(async () => {
-    try {
-      let tipoSalvo = await AsyncStorage.getItem(STORAGE_KEY_TIPO);
-      
-      if (!tipoSalvo) {
-        const user = await getUserStorage();
-        tipoSalvo = String(user?.tipoSangue);
-      }
-
-      if (!tipoSalvo || tipoSalvo === "n sei") {
-          setTipo(null);
-          setShowPicker(true);
-      } else {
-          setTipo(tipoSalvo); 
-          setShowPicker(false);
-      }
-      
-    } catch (error) {
-      console.log("Erro ao carregar dados:", error);
-    }
-  }, []);
-
-  useFocusEffect(
-    useCallback(() => {
-      carregarDados();
-    }, [carregarDados])
-  );
   
-
-  if (tipo === null && !showPicker) {
-    return (
-      <SafeAreaView style={styles.safeArea}>
-        <View style={styles.loadingContainer}>
-          <ActivityIndicator size="large" color={Cores.primaria} /> 
-          <Text style={{ marginTop: 10, color: Cores.textoSecundario }}>
-            Carregando informações...
-          </Text>
-        </View>
-      </SafeAreaView>
-    );
-  }
-  
-  const tipoAtual = tipo === null ? '??' : tipo;
-  const podeReceber = (tipo !== null && tiposQuePodeReceber(tipo) || []).map((v) => String(v));
-
   return (
-    <SafeAreaView style={styles.safeArea}>
-        <View style={styles.container}>
-            
-            <View style={styles.buttonVoltarContainer}>
-                <Pressable
-                  style={styles.btnVoltar}
-                  onPress={() => navigation.goBack()}
-                >
-                  <Image style={styles.imgVoltar} source={require('../../../assets/btnVoltar.png')} />
-                </Pressable>
+    <View style={styles.container}>
+
+     <View style={styles.header}>
+      <LinearGradient
+        colors={['#0081DE', '#45A8EE', '#89CEFF']}
+        start={{ x:0, y: 0 }}
+        end={{ x: 1, y: 1.5 }}
+        style={{
+          height:'100%',
+          width:'100%',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          paddingHorizontal: 18,
+          borderRadius: 32,
+        }}>
+
+          <View style={styles.headerContent}>
+
+            <Image source={require('../../../assets/logoBrancaCora.png')} style={{ height: 42, width: 42, resizeMode: 'contain' }} />
+
+            <View style={styles.headerAreaBtns}>
+              <View style={styles.calendarBtn}>
+                <Text style={{ fontFamily: "Poppins_400Regular", fontSize: 14, color: "#0081DE" }}>Quin.</Text>
+                <Image source={require('../../../assets/Calendario.png')} style={{ height: 22, width: 22, resizeMode: 'contain' }} />
+              </View>
+              <View style={styles.perfilBtn}>
+
+              </View>
             </View>
+          </View>
 
-            <View style={styles.header}>
-                <View style={styles.tituloContainer}>
-                    <Text style={styles.titulo}>Seu tipo sanguíneo</Text>
-                </View>
+          <View style={styles.headerNameUser}>
+            <Text style={{ fontFamily: "Poppins_400Regular", fontSize: 24, color: "white" }}>Bom dia, Kauã!</Text>
+          </View>
 
-                <View style={styles.tipoContainer}>
-                    <Text style={styles.tipo}>{String(tipoAtual)}</Text>
-                </View>
-                
-                <Pressable 
-                    style={styles.btnMudarTipo}
-                    onPress={() => setShowPicker(prev => !prev)}
-                >
-                    <Icon name={showPicker ? "eye-off" : "pencil"} size={18} color={Cores.cardFundo} style={{ marginRight: 6 }} />
-                    <Text style={styles.btnMudarTipoText}>
-                        {showPicker ? 'OCULTAR SELEÇÃO' : 'MUDAR MEU TIPO'}
-                    </Text>
-                </Pressable>
+      </LinearGradient>
+     </View>
 
-            </View>
-            
-            {showPicker && (
-                <View style={styles.selectionArea}>
-                    <FlatList
-                        data={ALL_BLOOD_TYPES}
-                        keyExtractor={(item) => item} 
-                        numColumns={4}
-                        columnWrapperStyle={styles.selectionRow}
-                        renderItem={({ item }) => (
-                            <Pressable
-                                style={[
-                                    styles.selectionCard,
-                                    item === tipoAtual && styles.selectionCardSelected
-                                ]}
-                                onPress={() => handleSelecionarTipo(item)}
-                            >
-                                <Text style={[
-                                    styles.selectionCardText,
-                                    item === tipoAtual && styles.selectionCardTextSelected
-                                ]}>
-                                    {item}
-                                </Text> 
-                            </Pressable>
-                        )}
-                        scrollEnabled={false} 
-                        contentContainerStyle={{ alignSelf: 'center' }}
-                    />
-                </View>
-            )}
-            
-            <View style={styles.separator} />
+     <View style={styles.content}>
+      <View style={styles.box}>
 
-            {tipo !== null && (
-              <>
-                <View style={styles.subtituloWrapper}>
-                    <Icon 
-                        name="heart-plus-outline" 
-                        size={20} 
-                        color={Cores.textoPrimario} 
-                        style={{ marginRight: 8 }} 
-                    />
-                    <Text style={styles.subtitulo}>Você pode receber sangue de:</Text>
-                </View>
-
-                <FlatList
-                    data={podeReceber}
-                    keyExtractor={(item) => String(item)} 
-                    renderItem={({ item }) => (
-                        <View style={styles.card}> 
-                            <Text style={styles.cardTxt}>{String(item)}</Text> 
-                        </View>
-                    )}
-                    contentContainerStyle={styles.listContent} 
-                    showsVerticalScrollIndicator={false}
-                    scrollEnabled={podeReceber.length > 4}
-                />
-              </>
-            )}
+        <View style={styles.box1}>
+          
         </View>
-    </SafeAreaView>
+
+        <View style={styles.box2}>
+
+        </View>
+        
+      </View>
+
+      <View style={styles.boxWatter}>
+
+      </View>
+      
+     </View>
+
+     <View style={styles.cardCora}>
+
+     </View>
+
+     <View style={styles.boxSleep}>
+
+     </View>
+
+    </View>
   );
 }

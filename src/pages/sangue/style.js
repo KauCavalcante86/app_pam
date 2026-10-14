@@ -1,215 +1,118 @@
-import { StyleSheet } from "react-native";
+import { StyleSheet } from 'react-native';
 
-export const Cores = {
-    primaria: '#D32F2F', 
-    secundaria: '#FFCDD2', 
-    fundo: '#FAFAFA', 
-    cardFundo: '#FFFFFF', 
-    borda: '#EEEEEE',
-    textoPrimario: '#212121',
-    textoSecundario: '#757575',
-};
 
-export const styles = StyleSheet.create ({
+export default StyleSheet.create({
 
-    safeArea: {
-        flex: 1,
-        backgroundColor: Cores.fundo,
-        justifyContent:'center',
-    },
     container: {
-        flex: 1,
-        paddingHorizontal: 20, 
-        justifyContent: 'center', 
-        paddingVertical:120,
-    },
-
-    loadingContainer: {
-        flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
-        backgroundColor: Cores.fundo,
-    },
+    flex: 1,
+    backgroundColor: '#F4F4F4',
+    alignItems: 'center',
+    flexDirection:'column',
+    padding: 18,
+    paddingTop: 48,
+    gap: 18,
+  },
 
     header: {
-        marginBottom: 20, // Ajustado
-        alignItems: 'center',
+     width: '100%',
+     height: 162,
+     borderRadius: 64,
     },
 
-    tituloContainer: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        marginBottom: 10,
+    headerContent: {
+     width: '100%',
+     height: '50%',
+     flexDirection: 'row',
+     justifyContent: 'space-between',
+     alignItems: 'center',
     },
 
-    titulo: {
-        fontSize: 24,
-        fontWeight: "700",
-        color: Cores.textoPrimario,
+    headerAreaBtns: {
+     width: '48%',
+     height: '100%',
+     flexDirection: 'row',
+     justifyContent: 'space-between',
+      alignItems: 'center',
     },
 
-    tipoContainer: {
-        backgroundColor: Cores.cardFundo,
-        paddingVertical: 18,
-        paddingHorizontal: 40,
-        borderRadius: 15,
-        borderWidth: 3,
-        borderColor: Cores.primaria,
-        elevation: 6,
-        shadowColor: Cores.primaria,
-        shadowOffset: { width: 0, height: 3 },
-        shadowOpacity: 0.3,
-        shadowRadius: 5,
-        marginBottom: 20, 
+    calendarBtn: {
+     width: 96,
+     height: 42,
+     backgroundColor: 'white',
+     borderRadius: 24,
+     flexDirection: 'row',
+     justifyContent: 'space-between',
+     alignItems: 'center',
+     paddingHorizontal: 10,
     },
 
-    tipo: {
-        fontSize: 70,
-        fontWeight: "900",
-        color: Cores.primaria,
-    },
-    
-    // ESTILOS: Botão de Mudar Tipo
-    btnMudarTipo: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        backgroundColor: Cores.primaria,
-        paddingHorizontal: 25,
-        paddingVertical: 10,
-        borderRadius: 25,
-        elevation: 4,
-        shadowColor: '#000',
-        shadowOpacity: 0.2,
-        shadowOffset: { width: 0, height: 2 },
-        marginBottom: 20, // Espaço após o botão
-    },
-    btnMudarTipoText: {
-        color: Cores.cardFundo,
-        fontWeight: 'bold',
-        fontSize: 16,
+    perfilBtn: {
+     width: 42,
+     height: 42,
+     backgroundColor: 'white',
+     borderRadius: 24,
+     justifyContent: 'center',
+     alignItems: 'center',
     },
 
-    // ⭐️ ESTILOS: Área de Seleção de Tipos Sanguíneos
-    selectionArea: {
-        width: '100%',
-        paddingVertical: 15,
-        alignItems: 'center',
-        marginBottom: 10,
-        backgroundColor: Cores.secundaria + '50', // Cor de fundo leve
-        borderRadius: 10,
-    },
-    selectionRow: {
-        justifyContent: 'space-around',
-        width: '90%', // Controla a largura total da linha
-        marginBottom: 10,
-    },
-    selectionCard: {
-        width: 70, 
-        height: 40,
-        backgroundColor: Cores.cardFundo,
-        borderRadius: 8,
-        borderWidth: 1,
-        borderColor: Cores.borda,
-        justifyContent: 'center',
-        alignItems: 'center',
-        marginHorizontal: 4,
-    },
-    selectionCardSelected: {
-        backgroundColor: Cores.primaria,
-        borderColor: Cores.primaria,
-        borderWidth: 2,
-    },
-    selectionCardText: {
-        fontSize: 18,
-        fontWeight: '700',
-        color: Cores.primaria,
-    },
-    selectionCardTextSelected: {
-        color: Cores.cardFundo,
-    },
-    // FIM DOS ESTILOS DE SELEÇÃO
-
-    separator: {
-        height: 1,
-        backgroundColor: Cores.borda,
-        marginVertical: 10,
+    headerNameUser: {
+     width: '100%',
+     height: '50%',
+     justifyContent: 'flex-end',
+     alignItems: 'flex-start',
+     paddingBottom: 12,
     },
 
-    subtituloWrapper: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        marginBottom: 15,
-        marginTop: 10,
+    content: {
+     width: '100%',
+     height: 298,
+     borderRadius: 32,
+     flexDirection: 'row',
+     justifyContent: 'space-between',
+     alignItems: 'center',
     },
 
-    subtitulo: {
-        fontSize: 18,
-        fontWeight: "700",
-        color: Cores.textoPrimario,
+    box: {
+     width: '46%',
+     height: '100%',
+     borderRadius: 32,
+     justifyContent: 'space-between',
     },
 
-    listContent: {
-        paddingBottom: 20,
-        flexGrow: 1,
+    box1: {
+     width: '100%',
+     height: '48%',
+     backgroundColor: '#30c9f0',
+     borderRadius: 32,
     },
 
-    card: {
-        backgroundColor: Cores.cardFundo,
-        padding: 18,
-        borderRadius: 12,
-        marginBottom: 12,
-        borderLeftWidth: 6,
-        borderLeftColor: Cores.primaria,
-        shadowColor: '#000',
-        shadowOffset: { width: 0, height: 1 },
-        shadowOpacity: 0.1,
-        shadowRadius: 3,
-        elevation: 3,
+    box2: {
+     width: '100%',
+     height: '48%',
+     backgroundColor: '#30c9f0',
+     borderRadius: 32,
     },
 
-    cardTxt: {
-        fontSize: 22,
-        fontWeight: "600",
-        color: Cores.textoPrimario,
+    boxWatter: {
+     width: '46%',
+     height: '100%',
+     backgroundColor: '#30c9f0',
+     borderRadius: 32,
     },
 
-    buttonVoltarContainer: {
-        position: 'absolute',
-        top: 40,
-        left: 20,
-        zIndex: 10,
-    },
-    buttonVoltar: {
-        width: 50,
-        height: 50,
-        borderRadius: 25,
-        backgroundColor: 'white',
-        justifyContent: 'center',
-        alignItems: 'center',
-        shadowColor: '#000',
-        shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.25,
-        shadowRadius: 3.84,
-        elevation: 5
-    },
-    buttonVoltarIcon: {
-        fontSize: 24,
-        color: '#333',
-        fontWeight: 'bold',
-    },
-    btnVoltar:{
-        width: 60,
-        height: 60,
-        backgroundColor:'#4888ffff',
-        alignItems:'center',
-        justifyContent:'center',
-        borderRadius:999,
-        zIndex:2,
+    cardCora: {
+     width: '100%',
+     height: 64,
+     backgroundColor: '#30c9f0',
+     borderRadius: 32,
     },
 
-    imgVoltar:{
-        width: 15,
-        height: 26,
-        marginRight:5,
+    boxSleep: {
+     width: '100%',
+     height: 132,
+     backgroundColor: '#30c9f0',
+     borderRadius: 32,
     },
+
+ 
 });
